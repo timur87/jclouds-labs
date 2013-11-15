@@ -169,7 +169,7 @@ public class OrionBlobStore extends BaseBlobStore {
 		if (orionBlob.getProperties().getType() == BlobType.FILE_BLOB) {
 			this.api.createBlob(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob);
 		} else if (orionBlob.getProperties().getType() == BlobType.FOLDER_BLOB) {
-			this.api.createFolder(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
+  			this.api.createFolder(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
 			      .getProperties().getName());
 		} else {
 			System.err.println("blob could not be created. type is not supported! ");

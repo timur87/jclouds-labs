@@ -36,9 +36,10 @@ import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.http.HttpResponse;
-import org.jclouds.orion.blobstore.binders.BlobCreationBinder;
+import org.jclouds.orion.blobstore.binders.SlugHeaderFromBlobBinder;
 import org.jclouds.orion.blobstore.binders.ListRequestBinder;
 import org.jclouds.orion.blobstore.binders.OrionMetadataBinder;
+import org.jclouds.orion.blobstore.binders.SlugHeaderFromString;
 import org.jclouds.orion.blobstore.fallbacks.DuplicateCreationFallback;
 import org.jclouds.orion.blobstore.fallbacks.FileNotFoundFallback;
 import org.jclouds.orion.blobstore.fallbacks.ReturnNullOnNotFound;
@@ -61,7 +62,6 @@ import org.jclouds.orion.domain.MutableBlobProperties;
 import org.jclouds.orion.domain.OrionBlob;
 import org.jclouds.orion.domain.OrionChildMetadata;
 import org.jclouds.orion.http.filters.FormAuthentication;
-import org.jclouds.orion.http.filters.create.CreateFileNameFilter;
 import org.jclouds.orion.http.filters.create.CreateFolderFilter;
 import org.jclouds.orion.http.filters.create.CreateHiddenFileFilter;
 import org.jclouds.orion.http.filters.create.CreateReadonlyFileFilter;
@@ -250,7 +250,7 @@ public interface OrionApi extends Closeable {
 	boolean createBlob(@PathParam("userWorkspace") String userWorkspace,
 	      @PathParam("containerName") String containerName,
 	      @PathParam("parentPath") @ParamParser(EncodeBlobParentPathParamParser.class) String parentPath,
-	      @BinderParam(BlobCreationBinder.class) @ParamValidators(value = { BlobNameValidator.class }) OrionBlob blob);
+	      @BinderParam(SlugHeaderFromBlobBinder.class) @ParamValidators(value = { BlobNameValidator.class }) OrionBlob blob);
 
 	/**
 	 * Create a metadata folder to the corresponding path
@@ -264,14 +264,14 @@ public interface OrionApi extends Closeable {
 	@POST
 	@Path(OrionConstantValues.ORION_FILE_PATH + "{userWorkspace}/{containerName}/{parentPath}")
 	@RequestFilters({ EmptyRequestFilter.class, CreateFolderFilter.class, CreateHiddenFileFilter.class,
-	      CreateReadonlyFileFilter.class, CreateFileNameFilter.class })
+	      CreateReadonlyFileFilter.class})
 	@Produces(MediaType.APPLICATION_JSON)
 	@Headers(keys = { OrionHttpFields.ORION_VERSION_FIELD }, values = { OrionConstantValues.ORION_VERSION })
 	@ResponseParser(CreationResponseParser.class)
 	@Fallback(SameFileWithDiffTypeFallback.class)
 	boolean createFolder(@PathParam("userWorkspace") String userName, @PathParam("containerName") String containerName,
 	      @PathParam("parentPath") @ParamParser(EncodeBlobParentPathParamParser.class) String parentPath,
-	      @HeaderParam(OrionHttpFields.HEADER_SLUG) String blobName);
+	      @BinderParam(SlugHeaderFromString.class) String blobName);
 
 	/**
 	 * Get the blob on the path. This starts with a metadata request and then

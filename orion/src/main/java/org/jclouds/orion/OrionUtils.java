@@ -197,4 +197,12 @@ public class OrionUtils {
 
 	}
 
+	/**
+	 * @param name
+	 * @return Slug
+	 * One time encoding is applied by this method to provide 
+	 */
+	public static String convertNameToSlug(String name) {
+		return encodeName(name);
+	}
 }

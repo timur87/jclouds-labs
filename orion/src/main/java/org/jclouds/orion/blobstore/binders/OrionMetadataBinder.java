@@ -31,7 +31,7 @@ public class OrionMetadataBinder implements Binder {
 		blob.getProperties().setLastModified(date);
 
 		request = (R) request.toBuilder()
-		      .replaceHeader(OrionHttpFields.HEADER_SLUG, OrionUtils.getMetadataName(blob.getProperties().getName()))
+		      .replaceHeader(OrionHttpFields.HEADER_SLUG, OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(blob.getProperties().getName())))
 		      .build();
 
 		try {
