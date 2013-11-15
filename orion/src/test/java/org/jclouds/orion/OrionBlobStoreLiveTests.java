@@ -35,6 +35,7 @@ public class OrionBlobStoreLiveTests {
 	private BlobStore blobStore;
 	private final String container = "Container";
 	String payload = "Payload Test String";
+	private final String bibBlobName = "BigBlob.zip";
 
 	@BeforeSuite
 	protected void setUp() throws Exception {
@@ -125,7 +126,7 @@ public class OrionBlobStoreLiveTests {
 		      "Container SHOULD NOT exist");
 
 		Blob blob = this.blobStore.blobBuilder(this.blobName).build();
-		String pathName = this.getClass().getClassLoader().getResource("SugarCRM.zip").getPath();
+		String pathName = this.getClass().getClassLoader().getResource(this.bibBlobName).getPath();
 		File testFile = new File(pathName);
 		InputStream iStream = FileUtils.openInputStream(testFile);
 		blob.setPayload(iStream);

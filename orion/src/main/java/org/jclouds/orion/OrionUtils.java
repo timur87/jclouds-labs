@@ -133,7 +133,7 @@ public class OrionUtils {
 	 * @param path
 	 * @return
 	 */
-	public static String createOriginalNameFromLocation(String userWorkspace, String path) {
+	public static String createOriginalNameFromLocation(String path) {
 		// decode once because names are decoded one time to create the location
 		// names
 		path = OrionUtils.decodeName(path);
@@ -144,6 +144,34 @@ public class OrionUtils {
 
 			if (index > 3) {
 				originalName = originalName + pathPart + OrionConstantValues.PATH_DELIMITER;
+			}
+			index++;
+		}
+		// remove the last slash
+		// last field is the name of the file
+		originalName = originalName.substring(0, originalName.length() - 1);
+		return originalName;
+	}
+
+	/**
+	 * Create container name which removes the first 2 elements and then returns
+	 * the file name
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static String createContainerName(String path) {
+		// decode once because names are decoded one time to create the location
+		// names
+		path = OrionUtils.decodeName(path);
+		String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
+		int index = 0;
+		String originalName = "";
+		for (String pathPart : paths) {
+
+			if (index > 2) {
+				originalName = originalName + pathPart + OrionConstantValues.PATH_DELIMITER;
+				break;
 			}
 			index++;
 		}
@@ -199,8 +227,7 @@ public class OrionUtils {
 
 	/**
 	 * @param name
-	 * @return Slug
-	 * One time encoding is applied by this method to provide 
+	 * @return Slug One time encoding is applied by this method to provide
 	 */
 	public static String convertNameToSlug(String name) {
 		return encodeName(name);

@@ -50,7 +50,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public String getChildrenLocation() {
-		return childrenLocation;
+		return this.childrenLocation;
 	}
 
 	/*
@@ -71,7 +71,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public boolean isDirectory() {
-		return directory;
+		return this.directory;
 	}
 
 	/*
@@ -92,7 +92,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	/*
@@ -112,7 +112,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public String getImportLocation() {
-		return importLocation;
+		return this.importLocation;
 	}
 
 	/*
@@ -134,7 +134,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public String getLocation() {
-		return location;
+		return this.location;
 	}
 
 	/*
@@ -154,7 +154,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata {
 	 */
 	@Override
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/*

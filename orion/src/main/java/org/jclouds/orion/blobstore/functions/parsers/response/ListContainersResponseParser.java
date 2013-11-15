@@ -16,12 +16,17 @@
  */
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.orion.blobstore.functions.converters.ChildMetadataToStorageMetadata;
+import org.jclouds.orion.blobstore.functions.converters.ConvertToFlatListofContainers;
 import org.jclouds.orion.domain.OrionStorageMetadata;
 import org.jclouds.orion.domain.internal.OrionPageSet;
 
@@ -36,15 +41,17 @@ import com.google.inject.Inject;
  */
 public class ListContainersResponseParser implements Function<HttpResponse, PageSet<? extends StorageMetadata>> {
 
-	private final FolderListResposeParser folderListParser;
+	private final ConvertToFlatListofContainers folderListParser;
 	private final ChildMetadataToStorageMetadata childMetadataToStorageMetadata;
+	private final ObjectMapper mapper;
 
 	@Inject
-	public ListContainersResponseParser(FolderListResposeParser folderListParser,
-	      ChildMetadataToStorageMetadata childMetadataToStorageMetadata) {
+	public ListContainersResponseParser(ConvertToFlatListofContainers folderListParser,
+	      ChildMetadataToStorageMetadata childMetadataToStorageMetadata, ObjectMapper mapper) {
 		this.folderListParser = Preconditions.checkNotNull(folderListParser, "folderListParser is null");
 		this.childMetadataToStorageMetadata = Preconditions.checkNotNull(childMetadataToStorageMetadata,
 		      "childMetadataToStorageMetadata is null");
+		this.mapper = mapper;
 	}
 
 	/*
@@ -54,9 +61,20 @@ public class ListContainersResponseParser implements Function<HttpResponse, Page
 	 */
 	@Override
 	public PageSet<? extends StorageMetadata> apply(HttpResponse res) {
-		List<OrionStorageMetadata> storageDataList = Lists.transform(this.folderListParser.apply(res),
-		      childMetadataToStorageMetadata);
-		return new OrionPageSet(storageDataList);
+		JsonNode jsonNode;
+		try {
+			jsonNode = this.mapper.readTree(res.getPayload().getInput());
+			List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(
+			      this.folderListParser.apply(jsonNode), this.childMetadataToStorageMetadata));
+			return new OrionPageSet(storageDataList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		return null;
 	}
 }

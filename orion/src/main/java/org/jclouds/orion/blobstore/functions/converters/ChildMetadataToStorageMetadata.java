@@ -19,9 +19,7 @@ package org.jclouds.orion.blobstore.functions.converters;
 import java.sql.Date;
 
 import org.jclouds.blobstore.domain.StorageType;
-import org.jclouds.domain.Credentials;
 import org.jclouds.domain.Location;
-import org.jclouds.location.Provider;
 import org.jclouds.orion.OrionUtils;
 import org.jclouds.orion.domain.OrionChildMetadata;
 import org.jclouds.orion.domain.OrionStorageMetadata;
@@ -39,15 +37,12 @@ public class ChildMetadataToStorageMetadata implements Function<OrionChildMetada
 
 	private final OrionStorageMetadata storageMetadata;
 	private final Location location;
-	private final String userWorkspace;
 
 	@Inject
-	public ChildMetadataToStorageMetadata(@Provider Supplier<Credentials> creds, OrionStorageMetadata storageMetadata,
-	      Supplier<Location> defaultLocation) {
-		this.userWorkspace = Preconditions.checkNotNull(creds, "creds is null").get().identity;
+	public ChildMetadataToStorageMetadata(OrionStorageMetadata storageMetadata, Supplier<Location> defaultLocation) {
+
 		this.location = Preconditions.checkNotNull(defaultLocation, "defaultLocation is null").get();
 		this.storageMetadata = Preconditions.checkNotNull(storageMetadata, "storageMetadata is null");
-
 	}
 
 	/*
@@ -57,27 +52,20 @@ public class ChildMetadataToStorageMetadata implements Function<OrionChildMetada
 	 */
 	@Override
 	public OrionStorageMetadata apply(OrionChildMetadata childMetadata) {
-		storageMetadata.setLocation(location);
-		storageMetadata
-		      .setName(OrionUtils.createOriginalNameFromLocation(getUserWorkspace(), childMetadata.getLocation()));
+		this.storageMetadata.setLocation(this.location);
+		this.storageMetadata.setName(OrionUtils.createContainerName(childMetadata.getLocation()));
 
 		if (OrionUtils.isContainerFromPath(childMetadata.getLocation())) {
-			storageMetadata.setType(StorageType.CONTAINER);
+			this.storageMetadata.setType(StorageType.CONTAINER);
 		} else if (childMetadata.isDirectory()) {
-			storageMetadata.setType(StorageType.FOLDER);
+			this.storageMetadata.setType(StorageType.FOLDER);
 		} else if (!childMetadata.isDirectory()) {
-			storageMetadata.setType(StorageType.BLOB);
+			this.storageMetadata.setType(StorageType.BLOB);
 		}
 
-		storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
+		this.storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
 
-		return storageMetadata;
+		return this.storageMetadata;
 	}
 
-	/**
-	 * @return
-	 */
-	private String getUserWorkspace() {
-		return userWorkspace;
-	}
 }

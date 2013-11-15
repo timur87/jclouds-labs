@@ -16,10 +16,14 @@
  */
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.http.HttpResponse;
-import org.jclouds.orion.blobstore.functions.converters.ListMetadataToChildrenList;
+import org.jclouds.orion.blobstore.functions.converters.ConvertToFlatList;
 import org.jclouds.orion.domain.OrionChildMetadata;
 
 import com.google.common.base.Function;
@@ -30,14 +34,14 @@ import com.google.inject.Inject;
  * @author timur
  * 
  */
-public class FolderListResposeParser implements Function<HttpResponse, List<OrionChildMetadata>> {
+public class FolderListResposeParser implements
+		Function<HttpResponse, List<OrionChildMetadata>> {
 
-	private final ListMetadataToChildrenList listMetadata2ChildrenList;
+	private final ObjectMapper mapper;
 
 	@Inject
-	public FolderListResposeParser(ListMetadataToChildrenList listMetadata2ChildrenList) {
-		this.listMetadata2ChildrenList = Preconditions.checkNotNull(listMetadata2ChildrenList,
-		      "listMetadata2ChildrenList is null");
+	public FolderListResposeParser(ObjectMapper mapper) {
+		this.mapper = Preconditions.checkNotNull(mapper, "mapper is null");
 
 	}
 
@@ -48,6 +52,17 @@ public class FolderListResposeParser implements Function<HttpResponse, List<Orio
 	 */
 	@Override
 	public List<OrionChildMetadata> apply(HttpResponse res) {
-		return listMetadata2ChildrenList.apply(res);
+		try {
+			JsonNode jsonNode = this.mapper.readTree(res.getPayload()
+					.getInput());
+			return new ConvertToFlatList(this.mapper).apply(jsonNode);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
