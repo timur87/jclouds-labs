@@ -1,8 +1,9 @@
-package org.jclouds.orion;
+package org.jclouds.orion.blobstore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -23,14 +24,16 @@ import org.testng.annotations.Test;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 import com.google.common.io.InputSupplier;
+import com.google.mockwebserver.MockWebServer;
+
 
 /**
- * Live tests, one first needs to specify endpoint.properties before running tests
+ * Mock tests
  * @author timur
  *
  */
 @Test(groups = "unit", testName = "OrionApiMetadataTest")
-public class OrionBlobStoreLiveTests {
+public class OrionBlobStoreMockTests {
    // properties file name
    String propsFileName = "endpoint.properties";
    // property constants
@@ -53,6 +56,14 @@ public class OrionBlobStoreLiveTests {
             .credentials(props.getProperty(USERNAME), props.getProperty(PASSWORD)).build(BlobStoreContext.class);
       // create a container in the default location
       blobStore = context.getBlobStore();
+   }
+
+   public static MockWebServer mockOpenStackServer() throws IOException {
+      MockWebServer server = new MockWebServer();
+      server.play();
+
+
+      return server;
    }
 
    @AfterTest

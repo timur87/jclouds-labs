@@ -62,31 +62,31 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.jclouds</groupId>
+			<groupId>org.apache.jclouds</groupId>
 			<artifactId>jclouds-blobstore</artifactId>
 			<version>${jclouds.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jclouds</groupId>
+			<groupId>org.apache.jclouds</groupId>
 			<artifactId>jclouds-blobstore</artifactId>
 			<version>${jclouds.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jclouds</groupId>
+			<groupId>org.apache.jclouds</groupId>
 			<artifactId>jclouds-core</artifactId>
 			<version>${jclouds.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jclouds</groupId>
+			<groupId>org.apache.jclouds</groupId>
 			<artifactId>jclouds-core</artifactId>
 			<version>${jclouds.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jclouds.driver</groupId>
+			<groupId>org.apache.jclouds.driver</groupId>
 			<artifactId>jclouds-slf4j</artifactId>
 			<version>${jclouds.version}</version>
 			<scope>test</scope>
@@ -96,8 +96,11 @@
 			<artifactId>logback-classic</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-
+	    <dependency>
+	      <groupId>com.google.mockwebserver</groupId>
+	      <artifactId>mockwebserver</artifactId>
+	      <scope>test</scope>
+	    </dependency>
 	</dependencies>
 	<profiles>
 		<profile>
