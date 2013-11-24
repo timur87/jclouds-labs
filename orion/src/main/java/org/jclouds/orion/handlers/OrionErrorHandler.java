@@ -20,9 +20,6 @@ import java.io.IOException;
 
 import javax.inject.Singleton;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpCommand;
 import org.jclouds.http.HttpCommandExecutorService;
@@ -32,12 +29,16 @@ import org.jclouds.http.HttpResponseException;
 import org.jclouds.http.HttpUtils;
 import org.jclouds.location.Provider;
 import org.jclouds.orion.OrionResponseException;
+import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.OrionError;
 import org.jclouds.orion.http.filters.FormAuthentication;
 import org.jclouds.rest.AuthorizationException;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
@@ -49,110 +50,103 @@ import com.google.inject.Inject;
 @Singleton
 public class OrionErrorHandler implements HttpErrorHandler {
 
-	private final String userWorkspace;
-	private final HttpCommandExecutorService commandExecutor;
-	private final ObjectMapper mapper;
+   private final String userWorkspace;
+   private final HttpCommandExecutorService commandExecutor;
+   private final JSONUtils jsonConverter;
 
-	@Inject
-	public OrionErrorHandler(@Provider Supplier<Credentials> creds, HttpCommandExecutorService commandExecutor,
-	      ObjectMapper mapper) {
-		this.commandExecutor = Preconditions.checkNotNull(commandExecutor, "HttpCommandExecutorService");
-		this.mapper = Preconditions.checkNotNull(mapper, "mapper is null");
-		this.userWorkspace = Preconditions.checkNotNull(creds, "creds  is null").get().identity;
-	}
+   @Inject
+   public OrionErrorHandler(@Provider Supplier<Credentials> creds, HttpCommandExecutorService commandExecutor,
+         JSONUtils mapper) {
+      this.commandExecutor = Preconditions.checkNotNull(commandExecutor, "HttpCommandExecutorService");
+      jsonConverter = Preconditions.checkNotNull(mapper, "mapper is null");
+      userWorkspace = Preconditions.checkNotNull(creds, "creds  is null").get().identity;
+   }
 
-	@Override
-	public void handleError(HttpCommand command, HttpResponse response) {
-		// it is important to always read fully and close streams
-		byte[] data = HttpUtils.closeClientButKeepContentStream(response);
-		String message = data != null ? new String(data) : null;
+   @Override
+   public void handleError(HttpCommand command, HttpResponse response) {
+      // it is important to always read fully and close streams
+      byte[] data = HttpUtils.closeClientButKeepContentStream(response);
+      String message = data != null ? new String(data) : null;
 
-		Exception exception = message != null ? new HttpResponseException(command, response, message)
-		      : new HttpResponseException(command, response);
-		message = message != null ? message : String.format("%s -> %s", command.getCurrentRequest().getRequestLine(),
-		      response.getStatusLine());
+      Exception exception = message != null ? new HttpResponseException(command, response, message)
+      : new HttpResponseException(command, response);
+      message = message != null ? message : String.format("%s -> %s", command.getCurrentRequest().getRequestLine(),
+            response.getStatusLine());
 
-		try {
-			OrionError error = this.mapper.readValue(response.getPayload().getInput(), OrionError.class);
-			OrionResponseException orionException = new OrionResponseException(command, response, error);
-			command.setException(orionException);
+      try {
+         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())), Charsets.UTF_8));
+         OrionError error = jsonConverter.getStringAsObject(theString, OrionError.class);
+         OrionResponseException orionException = new OrionResponseException(command, response, error);
+         command.setException(orionException);
 
-			switch (response.getStatusCode()) {
+         switch (response.getStatusCode()) {
 
-			case 401:
-				if ((command.getFailureCount() < 3) && FormAuthentication.hasKey(this.userWorkspace)) {
-					// Remove the outdated key and replay the request
-					FormAuthentication.removeKey(this.userWorkspace);
-					this.commandExecutor.invoke(command);
-				} else {
-					exception = new AuthorizationException(message, exception);
-					command.setException(exception);
-					exception.printStackTrace();
-				}
-			case 403:
-				exception = new AuthorizationException(message, exception);
-				command.setException(exception);
-				exception.printStackTrace();
-				break;
+         case 401:
+            if ((command.getFailureCount() < 3) && FormAuthentication.hasKey(userWorkspace)) {
+               // Remove the outdated key and replay the request
+               FormAuthentication.removeKey(userWorkspace);
+               commandExecutor.invoke(command);
+            } else {
+               exception = new AuthorizationException(message, exception);
+               command.setException(exception);
+               exception.printStackTrace();
+            }
+         case 403:
+            exception = new AuthorizationException(message, exception);
+            command.setException(exception);
+            exception.printStackTrace();
+            break;
 
-			case 409:
-				exception = new IllegalStateException(message, exception);
-				command.setException(exception);
-				exception.printStackTrace();
-				break;
-			}
-			return;
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-			this.doStandardHandling(command, response, exception);
+         case 409:
+            exception = new IllegalStateException(message, exception);
+            command.setException(exception);
+            exception.printStackTrace();
+            break;
+         }
+         return;
+      }catch (IOException e) {
+         e.printStackTrace();
+         this.doStandardHandling(command, response, exception);
 
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-			this.doStandardHandling(command, response, exception);
+      }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			this.doStandardHandling(command, response, exception);
+   }
 
-		}
+   /**
+    * @param command
+    * @param response
+    * @param exception
+    */
+   private void doStandardHandling(HttpCommand command, HttpResponse response, Exception exception) {
+      switch (response.getStatusCode()) {
+      case 400:
+         // command.setException(exception);
+         exception.printStackTrace();
+         break;
+      case 401:
+      case 403:
+         if ((command.getFailureCount() < 3) && FormAuthentication.hasKey(userWorkspace)) {
+            // Remove the outdated key and replay the request
+            FormAuthentication.removeKey(userWorkspace);
+            commandExecutor.invoke(command);
+         } else {
+            exception = new AuthorizationException(response.getMessage(), exception);
+            command.setException(exception);
+            exception.printStackTrace();
+         }
+         break;
+      case 404:
+         if (!command.getCurrentRequest().getMethod().equals("DELETE")) {
+            // exception = new ResourceNotFoundException(message,
+            // exception);
+         }
+         break;
+      case 409:
+         exception = new IllegalStateException(response.getMessage(), exception);
+         command.setException(exception);
+         exception.printStackTrace();
+         break;
+      }
 
-	}
-
-	/**
-	 * @param command
-	 * @param response
-	 * @param exception
-	 */
-	private void doStandardHandling(HttpCommand command, HttpResponse response, Exception exception) {
-		switch (response.getStatusCode()) {
-		case 400:
-			// command.setException(exception);
-			exception.printStackTrace();
-			break;
-		case 401:
-		case 403:
-			if ((command.getFailureCount() < 3) && FormAuthentication.hasKey(this.userWorkspace)) {
-				// Remove the outdated key and replay the request
-				FormAuthentication.removeKey(this.userWorkspace);
-				this.commandExecutor.invoke(command);
-			} else {
-				exception = new AuthorizationException(response.getMessage(), exception);
-				command.setException(exception);
-				exception.printStackTrace();
-			}
-			break;
-		case 404:
-			if (!command.getCurrentRequest().getMethod().equals("DELETE")) {
-				// exception = new ResourceNotFoundException(message,
-				// exception);
-			}
-			break;
-		case 409:
-			exception = new IllegalStateException(response.getMessage(), exception);
-			command.setException(exception);
-			exception.printStackTrace();
-			break;
-		}
-
-	}
+   }
 }

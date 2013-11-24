@@ -19,15 +19,15 @@ package org.jclouds.orion.blobstore.functions.parsers.response;
 import java.io.IOException;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.http.HttpResponse;
-import org.jclouds.orion.blobstore.functions.converters.ConvertToFlatList;
+import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.OrionChildMetadata;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
@@ -35,34 +35,32 @@ import com.google.inject.Inject;
  * 
  */
 public class FolderListResposeParser implements
-		Function<HttpResponse, List<OrionChildMetadata>> {
+Function<HttpResponse, List<OrionChildMetadata>> {
 
-	private final ObjectMapper mapper;
+   private final JSONUtils jsonUtils;
 
-	@Inject
-	public FolderListResposeParser(ObjectMapper mapper) {
-		this.mapper = Preconditions.checkNotNull(mapper, "mapper is null");
+   @Inject
+   public FolderListResposeParser(JSONUtils mapper) {
+      this.jsonUtils = Preconditions.checkNotNull(mapper, "mapper is null");
 
-	}
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.common.base.Function#apply(java.lang.Object)
-	 */
-	@Override
-	public List<OrionChildMetadata> apply(HttpResponse res) {
-		try {
-			JsonNode jsonNode = this.mapper.readTree(res.getPayload()
-					.getInput());
-			return new ConvertToFlatList(this.mapper).apply(jsonNode);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see com.google.common.base.Function#apply(java.lang.Object)
+    */
+   @Override
+   public List<OrionChildMetadata> apply(HttpResponse res) {
+
+      String theString;
+      try {
+         theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())), Charsets.UTF_8));
+         return jsonUtils.fetchFileObjects(theString);
+      } catch (IOException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      return null;
+   }
 }

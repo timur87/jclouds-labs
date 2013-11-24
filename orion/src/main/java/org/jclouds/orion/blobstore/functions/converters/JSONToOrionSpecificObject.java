@@ -1,10 +1,6 @@
 package org.jclouds.orion.blobstore.functions.converters;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
 import com.google.common.base.Function;
@@ -20,27 +16,15 @@ import com.google.inject.Inject;
  */
 public class JSONToOrionSpecificObject implements Function<String, OrionSpecificFileMetadata> {
 
-	private final ObjectMapper mapper;
+   private final JSONUtils jsonConverter;
 
-	@Inject
-	public JSONToOrionSpecificObject(ObjectMapper mapper) {
-		this.mapper = Preconditions.checkNotNull(mapper, "mapper is null");
-	}
+   @Inject
+   public JSONToOrionSpecificObject(JSONUtils mapper) {
+      jsonConverter = Preconditions.checkNotNull(mapper, "mapper is null");
+   }
 
-	@Override
-	public OrionSpecificFileMetadata apply(String jsonObj) {
-		try {
-			return mapper.readValue(jsonObj, OrionSpecificFileMetadata.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+   @Override
+   public OrionSpecificFileMetadata apply(String jsonStr) {
+      return jsonConverter.getStringAsObject(jsonStr, OrionSpecificFileMetadata.class);
+   }
 }

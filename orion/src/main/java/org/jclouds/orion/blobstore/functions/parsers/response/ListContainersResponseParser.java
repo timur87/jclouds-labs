@@ -19,20 +19,20 @@ package org.jclouds.orion.blobstore.functions.parsers.response;
 import java.io.IOException;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.orion.blobstore.functions.converters.ChildMetadataToStorageMetadata;
-import org.jclouds.orion.blobstore.functions.converters.ConvertToFlatListofContainers;
+import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.OrionStorageMetadata;
 import org.jclouds.orion.domain.internal.OrionPageSet;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
@@ -41,40 +41,30 @@ import com.google.inject.Inject;
  */
 public class ListContainersResponseParser implements Function<HttpResponse, PageSet<? extends StorageMetadata>> {
 
-	private final ConvertToFlatListofContainers folderListParser;
-	private final ChildMetadataToStorageMetadata childMetadataToStorageMetadata;
-	private final ObjectMapper mapper;
+   private final ChildMetadataToStorageMetadata childMetadataToStorageMetadata;
+   private final JSONUtils jsonConverter;
 
-	@Inject
-	public ListContainersResponseParser(ConvertToFlatListofContainers folderListParser,
-	      ChildMetadataToStorageMetadata childMetadataToStorageMetadata, ObjectMapper mapper) {
-		this.folderListParser = Preconditions.checkNotNull(folderListParser, "folderListParser is null");
-		this.childMetadataToStorageMetadata = Preconditions.checkNotNull(childMetadataToStorageMetadata,
-		      "childMetadataToStorageMetadata is null");
-		this.mapper = mapper;
-	}
+   @Inject
+   public ListContainersResponseParser(ChildMetadataToStorageMetadata childMetadataToStorageMetadata, JSONUtils jsonConverter) {
+      this.childMetadataToStorageMetadata = Preconditions.checkNotNull(childMetadataToStorageMetadata,
+            "childMetadataToStorageMetadata is null");
+      this.jsonConverter = jsonConverter;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.common.base.Function#apply(java.lang.Object)
-	 */
-	@Override
-	public PageSet<? extends StorageMetadata> apply(HttpResponse res) {
-		JsonNode jsonNode;
-		try {
-			jsonNode = this.mapper.readTree(res.getPayload().getInput());
-			List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(
-			      this.folderListParser.apply(jsonNode), this.childMetadataToStorageMetadata));
-			return new OrionPageSet(storageDataList);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return null;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see com.google.common.base.Function#apply(java.lang.Object)
+    */
+   @Override
+   public PageSet<? extends StorageMetadata> apply(HttpResponse res) {
+      try {
+         List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(jsonConverter.fetchContainerObjects(CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())), Charsets.UTF_8))), childMetadataToStorageMetadata));
+         return new OrionPageSet(storageDataList);
+      }  catch (IOException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      return null;
+   }
 }

@@ -1,39 +1,39 @@
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
-import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jclouds.http.HttpResponse;
+import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.MutableBlobProperties;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Function;
+import com.google.common.io.ByteStreams;
+import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 public class MetadataResponseParser implements Function<HttpResponse, MutableBlobProperties> {
 
-	private final ObjectMapper mapper;
+   private final JSONUtils jsonConverter;
 
-	@Inject
-	public MetadataResponseParser(ObjectMapper mapper) {
-		this.mapper = mapper;
-	}
+   @Inject
+   public MetadataResponseParser(JSONUtils jsonConverter) {
+      this.jsonConverter = jsonConverter;
+   }
 
-	@Override
-	public MutableBlobProperties apply(HttpResponse response) {
+   @Override
+   public MutableBlobProperties apply(HttpResponse response) {
 
-		StringWriter writer = new StringWriter();
-		MutableBlobProperties properties = null;
-		try {
-			IOUtils.copy(response.getPayload().getInput(), writer);
-			String theString = writer.toString();
-			properties = mapper.readValue(theString, MutableBlobProperties.class);
-		} catch (IOException e) {
-			System.out.println(response.getMessage());
-			e.printStackTrace();
-		}
 
-		return properties;
-	}
+      MutableBlobProperties properties = null;
+      try {
+         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())), Charsets.UTF_8));
+         properties = jsonConverter.getStringAsObject(theString, MutableBlobProperties.class);
+      } catch (IOException e) {
+         System.out.println(response.getMessage());
+         e.printStackTrace();
+      }
+
+      return properties;
+   }
 }

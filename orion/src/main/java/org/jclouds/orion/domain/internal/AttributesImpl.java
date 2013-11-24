@@ -1,103 +1,104 @@
 package org.jclouds.orion.domain.internal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.jclouds.orion.domain.Attributes;
 
-public class AttributesImpl implements Attributes {
-	@JsonProperty("ReadOnly")
-	Boolean readOnly = false;
-	@JsonProperty("Exectuable")
-	Boolean executable = false;
-	@JsonProperty("Hidden")
-	Boolean hidden = false;
-	@JsonProperty("Archive")
-	Boolean archive = false;
-	@JsonProperty("SymbolicLink")
-	Boolean symbolicLink = false;
+import com.google.gson.annotations.SerializedName;
 
-	/**
-	 * @return the readOnly
-	 */
-	@Override
-	public Boolean getReadOnly() {
-		return readOnly;
-	}
+public class AttributesImpl implements Attributes{
+   @SerializedName("ReadOnly")
+   Boolean readOnly = false;
+   @SerializedName("Exectuable")
+   Boolean executable = false;
+   @SerializedName("Hidden")
+   Boolean hidden = false;
+   @SerializedName("Archive")
+   Boolean archive = false;
+   @SerializedName("SymbolicLink")
+   Boolean symbolicLink = false;
 
-	/**
-	 * @param readOnly
-	 *           the readOnly to set
-	 */
-	@Override
-	public void setReadOnly(Boolean readOnly) {
-		this.readOnly = readOnly;
-	}
+   /**
+    * @return the readOnly
+    */
+   @Override
+   public Boolean getReadOnly() {
+      return readOnly;
+   }
 
-	/**
-	 * @return the executable
-	 */
-	@Override
-	public Boolean getExecutable() {
-		return executable;
-	}
+   /**
+    * @param readOnly
+    *           the readOnly to set
+    */
+   @Override
+   public void setReadOnly(Boolean readOnly) {
+      this.readOnly = readOnly;
+   }
 
-	/**
-	 * @param executable
-	 *           the executable to set
-	 */
-	@Override
-	public void setExecutable(Boolean executable) {
-		this.executable = executable;
-	}
+   /**
+    * @return the executable
+    */
+   @Override
+   public Boolean getExecutable() {
+      return executable;
+   }
 
-	/**
-	 * @return the hidden
-	 */
-	@Override
-	public Boolean getHidden() {
-		return hidden;
-	}
+   /**
+    * @param executable
+    *           the executable to set
+    */
+   @Override
+   public void setExecutable(Boolean executable) {
+      this.executable = executable;
+   }
 
-	/**
-	 * @param hidden
-	 *           the hidden to set
-	 */
-	@Override
-	public void setHidden(Boolean hidden) {
-		this.hidden = hidden;
-	}
+   /**
+    * @return the hidden
+    */
+   @Override
+   public Boolean getHidden() {
+      return hidden;
+   }
 
-	/**
-	 * @return the archive
-	 */
-	@Override
-	public Boolean getArchive() {
-		return archive;
-	}
+   /**
+    * @param hidden
+    *           the hidden to set
+    */
+   @Override
+   public void setHidden(Boolean hidden) {
+      this.hidden = hidden;
+   }
 
-	/**
-	 * @param archive
-	 *           the archive to set
-	 */
-	@Override
-	public void setArchive(Boolean archive) {
-		this.archive = archive;
-	}
+   /**
+    * @return the archive
+    */
+   @Override
+   public Boolean getArchive() {
+      return archive;
+   }
 
-	/**
-	 * @return the symbolicLink
-	 */
-	@Override
-	public Boolean getSymbolicLink() {
-		return symbolicLink;
-	}
+   /**
+    * @param archive
+    *           the archive to set
+    */
+   @Override
+   public void setArchive(Boolean archive) {
+      this.archive = archive;
+   }
 
-	/**
-	 * @param symbolicLink
-	 *           the symbolicLink to set
-	 */
-	@Override
-	public void setSymbolicLink(Boolean symbolicLink) {
-		this.symbolicLink = symbolicLink;
-	}
+   /**
+    * @return the symbolicLink
+    */
+   @Override
+   public Boolean getSymbolicLink() {
+      return symbolicLink;
+   }
+
+   /**
+    * @param symbolicLink
+    *           the symbolicLink to set
+    */
+   @Override
+   public void setSymbolicLink(Boolean symbolicLink) {
+      this.symbolicLink = symbolicLink;
+   }
 
 }

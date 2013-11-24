@@ -16,8 +16,10 @@
  */
 package org.jclouds.orion.domain.internal;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+
 import org.jclouds.orion.domain.OrionError;
+
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author timur
@@ -25,168 +27,170 @@ import org.jclouds.orion.domain.OrionError;
  */
 public class OrionErrorImpl implements OrionError {
 
-	@JsonProperty("HttpCode")
-	String httpCode;
-	@JsonProperty("Code")
-	String code;
-	@JsonProperty("Severity")
-	String severity;
-	@JsonProperty("Message")
-	String message;
-	@JsonProperty("DetailedMessage")
-	String detailedMessage;
-	@JsonProperty("Cause")
-	String cause;
-	@JsonProperty("SeeAlso")
-	String seeAlso;
+   @SerializedName("HttpCode")
+   String httpCode;
+   @SerializedName("Code")
+   String code;
+   @SerializedName("Severity")
+   String severity;
+   @SerializedName("Message")
+   String message;
+   @SerializedName("DetailedMessage")
+   String detailedMessage;
+   @SerializedName("Cause")
+   String cause;
+   @SerializedName("SeeAlso")
+   String seeAlso;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getHttpCode()
-	 */
-	@Override
-	public String getHttpCode() {
-		return httpCode;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getHttpCode()
+    */
+   @Override
+   public String getHttpCode() {
+      return httpCode;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setHttpCode(java.lang.String
-	 * )
-	 */
-	@Override
-	public void setHttpCode(String httpCode) {
-		this.httpCode = httpCode;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setHttpCode(java.lang.String
+    * )
+    */
+   @Override
+   public void setHttpCode(String httpCode) {
+      this.httpCode = httpCode;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getCode()
-	 */
-	@Override
-	public String getCode() {
-		return code;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getCode()
+    */
+   @Override
+   public String getCode() {
+      return code;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setCode(java.lang.String)
-	 */
-	@Override
-	public void setCode(String code) {
-		this.code = code;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setCode(java.lang.String)
+    */
+   @Override
+   public void setCode(String code) {
+      this.code = code;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getSeverity()
-	 */
-	@Override
-	public String getSeverity() {
-		return severity;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getSeverity()
+    */
+   @Override
+   public String getSeverity() {
+      return severity;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setSeverity(java.lang.String
-	 * )
-	 */
-	@Override
-	public void setSeverity(String severity) {
-		this.severity = severity;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setSeverity(java.lang.String
+    * )
+    */
+   @Override
+   public void setSeverity(String severity) {
+      this.severity = severity;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getMessage()
-	 */
-	@Override
-	public String getMessage() {
-		return message;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getMessage()
+    */
+   @Override
+   public String getMessage() {
+      return message;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setMessage(java.lang.String)
-	 */
-	@Override
-	public void setMessage(String message) {
-		this.message = message;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setMessage(java.lang.String)
+    */
+   @Override
+   public void setMessage(String message) {
+      this.message = message;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getDetailedMessage()
-	 */
-	@Override
-	public String getDetailedMessage() {
-		return detailedMessage;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getDetailedMessage()
+    */
+   @Override
+   public String getDetailedMessage() {
+      return detailedMessage;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#setDetailedMessage(java.
-	 * lang.String)
-	 */
-	@Override
-	public void setDetailedMessage(String detailedMessage) {
-		this.detailedMessage = detailedMessage;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#setDetailedMessage(java.
+    * lang.String)
+    */
+   @Override
+   public void setDetailedMessage(String detailedMessage) {
+      this.detailedMessage = detailedMessage;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getCause()
-	 */
-	@Override
-	public String getCause() {
-		return cause;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getCause()
+    */
+   @Override
+   public String getCause() {
+      return cause;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setCause(java.lang.String)
-	 */
-	@Override
-	public void setCause(String cause) {
-		this.cause = cause;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setCause(java.lang.String)
+    */
+   @Override
+   public void setCause(String cause) {
+      this.cause = cause;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.orion.domain.internal.OrionError#getSeeAlso()
-	 */
-	@Override
-	public String getSeeAlso() {
-		return seeAlso;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.orion.domain.internal.OrionError#getSeeAlso()
+    */
+   @Override
+   public String getSeeAlso() {
+      return seeAlso;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jclouds.orion.domain.internal.OrionError#setSeeAlso(java.lang.String)
-	 */
-	@Override
-	public void setSeeAlso(String seeAlso) {
-		this.seeAlso = seeAlso;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jclouds.orion.domain.internal.OrionError#setSeeAlso(java.lang.String)
+    */
+   @Override
+   public void setSeeAlso(String seeAlso) {
+      this.seeAlso = seeAlso;
+   }
+
+
 
 }
