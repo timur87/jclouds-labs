@@ -90,7 +90,7 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    public boolean createContainerInLocation(Location location, String container) {
-      return api.createContainerAsAProject(this.getUserWorkspace(), container);
+      return api.createContainer(this.getUserWorkspace(), container);
    }
 
    @Override

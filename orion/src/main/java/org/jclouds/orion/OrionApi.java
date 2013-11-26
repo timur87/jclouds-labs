@@ -115,7 +115,7 @@ public interface OrionApi extends Closeable {
 	@ResponseParser(CreationResponseParser.class)
 	@Fallback(DuplicateCreationFallback.class)
 	@Headers(keys = { OrionHttpFields.ORION_ECLIPSE_WEB_FIELD }, values = { OrionConstantValues.ORION_VERSION })
-	Boolean createContainerAsAProject(@PathParam("userWorkspace") String userWorkspace,
+	Boolean createContainer(@PathParam("userWorkspace") String userWorkspace,
 	      @HeaderParam("Slug") @ParamValidators(StringNameValidator.class) String containerName);
 
 	/**
