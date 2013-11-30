@@ -11,6 +11,12 @@ import org.jclouds.orion.config.constans.OrionConstantValues;
 
 import com.google.common.base.Preconditions;
 
+/**
+ * Utilities for Orion blob store
+ * 
+ * @author Timur
+ * 
+ */
 public class OrionUtils {
 
    /**
@@ -70,10 +76,19 @@ public class OrionUtils {
    }
 
    /**
-    * Used to provide one more time encoded path due to an existing bug in meant
-    * to be used while operating on already created objects. It is one more
-    * encoded because it provides the location. In the childeren list name is
-    * not double encoded.
+    * Gets the name of passed name by extracting the parent paths and encode it
+    * once since it will be used as path
+    * 
+    * @param originalName
+    * @return
+    */
+   public static String getNamePath(String originalName) {
+      String parentPath = OrionUtils.getParentPath(originalName);
+      return encodeName(originalName.replaceFirst(parentPath, "").replaceAll(OrionConstantValues.PATH_DELIMITER, ""));
+   }
+
+   /**
+    * 
     * 
     * @param parentPath
     * @return
@@ -232,6 +247,5 @@ public class OrionUtils {
    public static String convertNameToSlug(String name) {
       return encodeName(name);
    }
-
 
 }

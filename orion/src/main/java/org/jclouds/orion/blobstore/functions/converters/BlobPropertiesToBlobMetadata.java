@@ -27,35 +27,37 @@ import org.jclouds.orion.domain.BlobProperties;
 import com.google.common.base.Function;
 
 /**
- * @author Adrian Cole
+ * Convert {@link BlobProperties} to {@link MutableBlobMetadata}
+ * 
+ * @author Adrian Cole, Timur
  */
 
 @Singleton
 public class BlobPropertiesToBlobMetadata implements Function<BlobProperties, MutableBlobMetadata> {
 
-	@Override
-	public MutableBlobMetadata apply(BlobProperties from) {
-		if (from == null) {
-			return null;
-		}
-		MutableBlobMetadata to = new MutableBlobMetadataImpl();
-		HttpUtils.copy(from.getContentMetadata(), to.getContentMetadata());
-		to.setUserMetadata(from.getMetadata());
-		to.setETag(from.getETag());
-		to.setLastModified(from.getLastModified());
-		to.setName(from.getName());
-		to.setContainer(from.getContainer());
-		to.setUri(from.getUrl());
+   @Override
+   public MutableBlobMetadata apply(BlobProperties from) {
+      if (from == null) {
+         return null;
+      }
+      MutableBlobMetadata to = new MutableBlobMetadataImpl();
+      HttpUtils.copy(from.getContentMetadata(), to.getContentMetadata());
+      to.setUserMetadata(from.getMetadata());
+      to.setETag(from.getETag());
+      to.setLastModified(from.getLastModified());
+      to.setName(from.getName());
+      to.setContainer(from.getContainer());
+      to.setUri(from.getUrl());
 
-		if (from.getType() == org.jclouds.orion.domain.BlobType.FOLDER_BLOB) {
-			to.setType(StorageType.FOLDER);
-		} else if (from.getType() == org.jclouds.orion.domain.BlobType.FILE_BLOB) {
-			to.setType(StorageType.BLOB);
-		} else if (from.getType() == org.jclouds.orion.domain.BlobType.PROJECT_BLOB) {
-			to.setType(StorageType.CONTAINER);
-		} else {
-			to.setType(null);
-		}
-		return to;
-	}
+      if (from.getType() == org.jclouds.orion.domain.BlobType.FOLDER_BLOB) {
+         to.setType(StorageType.FOLDER);
+      } else if (from.getType() == org.jclouds.orion.domain.BlobType.FILE_BLOB) {
+         to.setType(StorageType.BLOB);
+      } else if (from.getType() == org.jclouds.orion.domain.BlobType.PROJECT_BLOB) {
+         to.setType(StorageType.CONTAINER);
+      } else {
+         to.setType(null);
+      }
+      return to;
+   }
 }

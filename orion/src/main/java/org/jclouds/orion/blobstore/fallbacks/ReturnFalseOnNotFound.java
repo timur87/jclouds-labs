@@ -23,39 +23,41 @@ import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.ListenableFuture;
 
 /**
+ * Return false in case it was not found
+ * 
  * @author timur
  * 
  */
-public class FileNotFoundFallback implements Fallback<Boolean> {
+public class ReturnFalseOnNotFound implements Fallback<Boolean> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.common.util.concurrent.FutureFallback#create(java.lang.Throwable
-	 * )
-	 */
-	@Override
-	public ListenableFuture<Boolean> create(Throwable arg0) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * com.google.common.util.concurrent.FutureFallback#create(java.lang.Throwable
+    * )
+    */
+   @Override
+   public ListenableFuture<Boolean> create(Throwable arg0) throws Exception {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.Fallback#createOrPropagate(java.lang.Throwable)
-	 */
-	@Override
-	public Boolean createOrPropagate(Throwable t) throws Exception {
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.Fallback#createOrPropagate(java.lang.Throwable)
+    */
+   @Override
+   public Boolean createOrPropagate(Throwable t) throws Exception {
 
-		if (t instanceof OrionResponseException) {
-			OrionResponseException exception = (OrionResponseException) t;
-			if (exception.getError().getHttpCode().equals("404")) {
-				return false;
-			}
-		}
-		throw Throwables.propagate(t);
-	}
+      if (t instanceof OrionResponseException) {
+         OrionResponseException exception = (OrionResponseException) t;
+         if (exception.getError().getHttpCode().equals("404")) {
+            return false;
+         }
+      }
+      throw Throwables.propagate(t);
+   }
 
 }

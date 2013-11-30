@@ -17,7 +17,9 @@
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
 /**
- * @author timur
+ * Parses response to a blob metadata request and after parsing {@link MutableBlobProperties} 
+ * a new request is done to fetch the actual blob
+ * @author Timur
  *
  */
 
@@ -43,8 +45,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
-public class BlobResponseParser implements Function<HttpResponse, Blob> {
-
+public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> {
 
    private final OrionApi api;
    private final String userWorkspace;
@@ -53,11 +54,11 @@ public class BlobResponseParser implements Function<HttpResponse, Blob> {
    private final JSONUtils jsonConverter;
 
    @Inject
-   public BlobResponseParser(JSONUtils jsonConverter, OrionApi api, @Provider Supplier<Credentials> creds,
+   public BlobMetadataResponseParser(JSONUtils jsonConverter, OrionApi api, @Provider Supplier<Credentials> creds,
          OrionBlob.Factory orionBlobProvider, OrionBlobToBlob orionBlob2Blob) {
       this.jsonConverter = Preconditions.checkNotNull(jsonConverter, "mapper is null");
       this.api = Preconditions.checkNotNull(api, "api is null");
-      userWorkspace = Preconditions.checkNotNull(creds, "creds is null").get().identity;
+      this.userWorkspace = Preconditions.checkNotNull(creds, "creds is null").get().identity;
       this.orionBlobProvider = Preconditions.checkNotNull(orionBlobProvider, "orionBlobProvider is null");
       this.orionBlob2Blob = Preconditions.checkNotNull(orionBlob2Blob, "orionBlob2Blob is null");
 
@@ -67,15 +68,17 @@ public class BlobResponseParser implements Function<HttpResponse, Blob> {
    public Blob apply(HttpResponse response) {
       MutableBlobProperties properties = null;
       try {
-         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())), Charsets.UTF_8));
-         properties = jsonConverter.getStringAsObject(theString,MutableBlobProperties.class);
-         OrionBlob orionBlob = orionBlobProvider.create(properties);
+         String theString = CharStreams.toString(CharStreams.newReaderSupplier(
+               ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())),
+               Charsets.UTF_8));
+         properties = this.jsonConverter.getStringAsObject(theString, MutableBlobProperties.class);
+         OrionBlob orionBlob = this.orionBlobProvider.create(properties);
          if (properties.getType() == BlobType.FILE_BLOB) {
-            HttpResponse payloadRes = api.getBlobContents(getUserWorkspace(), properties.getContainer(),
+            HttpResponse payloadRes = this.api.getBlobContents(this.getUserWorkspace(), properties.getContainer(),
                   properties.getParentPath(), properties.getName());
             orionBlob.setPayload(payloadRes.getPayload());
          }
-         return orionBlob2Blob.apply(orionBlob);
+         return this.orionBlob2Blob.apply(orionBlob);
 
       } catch (IOException e) {
          System.out.println(response.getMessage());
@@ -90,6 +93,6 @@ public class BlobResponseParser implements Function<HttpResponse, Blob> {
     */
    private String getUserWorkspace() {
       // TODO Auto-generated method stub
-      return userWorkspace;
+      return this.userWorkspace;
    }
 }

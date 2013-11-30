@@ -25,21 +25,21 @@ import org.jclouds.predicates.Validator;
  * Check if the blob name is valid. This function accepts a blob. String version
  * {@code StringNameValidator}
  * 
- * @author timur
+ * @author Timur
  * 
  */
 public class BlobNameValidator extends Validator<OrionBlob> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.predicates.Validator#validate(java.lang.Object)
-	 */
-	@Override
-	public void validate(OrionBlob t) throws IllegalArgumentException {
-		if (t.getProperties().getName().contains(OrionConstantValues.ORION_METADATA_PATH)) {
-			throw new IllegalArgumentException(OrionErrorExplanations.FORBIDDEN_METADATA_NAME);
-		}
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.predicates.Validator#validate(java.lang.Object)
+    */
+   @Override
+   public void validate(OrionBlob t) throws IllegalArgumentException {
+      if (t.getProperties().getName().contains(OrionConstantValues.ORION_METADATA_PATH)) {
+         throw new IllegalArgumentException(OrionErrorExplanations.FORBIDDEN_METADATA_NAME);
+      }
+   }
 
 }

@@ -37,14 +37,12 @@ public class OrionBlobStoreContext extends BaseView implements BlobStoreContext 
 
    @Override
    public ConsistencyModel getConsistencyModel() {
-      return consistencyModel;
+      return this.consistencyModel;
    }
-
-
 
    @Override
    public BlobStore getBlobStore() {
-      return blobStore;
+      return this.blobStore;
    }
 
    @Override
@@ -54,32 +52,32 @@ public class OrionBlobStoreContext extends BaseView implements BlobStoreContext 
 
    @Override
    public Utils utils() {
-      return utils;
+      return this.utils;
    }
 
    @Override
    public BlobRequestSigner getSigner() {
-      return blobRequestSigner;
+      return this.blobRequestSigner;
    }
 
    @Override
    public void close() {
-      Closeables.closeQuietly(delegate());
+      Closeables.closeQuietly(this.delegate());
    }
 
    @Override
    public int hashCode() {
-      return delegate().hashCode();
+      return this.delegate().hashCode();
    }
 
    @Override
    public String toString() {
-      return delegate().toString();
+      return this.delegate().toString();
    }
 
    @Override
    public boolean equals(Object obj) {
-      return delegate().equals(obj);
+      return this.delegate().equals(obj);
    }
 
 }

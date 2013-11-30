@@ -4,7 +4,12 @@ import org.jclouds.orion.domain.Attributes;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AttributesImpl implements Attributes{
+/**
+ * @see Attributes
+ * @author Timur
+ * 
+ */
+public class AttributesImpl implements Attributes {
    @SerializedName("ReadOnly")
    Boolean readOnly = false;
    @SerializedName("Exectuable")
@@ -21,7 +26,7 @@ public class AttributesImpl implements Attributes{
     */
    @Override
    public Boolean getReadOnly() {
-      return readOnly;
+      return this.readOnly;
    }
 
    /**
@@ -38,7 +43,7 @@ public class AttributesImpl implements Attributes{
     */
    @Override
    public Boolean getExecutable() {
-      return executable;
+      return this.executable;
    }
 
    /**
@@ -55,7 +60,7 @@ public class AttributesImpl implements Attributes{
     */
    @Override
    public Boolean getHidden() {
-      return hidden;
+      return this.hidden;
    }
 
    /**
@@ -72,7 +77,7 @@ public class AttributesImpl implements Attributes{
     */
    @Override
    public Boolean getArchive() {
-      return archive;
+      return this.archive;
    }
 
    /**
@@ -89,7 +94,7 @@ public class AttributesImpl implements Attributes{
     */
    @Override
    public Boolean getSymbolicLink() {
-      return symbolicLink;
+      return this.symbolicLink;
    }
 
    /**

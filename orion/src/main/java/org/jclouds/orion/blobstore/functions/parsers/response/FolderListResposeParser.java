@@ -31,11 +31,13 @@ import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
- * @author timur
+ * Convert received HttpResponse to {@link OrionChildMetadata} for further
+ * processing
+ * 
+ * @author Timur
  * 
  */
-public class FolderListResposeParser implements
-Function<HttpResponse, List<OrionChildMetadata>> {
+public class FolderListResposeParser implements Function<HttpResponse, List<OrionChildMetadata>> {
 
    private final JSONUtils jsonUtils;
 
@@ -55,8 +57,11 @@ Function<HttpResponse, List<OrionChildMetadata>> {
 
       String theString;
       try {
-         theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())), Charsets.UTF_8));
-         return jsonUtils.fetchFileObjects(theString);
+         theString = CharStreams
+               .toString(CharStreams.newReaderSupplier(
+                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())),
+                     Charsets.UTF_8));
+         return this.jsonUtils.fetchFileObjects(theString);
       } catch (IOException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();

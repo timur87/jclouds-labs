@@ -22,10 +22,12 @@ import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author timur
+ * A realization of {@link OrionSpecificFileMetadata}
+ * 
+ * @author Timur
  * 
  */
-public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
+public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata {
 
    @SerializedName("Name")
    private String name;
@@ -53,7 +55,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String getName() {
-      return name;
+      return this.name;
    }
 
    /**
@@ -70,7 +72,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public Boolean getDirectory() {
-      return directory;
+      return this.directory;
    }
 
    /**
@@ -87,7 +89,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String geteTag() {
-      return eTag;
+      return this.eTag;
    }
 
    /**
@@ -104,7 +106,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public Long getLocalTimeStamp() {
-      return localTimeStamp;
+      return this.localTimeStamp;
    }
 
    /**
@@ -121,7 +123,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String getLocation() {
-      return location;
+      return this.location;
    }
 
    /**
@@ -138,7 +140,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String getChildrenLocation() {
-      return childrenLocation;
+      return this.childrenLocation;
    }
 
    /**
@@ -155,7 +157,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public Attributes getAttributes() {
-      return attributes;
+      return this.attributes;
    }
 
    /**
@@ -172,7 +174,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String getCharSet() {
-      return charSet;
+      return this.charSet;
    }
 
    /**
@@ -189,7 +191,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public String getContentType() {
-      return contentType;
+      return this.contentType;
    }
 
    /**
@@ -206,7 +208,7 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
     */
    @Override
    public Long getContentLegth() {
-      return contentLegth;
+      return this.contentLegth;
    }
 
    /**
@@ -217,6 +219,5 @@ public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata{
    public void setContentLegth(Long contentLegth) {
       this.contentLegth = contentLegth;
    }
-
 
 }

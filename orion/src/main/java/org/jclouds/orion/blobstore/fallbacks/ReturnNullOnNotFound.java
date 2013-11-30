@@ -23,40 +23,41 @@ import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.ListenableFuture;
 
 /**
+ * Return null in case file not found response received
  * 
  * @author Timur
  * 
  */
 public class ReturnNullOnNotFound implements Fallback<Object> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.common.util.concurrent.FutureFallback#create(java.lang.Throwable
-	 * )
-	 */
-	@Override
-	public ListenableFuture<Object> create(Throwable arg0) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * com.google.common.util.concurrent.FutureFallback#create(java.lang.Throwable
+    * )
+    */
+   @Override
+   public ListenableFuture<Object> create(Throwable arg0) throws Exception {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.Fallback#createOrPropagate(java.lang.Throwable)
-	 */
-	@Override
-	public Object createOrPropagate(Throwable t) throws Exception {
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.Fallback#createOrPropagate(java.lang.Throwable)
+    */
+   @Override
+   public Object createOrPropagate(Throwable t) throws Exception {
 
-		if (t instanceof OrionResponseException) {
-			OrionResponseException exception = (OrionResponseException) t;
-			if (exception.getError().getHttpCode().equals("404")) {
-				return null;
-			}
-		}
-		throw Throwables.propagate(t);
-	}
+      if (t instanceof OrionResponseException) {
+         OrionResponseException exception = (OrionResponseException) t;
+         if (exception.getError().getHttpCode().equals("404")) {
+            return null;
+         }
+      }
+      throw Throwables.propagate(t);
+   }
 
 }

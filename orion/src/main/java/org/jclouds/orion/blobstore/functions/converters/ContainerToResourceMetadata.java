@@ -29,25 +29,28 @@ import org.jclouds.orion.domain.ContainerProperties;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 
+/**
+ * Convert {@link ContainerProperties} to {@link StorageMetadata}
+ */
 @Singleton
 public class ContainerToResourceMetadata implements Function<ContainerProperties, StorageMetadata> {
-	private final Supplier<Location> defaultLocation;
+   private final Supplier<Location> defaultLocation;
 
-	@Inject
-	ContainerToResourceMetadata(Supplier<Location> defaultLocation) {
-		this.defaultLocation = defaultLocation;
-	}
+   @Inject
+   ContainerToResourceMetadata(Supplier<Location> defaultLocation) {
+      this.defaultLocation = defaultLocation;
+   }
 
-	@Override
-	public StorageMetadata apply(ContainerProperties from) {
-		MutableStorageMetadata to = new MutableStorageMetadataImpl();
-		to.setName(from.getName());
-		to.setLocation(defaultLocation.get());
-		to.setETag(from.getETag());
-		to.setLastModified(from.getLastModified());
-		to.setUri(from.getUrl());
-		to.setType(StorageType.CONTAINER);
-		to.setUserMetadata(from.getMetadata());
-		return to;
-	}
+   @Override
+   public StorageMetadata apply(ContainerProperties from) {
+      MutableStorageMetadata to = new MutableStorageMetadataImpl();
+      to.setName(from.getName());
+      to.setLocation(this.defaultLocation.get());
+      to.setETag(from.getETag());
+      to.setLastModified(from.getLastModified());
+      to.setUri(from.getUrl());
+      to.setType(StorageType.CONTAINER);
+      to.setUserMetadata(from.getMetadata());
+      return to;
+   }
 }

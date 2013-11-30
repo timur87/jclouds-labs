@@ -12,6 +12,12 @@ import org.jclouds.rest.Binder;
 
 import com.google.inject.Inject;
 
+/**
+ * Add header Slug, lastModified time stamp and set payload as json
+ * 
+ * @author Timur
+ * 
+ */
 public class OrionMetadataBinder implements Binder {
 
    private final JSONUtils jsonConverter;
@@ -27,11 +33,12 @@ public class OrionMetadataBinder implements Binder {
       Date date = Calendar.getInstance().getTime();
       blob.getProperties().setLastModified(date);
 
-      request = (R) request.toBuilder()
-            .replaceHeader(OrionHttpFields.HEADER_SLUG, OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(blob.getProperties().getName())))
-            .build();
+      request = (R) request
+            .toBuilder()
+            .replaceHeader(OrionHttpFields.HEADER_SLUG,
+                  OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(blob.getProperties().getName()))).build();
 
-      request.setPayload(jsonConverter.getObjectAsString(blob.getProperties()));
+      request.setPayload(this.jsonConverter.getObjectAsString(blob.getProperties()));
 
       return request;
    }

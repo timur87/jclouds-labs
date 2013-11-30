@@ -36,6 +36,8 @@ import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
+ * Convert domain specific Orion list functionality to jClouds format
+ * 
  * @author timur
  * 
  */
@@ -45,7 +47,8 @@ public class ListContainersResponseParser implements Function<HttpResponse, Page
    private final JSONUtils jsonConverter;
 
    @Inject
-   public ListContainersResponseParser(ChildMetadataToStorageMetadata childMetadataToStorageMetadata, JSONUtils jsonConverter) {
+   public ListContainersResponseParser(ChildMetadataToStorageMetadata childMetadataToStorageMetadata,
+         JSONUtils jsonConverter) {
       this.childMetadataToStorageMetadata = Preconditions.checkNotNull(childMetadataToStorageMetadata,
             "childMetadataToStorageMetadata is null");
       this.jsonConverter = jsonConverter;
@@ -59,9 +62,12 @@ public class ListContainersResponseParser implements Function<HttpResponse, Page
    @Override
    public PageSet<? extends StorageMetadata> apply(HttpResponse res) {
       try {
-         List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(jsonConverter.fetchContainerObjects(CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())), Charsets.UTF_8))), childMetadataToStorageMetadata));
+         List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(this.jsonConverter
+               .fetchContainerObjects(CharStreams.toString(CharStreams.newReaderSupplier(
+                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())),
+                     Charsets.UTF_8))), this.childMetadataToStorageMetadata));
          return new OrionPageSet(storageDataList);
-      }  catch (IOException e) {
+      } catch (IOException e) {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }

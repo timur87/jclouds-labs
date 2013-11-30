@@ -21,28 +21,24 @@ import org.jclouds.http.HttpResponse;
 import org.jclouds.http.HttpResponseException;
 import org.jclouds.orion.domain.OrionError;
 
-/**
- * @author timur
- * 
- */
 public class OrionResponseException extends HttpResponseException {
-	OrionError orionError;
-	/**
+   OrionError orionError;
+   /**
 	 * 
 	 */
-	private static final long serialVersionUID = -1832578464717472164L;
+   private static final long serialVersionUID = -1832578464717472164L;
 
-	/**
-	 * @param command
-	 * @param response
-	 */
+   /**
+    * @param command
+    * @param response
+    */
 
-	public OrionResponseException(HttpCommand command, HttpResponse response, OrionError error) {
-		super(command, response);
-		orionError = error;
-	}
+   public OrionResponseException(HttpCommand command, HttpResponse response, OrionError error) {
+      super(command, response);
+      this.orionError = error;
+   }
 
-	public OrionError getError() {
-		return orionError;
-	}
+   public OrionError getError() {
+      return this.orionError;
+   }
 }

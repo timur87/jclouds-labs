@@ -27,198 +27,200 @@ import org.jclouds.orion.config.constans.OrionConstantValues;
 import org.jclouds.orion.domain.OrionStorageMetadata;
 
 /**
- * @author timur
+ * A realization of the interface {@link OrionStorageMetadatae}
+ * 
+ * @author Adrian Cole, Timur
  * 
  */
 public class OrionStorageMetadataImpl implements OrionStorageMetadata {
-	private StorageType type;
+   private StorageType type;
 
-	private String name;
-	private URI uri;
-	private Map<String, String> userMetadata;
-	private String eTag;
-	private Date creationDate;
-	private Date lastModified;
-	private Location location;
+   private String name;
+   private URI uri;
+   private Map<String, String> userMetadata;
+   private String eTag;
+   private Date creationDate;
+   private Date lastModified;
+   private Location location;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getType()
-	 */
-	@Override
-	public StorageType getType() {
-		return type;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getType()
+    */
+   @Override
+   public StorageType getType() {
+      return this.type;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getProviderId()
-	 */
-	@Override
-	public String getProviderId() {
-		return OrionConstantValues.ORION_ID;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getProviderId()
+    */
+   @Override
+   public String getProviderId() {
+      return OrionConstantValues.ORION_ID;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getName()
-	 */
-	@Override
-	public String getName() {
-		return name;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getName()
+    */
+   @Override
+   public String getName() {
+      return this.name;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUri()
-	 */
-	@Override
-	public URI getUri() {
-		return uri;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getUri()
+    */
+   @Override
+   public URI getUri() {
+      return this.uri;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUserMetadata()
-	 */
-	@Override
-	public Map<String, String> getUserMetadata() {
-		return userMetadata;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getUserMetadata()
+    */
+   @Override
+   public Map<String, String> getUserMetadata() {
+      return this.userMetadata;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getETag()
-	 */
-	@Override
-	public String getETag() {
-		return eTag;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getETag()
+    */
+   @Override
+   public String getETag() {
+      return this.eTag;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getCreationDate()
-	 */
-	@Override
-	public Date getCreationDate() {
-		return creationDate;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getCreationDate()
+    */
+   @Override
+   public Date getCreationDate() {
+      return this.creationDate;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getLastModified()
-	 */
-	@Override
-	public Date getLastModified() {
-		return lastModified;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getLastModified()
+    */
+   @Override
+   public Date getLastModified() {
+      return this.lastModified;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.domain.ResourceMetadata#getLocation()
-	 */
-	@Override
-	public Location getLocation() {
-		return location;
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.domain.ResourceMetadata#getLocation()
+    */
+   @Override
+   public Location getLocation() {
+      return this.location;
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
-	public int compareTo(ResourceMetadata<StorageType> resourceMetadata) {
-		return resourceMetadata.getName().compareTo(getName());
-	}
+   /*
+    * (non-Javadoc)
+    * 
+    * @see java.lang.Comparable#compareTo(java.lang.Object)
+    */
+   @Override
+   public int compareTo(ResourceMetadata<StorageType> resourceMetadata) {
+      return resourceMetadata.getName().compareTo(this.getName());
+   }
 
-	/**
-	 * @param type
-	 *           the type to set
-	 */
-	@Override
-	public void setType(StorageType type) {
-		this.type = type;
-	}
+   /**
+    * @param type
+    *           the type to set
+    */
+   @Override
+   public void setType(StorageType type) {
+      this.type = type;
+   }
 
-	/**
-	 * @return the eTag
-	 */
-	@Override
-	public String geteTag() {
-		return eTag;
-	}
+   /**
+    * @return the eTag
+    */
+   @Override
+   public String geteTag() {
+      return this.eTag;
+   }
 
-	/**
-	 * @param eTag
-	 *           the eTag to set
-	 */
-	@Override
-	public void setETag(String eTag) {
-		this.eTag = eTag;
-	}
+   /**
+    * @param eTag
+    *           the eTag to set
+    */
+   @Override
+   public void setETag(String eTag) {
+      this.eTag = eTag;
+   }
 
-	/**
-	 * @param name
-	 *           the name to set
-	 */
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
+   /**
+    * @param name
+    *           the name to set
+    */
+   @Override
+   public void setName(String name) {
+      this.name = name;
+   }
 
-	/**
-	 * @param uri
-	 *           the uri to set
-	 */
-	@Override
-	public void setUri(URI uri) {
-		this.uri = uri;
-	}
+   /**
+    * @param uri
+    *           the uri to set
+    */
+   @Override
+   public void setUri(URI uri) {
+      this.uri = uri;
+   }
 
-	/**
-	 * @param userMetadata
-	 *           the userMetadata to set
-	 */
-	@Override
-	public void setUserMetadata(Map<String, String> userMetadata) {
-		this.userMetadata = userMetadata;
-	}
+   /**
+    * @param userMetadata
+    *           the userMetadata to set
+    */
+   @Override
+   public void setUserMetadata(Map<String, String> userMetadata) {
+      this.userMetadata = userMetadata;
+   }
 
-	/**
-	 * @param creationDate
-	 *           the creationDate to set
-	 */
-	@Override
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+   /**
+    * @param creationDate
+    *           the creationDate to set
+    */
+   @Override
+   public void setCreationDate(Date creationDate) {
+      this.creationDate = creationDate;
+   }
 
-	/**
-	 * @param lastModified
-	 *           the lastModified to set
-	 */
-	@Override
-	public void setLastModified(Date lastModified) {
-		this.lastModified = lastModified;
-	}
+   /**
+    * @param lastModified
+    *           the lastModified to set
+    */
+   @Override
+   public void setLastModified(Date lastModified) {
+      this.lastModified = lastModified;
+   }
 
-	/**
-	 * @param location
-	 *           the location to set
-	 */
-	@Override
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+   /**
+    * @param location
+    *           the location to set
+    */
+   @Override
+   public void setLocation(Location location) {
+      this.location = location;
+   }
 
 }

@@ -30,42 +30,45 @@ import com.google.common.base.Supplier;
 import com.google.inject.Inject;
 
 /**
- * @author timur
+ * This function is used to create {@link OrionStorageMetadata} from orion
+ * specific {@link OrionChildMetadata} objects
+ * 
+ * @author Timur
  * 
  */
 public class ChildMetadataToStorageMetadata implements Function<OrionChildMetadata, OrionStorageMetadata> {
 
-	private final OrionStorageMetadata storageMetadata;
-	private final Location location;
+   private final OrionStorageMetadata storageMetadata;
+   private final Location location;
 
-	@Inject
-	public ChildMetadataToStorageMetadata(OrionStorageMetadata storageMetadata, Supplier<Location> defaultLocation) {
+   @Inject
+   public ChildMetadataToStorageMetadata(OrionStorageMetadata storageMetadata, Supplier<Location> defaultLocation) {
 
-		this.location = Preconditions.checkNotNull(defaultLocation, "defaultLocation is null").get();
-		this.storageMetadata = Preconditions.checkNotNull(storageMetadata, "storageMetadata is null");
-	}
+      this.location = Preconditions.checkNotNull(defaultLocation, "defaultLocation is null").get();
+      this.storageMetadata = Preconditions.checkNotNull(storageMetadata, "storageMetadata is null");
+   }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.common.base.Function#apply(java.lang.Object)
-	 */
-	@Override
-	public OrionStorageMetadata apply(OrionChildMetadata childMetadata) {
-		this.storageMetadata.setLocation(this.location);
-		this.storageMetadata.setName(OrionUtils.createContainerName(childMetadata.getLocation()));
+   /*
+    * (non-Javadoc)
+    * 
+    * @see com.google.common.base.Function#apply(java.lang.Object)
+    */
+   @Override
+   public OrionStorageMetadata apply(OrionChildMetadata childMetadata) {
+      this.storageMetadata.setLocation(this.location);
+      this.storageMetadata.setName(OrionUtils.createContainerName(childMetadata.getLocation()));
 
-		if (OrionUtils.isContainerFromPath(childMetadata.getLocation())) {
-			this.storageMetadata.setType(StorageType.CONTAINER);
-		} else if (childMetadata.isDirectory()) {
-			this.storageMetadata.setType(StorageType.FOLDER);
-		} else if (!childMetadata.isDirectory()) {
-			this.storageMetadata.setType(StorageType.BLOB);
-		}
+      if (OrionUtils.isContainerFromPath(childMetadata.getLocation())) {
+         this.storageMetadata.setType(StorageType.CONTAINER);
+      } else if (childMetadata.isDirectory()) {
+         this.storageMetadata.setType(StorageType.FOLDER);
+      } else if (!childMetadata.isDirectory()) {
+         this.storageMetadata.setType(StorageType.BLOB);
+      }
 
-		this.storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
+      this.storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
 
-		return this.storageMetadata;
-	}
+      return this.storageMetadata;
+   }
 
 }

@@ -21,23 +21,22 @@ import org.jclouds.orion.OrionUtils;
 import com.google.common.base.Function;
 
 /**
- * This class converts a blob name to a location string which is one more time
- * encoded
+ * This class converts a blob name to a location string which is encoded once
  * 
  * @author timur
  * 
  */
 public class EncodeBlobParentPathParamParser implements Function<Object, String> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.common.base.Function#apply(java.lang.Object)
-	 */
-	@Override
-	public String apply(Object parentPath) {
+   /*
+    * (non-Javadoc)
+    * 
+    * @see com.google.common.base.Function#apply(java.lang.Object)
+    */
+   @Override
+   public String apply(Object parentPath) {
 
-		return OrionUtils.getParentRequestLocation(String.class.cast(parentPath));
-	}
+      return OrionUtils.getParentRequestLocation(String.class.cast(parentPath));
+   }
 
 }

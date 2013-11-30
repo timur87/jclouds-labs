@@ -21,11 +21,12 @@ import org.jclouds.orion.domain.OrionChildMetadata;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * @see OrionChildMetadata
  * @author timur
  * 
  */
 
-public class OrionChildMetadataImpl implements OrionChildMetadata{
+public class OrionChildMetadataImpl implements OrionChildMetadata {
    @SerializedName("ChildrenLocation")
    private String childrenLocation;
    @SerializedName("Directory")
@@ -50,7 +51,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public String getChildrenLocation() {
-      return childrenLocation;
+      return this.childrenLocation;
    }
 
    /*
@@ -71,7 +72,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public boolean isDirectory() {
-      return directory;
+      return this.directory;
    }
 
    /*
@@ -92,7 +93,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public String getId() {
-      return id;
+      return this.id;
    }
 
    /*
@@ -112,7 +113,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public String getImportLocation() {
-      return importLocation;
+      return this.importLocation;
    }
 
    /*
@@ -134,7 +135,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public String getLocation() {
-      return location;
+      return this.location;
    }
 
    /*
@@ -154,7 +155,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public String getName() {
-      return name;
+      return this.name;
    }
 
    /*
@@ -174,7 +175,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public Long getLength() {
-      return length;
+      return this.length;
    }
 
    /*
@@ -194,7 +195,7 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
     */
    @Override
    public Long getLocalTimeStamp() {
-      return localTimeStamp;
+      return this.localTimeStamp;
    }
 
    /*
@@ -207,6 +208,5 @@ public class OrionChildMetadataImpl implements OrionChildMetadata{
       this.localTimeStamp = localTimeStamp;
 
    }
-
 
 }

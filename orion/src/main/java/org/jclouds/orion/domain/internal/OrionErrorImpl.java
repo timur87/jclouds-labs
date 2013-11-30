@@ -16,12 +16,13 @@
  */
 package org.jclouds.orion.domain.internal;
 
-
 import org.jclouds.orion.domain.OrionError;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * {@see OrionError}
+ * 
  * @author timur
  * 
  */
@@ -49,7 +50,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getHttpCode() {
-      return httpCode;
+      return this.httpCode;
    }
 
    /*
@@ -71,7 +72,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getCode() {
-      return code;
+      return this.code;
    }
 
    /*
@@ -92,7 +93,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getSeverity() {
-      return severity;
+      return this.severity;
    }
 
    /*
@@ -114,7 +115,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getMessage() {
-      return message;
+      return this.message;
    }
 
    /*
@@ -135,7 +136,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getDetailedMessage() {
-      return detailedMessage;
+      return this.detailedMessage;
    }
 
    /*
@@ -156,7 +157,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getCause() {
-      return cause;
+      return this.cause;
    }
 
    /*
@@ -177,7 +178,7 @@ public class OrionErrorImpl implements OrionError {
     */
    @Override
    public String getSeeAlso() {
-      return seeAlso;
+      return this.seeAlso;
    }
 
    /*
@@ -190,7 +191,5 @@ public class OrionErrorImpl implements OrionError {
    public void setSeeAlso(String seeAlso) {
       this.seeAlso = seeAlso;
    }
-
-
 
 }

@@ -27,17 +27,17 @@ import com.google.common.base.Function;
  * @author timur
  * 
  */
-public class EncodeBlobNameParamParser implements Function<Object, String> {
+public class EncodeParamParser implements Function<Object, String> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.common.base.Function#apply(java.lang.Object)
-	 */
-	@Override
-	public String apply(Object blobNameObject) {
+   /*
+    * (non-Javadoc)
+    * 
+    * @see com.google.common.base.Function#apply(java.lang.Object)
+    */
+   @Override
+   public String apply(Object blobNameObject) {
 
-		return OrionUtils.getRequestLocation(String.class.cast(blobNameObject));
-	}
+      return OrionUtils.getRequestLocation((String) blobNameObject);
+   }
 
 }

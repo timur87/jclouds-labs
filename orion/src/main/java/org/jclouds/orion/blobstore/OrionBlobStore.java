@@ -37,6 +37,12 @@ import com.google.common.base.Supplier;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 
+/**
+ * BlobStore API for Orion based back-ends
+ * 
+ * @author Timur
+ * 
+ */
 public class OrionBlobStore extends BaseBlobStore {
 
    private final OrionApi api;
@@ -53,7 +59,7 @@ public class OrionBlobStore extends BaseBlobStore {
       super(context, blobUtils, defaultLocation, locations);
       this.blobUtils = blobUtils;
       this.api = Preconditions.checkNotNull(api, "api is null");
-      userWorkspace = Preconditions.checkNotNull(creds.get(), "creds is null").identity;
+      this.userWorkspace = Preconditions.checkNotNull(creds.get(), "creds is null").identity;
       this.blob2OrionBlob = Preconditions.checkNotNull(blob2OrionBlob, "blob2OrionBlob is null");
       this.blobProps2BlobMetadata = Preconditions
             .checkNotNull(blobProps2BlobMetadata, "blobProps2BlobMetadata is null");
@@ -62,7 +68,7 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    public boolean blobExists(String container, String blobName) {
-      return api.blobExists(this.getUserWorkspace(), container, OrionUtils.getParentPath(blobName),
+      return this.api.blobExists(this.getUserWorkspace(), container, OrionUtils.getParentPath(blobName),
             OrionUtils.getName(blobName));
    }
 
@@ -73,24 +79,24 @@ public class OrionBlobStore extends BaseBlobStore {
       // they will be automatically removed in case it starts with that
       // Get the blob name
       // Convert the blob name to it's metadata file name and fetch it
-      return blobProps2BlobMetadata.apply(api.getMetadata(this.getUserWorkspace(), container, parentPath,
-            OrionUtils.getMetadataName(OrionUtils.getName(blobName))));
+      return this.blobProps2BlobMetadata.apply(this.api.getMetadata(this.getUserWorkspace(), container, parentPath,
+            blobName));
    }
 
    @Override
    public boolean containerExists(String container) {
-      return api.containerExists(this.getUserWorkspace(), container);
+      return this.api.containerExists(this.getUserWorkspace(), container);
    }
 
    @Override
    public void deleteContainer(String container) {
       // api.deleteContainer(getUserLocation(), container);
-      api.deleteContainerMetadata(this.getUserWorkspace(), container);
+      this.api.deleteContainerMetadata(this.getUserWorkspace(), container);
    }
 
    @Override
    public boolean createContainerInLocation(Location location, String container) {
-      return api.createContainer(this.getUserWorkspace(), container);
+      return this.api.createContainer(this.getUserWorkspace(), container);
    }
 
    @Override
@@ -100,32 +106,32 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    protected boolean deleteAndVerifyContainerGone(String container) {
-      return api.deleteContainerMetadata(this.getUserWorkspace(), container);
+      return this.api.deleteContainerMetadata(this.getUserWorkspace(), container);
    }
 
    @Override
    public Blob getBlob(String container, String blob, GetOptions arg2) {
-      return api.getBlob(this.getUserWorkspace(), container, OrionUtils.getParentPath(blob),
+      return this.api.getBlob(this.getUserWorkspace(), container, OrionUtils.getParentPath(blob),
             OrionUtils.getName(blob));
    }
 
    private String getUserWorkspace() {
-      return userWorkspace;
+      return this.userWorkspace;
    }
 
    @Override
    public PageSet<? extends StorageMetadata> list() {
-      return api.listContainers(this.getUserWorkspace());
+      return this.api.listContainers(this.getUserWorkspace());
    }
 
    @Override
    public PageSet<? extends StorageMetadata> list(String container, ListContainerOptions options) {
-      return api.list(this.getUserWorkspace(), container, options);
+      return this.api.list(this.getUserWorkspace(), container, options);
    }
 
    @Override
    public String putBlob(String container, Blob blob) {
-      OrionBlob orionBlob = blob2OrionBlob.apply(blob);
+      OrionBlob orionBlob = this.blob2OrionBlob.apply(blob);
       MutableContentMetadata tempMD = orionBlob.getProperties().getContentMetadata();
       // Copy temporarily the inputstream otherwise JVM closes the stream
       ByteArrayOutputStream tempOutputStream = new ByteArrayOutputStream();
@@ -151,7 +157,7 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    public void removeBlob(String container, String blobName) {
-      api.removeBlob(this.getUserWorkspace(), container, OrionUtils.getParentPath(blobName),
+      this.api.removeBlob(this.getUserWorkspace(), container, OrionUtils.getParentPath(blobName),
             OrionUtils.getName(blobName));
    }
 
@@ -167,9 +173,9 @@ public class OrionBlobStore extends BaseBlobStore {
       orionBlob.getProperties().setContainer(container);
 
       if (orionBlob.getProperties().getType() == BlobType.FILE_BLOB) {
-         api.createBlob(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob);
+         this.api.createBlob(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob);
       } else if (orionBlob.getProperties().getType() == BlobType.FOLDER_BLOB) {
-         api.createFolder(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
+         this.api.createFolder(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
                .getProperties().getName());
       } else {
          System.err.println("blob could not be created. type is not supported! ");
@@ -177,7 +183,7 @@ public class OrionBlobStore extends BaseBlobStore {
 
       if (!this.createMetadata(container, orionBlob)) {
          System.err.println("metadata could not be created blob will be removed");
-         api.removeBlob(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
+         this.api.removeBlob(this.getUserWorkspace(), container, orionBlob.getProperties().getParentPath(), orionBlob
                .getProperties().getName());
       }
 
@@ -186,15 +192,15 @@ public class OrionBlobStore extends BaseBlobStore {
    private boolean createMetadata(String container, OrionBlob blob) {
 
       if (OrionConstantValues.DEBUG_MODE) {
-         boolean res1 = api.createMetadataFolder(this.getUserWorkspace(), container, blob.getProperties()
+         boolean res1 = this.api.createMetadataFolder(this.getUserWorkspace(), container, blob.getProperties()
                .getParentPath());
-         boolean res2 = api.createMetadata(this.getUserWorkspace(), container, blob.getProperties()
+         boolean res2 = this.api.createMetadata(this.getUserWorkspace(), container, blob.getProperties()
                .getParentPath(), blob);
          return res1 && res2;
       }
-      return api.createMetadataFolder(this.getUserWorkspace(), container, blob.getProperties().getParentPath()) &&
-            // Create metadata file
-            api.createMetadata(this.getUserWorkspace(), container, blob.getProperties().getParentPath(), blob);
+      return this.api.createMetadataFolder(this.getUserWorkspace(), container, blob.getProperties().getParentPath()) &&
+      // Create metadata file
+            this.api.createMetadata(this.getUserWorkspace(), container, blob.getProperties().getParentPath(), blob);
    }
 
    /**
@@ -206,10 +212,10 @@ public class OrionBlobStore extends BaseBlobStore {
    private void createParentPaths(String containerName, List<String> pathArray) {
       String parentPath = "";
       for (String path : pathArray) {
-         if (!api.blobExists(this.getUserWorkspace(), containerName, parentPath, path)) {
+         if (!this.api.blobExists(this.getUserWorkspace(), containerName, parentPath, path)) {
             this.insertBlob(
                   containerName,
-                  blob2OrionBlob.apply(blobUtils.blobBuilder().payload("").name(parentPath + path)
+                  this.blob2OrionBlob.apply(this.blobUtils.blobBuilder().payload("").name(parentPath + path)
                         .type(StorageType.FOLDER).build()));
 
          }

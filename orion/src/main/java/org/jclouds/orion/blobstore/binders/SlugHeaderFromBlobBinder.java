@@ -7,18 +7,20 @@ import org.jclouds.orion.domain.OrionBlob;
 import org.jclouds.rest.Binder;
 
 /**
+ * Add Slug header to the request from OrionBlob object
  * 
- * @author timur
+ * @author Timur
  * 
  */
 public class SlugHeaderFromBlobBinder implements Binder {
 
-	@Override
-	public <R extends HttpRequest> R bindToRequest(R request, Object input) {
-		OrionBlob blob = OrionBlob.class.cast(input);
-		HttpRequest req = request.toBuilder().replaceHeader(OrionHttpFields.HEADER_SLUG, OrionUtils.convertNameToSlug(blob.getProperties().getName()))
-		      .build();
+   @Override
+   public <R extends HttpRequest> R bindToRequest(R request, Object input) {
+      OrionBlob blob = OrionBlob.class.cast(input);
+      HttpRequest req = request.toBuilder()
+            .replaceHeader(OrionHttpFields.HEADER_SLUG, OrionUtils.convertNameToSlug(blob.getProperties().getName()))
+            .build();
 
-		return (R) req;
-	}
+      return (R) req;
+   }
 }

@@ -28,94 +28,94 @@ import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * 
+ * @see OrionBlob
  * @author Adrian Cole, Timur Sungur
  */
 public class OrionBlobImpl extends PayloadEnclosingImpl implements OrionBlob, Comparable<OrionBlob> {
 
-	private final MutableBlobProperties properties;
-	private Multimap<String, String> allHeaders = LinkedHashMultimap.create();
+   private final MutableBlobProperties properties;
+   private Multimap<String, String> allHeaders = LinkedHashMultimap.create();
 
-	@Inject
-	public OrionBlobImpl(MutableBlobProperties properties) {
-		super();
-		this.properties = properties;
-	}
+   @Inject
+   public OrionBlobImpl(MutableBlobProperties properties) {
+      super();
+      this.properties = properties;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MutableBlobProperties getProperties() {
-		return properties;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public MutableBlobProperties getProperties() {
+      return this.properties;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Multimap<String, String> getAllHeaders() {
-		return allHeaders;
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public Multimap<String, String> getAllHeaders() {
+      return this.allHeaders;
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setAllHeaders(Multimap<String, String> allHeaders) {
-		this.allHeaders = Preconditions.checkNotNull(allHeaders, "allHeaders");
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public void setAllHeaders(Multimap<String, String> allHeaders) {
+      this.allHeaders = Preconditions.checkNotNull(allHeaders, "allHeaders");
+   }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public int compareTo(OrionBlob o) {
-		if (getProperties().getName() == null) {
-			return -1;
-		}
-		return (this == o) ? 0 : getProperties().getName().compareTo(o.getProperties().getName());
-	}
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   public int compareTo(OrionBlob o) {
+      if (this.getProperties().getName() == null) {
+         return -1;
+      }
+      return (this == o) ? 0 : this.getProperties().getName().compareTo(o.getProperties().getName());
+   }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = (prime * result) + ((properties == null) ? 0 : properties.hashCode());
-		return result;
-	}
+   @Override
+   public int hashCode() {
+      final int prime = 31;
+      int result = super.hashCode();
+      result = (prime * result) + ((this.properties == null) ? 0 : this.properties.hashCode());
+      return result;
+   }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		OrionBlobImpl other = (OrionBlobImpl) obj;
-		if (properties == null) {
-			if (other.properties != null) {
-				return false;
-			}
-		} else if (!properties.equals(other.properties)) {
-			return false;
-		}
-		return true;
-	}
+   @Override
+   public boolean equals(Object obj) {
+      if (this == obj) {
+         return true;
+      }
+      if (!super.equals(obj)) {
+         return false;
+      }
+      if (this.getClass() != obj.getClass()) {
+         return false;
+      }
+      OrionBlobImpl other = (OrionBlobImpl) obj;
+      if (this.properties == null) {
+         if (other.properties != null) {
+            return false;
+         }
+      } else if (!this.properties.equals(other.properties)) {
+         return false;
+      }
+      return true;
+   }
 
-	@Override
-	public String toString() {
-		return "[properties=" + properties + "]";
-	}
+   @Override
+   public String toString() {
+      return "[properties=" + this.properties + "]";
+   }
 
-	@Override
-	public void setPayload(Payload data) {
-		super.setPayload(data);
-		properties.setContentMetadata(data.getContentMetadata());
-	}
+   @Override
+   public void setPayload(Payload data) {
+      super.setPayload(data);
+      this.properties.setContentMetadata(data.getContentMetadata());
+   }
 
 }

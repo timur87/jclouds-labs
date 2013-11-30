@@ -28,26 +28,27 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 
 /**
+ * OrionBlob modules
  * 
- * @author timur
+ * @author Timur
  * 
  */
 public class OrionBlobModule extends AbstractModule {
-	@Override
-	protected void configure() {
-		install(new BlobStoreObjectModule());
-		bind(OrionBlob.Factory.class).to(OrionBlobFactory.class).in(Scopes.SINGLETON);
+   @Override
+   protected void configure() {
+      this.install(new BlobStoreObjectModule());
+      this.bind(OrionBlob.Factory.class).to(OrionBlobFactory.class).in(Scopes.SINGLETON);
 
-	}
+   }
 
-	private static class OrionBlobFactory implements OrionBlob.Factory {
-		@Inject
-		Provider<MutableBlobProperties> metadataProvider;
+   private static class OrionBlobFactory implements OrionBlob.Factory {
+      @Inject
+      Provider<MutableBlobProperties> metadataProvider;
 
-		@Override
-		public OrionBlob create(MutableBlobProperties metadata) {
-			return new OrionBlobImpl(metadata != null ? metadata : metadataProvider.get());
-		}
-	}
+      @Override
+      public OrionBlob create(MutableBlobProperties metadata) {
+         return new OrionBlobImpl(metadata != null ? metadata : this.metadataProvider.get());
+      }
+   }
 
 }

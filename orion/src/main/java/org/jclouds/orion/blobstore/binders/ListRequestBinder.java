@@ -24,37 +24,40 @@ import org.jclouds.orion.config.constans.OrionHttpFields;
 import org.jclouds.rest.Binder;
 
 /**
- * @author timur
+ * Adds query depth parameter based on {@link ListContainerOptions}
+ * {@link ListContainerOptions} are not yet fully supported
+ * 
+ * @author Timur
  * 
  */
 public class ListRequestBinder implements Binder {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.rest.Binder#bindToRequest(org.jclouds.http.HttpRequest,
-	 * java.lang.Object)
-	 */
-	@Override
-	public <R extends HttpRequest> R bindToRequest(R request, Object input) {
-		ListContainerOptions options = ListContainerOptions.class.cast(input);
-		if (options.isRecursive()) {
-			request = (R) request.toBuilder()
-			      .replaceQueryParam(OrionHttpFields.QUERY_DEPTH, OrionConstantValues.MAXIMUM_DEPTH).build();
-		}
-		if (options.isDetailed()) {
-			// TODO a mechanism for this
-		}
-		if (options.getDir() != null) {
-			String requestPath = request.getEndpoint().toASCIIString();
-			if (!requestPath.endsWith(OrionConstantValues.PATH_DELIMITER)) {
-				requestPath = requestPath + OrionConstantValues.PATH_DELIMITER;
-			}
-			requestPath = OrionConstantValues.PATH_DELIMITER + OrionUtils.convert2RelativePath(options.getDir());
-			request = (R) request.toBuilder().endpoint(requestPath).build();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.rest.Binder#bindToRequest(org.jclouds.http.HttpRequest,
+    * java.lang.Object)
+    */
+   @Override
+   public <R extends HttpRequest> R bindToRequest(R request, Object input) {
+      ListContainerOptions options = ListContainerOptions.class.cast(input);
+      if (options.isRecursive()) {
+         request = (R) request.toBuilder()
+               .replaceQueryParam(OrionHttpFields.QUERY_DEPTH, OrionConstantValues.MAXIMUM_DEPTH).build();
+      }
+      if (options.isDetailed()) {
+         // TODO a mechanism for this
+      }
+      if (options.getDir() != null) {
+         String requestPath = request.getEndpoint().toASCIIString();
+         if (!requestPath.endsWith(OrionConstantValues.PATH_DELIMITER)) {
+            requestPath = requestPath + OrionConstantValues.PATH_DELIMITER;
+         }
+         requestPath = OrionConstantValues.PATH_DELIMITER + OrionUtils.convert2RelativePath(options.getDir());
+         request = (R) request.toBuilder().endpoint(requestPath).build();
 
-		}
+      }
 
-		return request;
-	}
+      return request;
+   }
 }

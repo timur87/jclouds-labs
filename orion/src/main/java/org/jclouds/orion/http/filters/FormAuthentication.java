@@ -10,9 +10,10 @@ import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
+import org.jclouds.http.HttpResponse;
 import org.jclouds.location.Provider;
 import org.jclouds.orion.OrionApi;
-import org.jclouds.orion.config.constans.OrionHttpFields;
+import org.jclouds.orion.config.constans.OrionConstantValues;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
@@ -22,20 +23,27 @@ import com.google.common.net.HttpHeaders;
 
 /**
  * This class is used to make a form-based authentication. It contains a cache.
- * To bypass the authentication requests need to have
- * {@code OrionHttpFields.IGNORE_AUTHENTICATION} header which will be removed by
- * this filter.
+ * The authentication keys for users are kept in a cache table
  * 
  * @author Timur
  * 
  */
 public class FormAuthentication implements HttpRequestFilter {
 
-   class SessionKeyRequester implements Callable<Collection<String>> {
+   private class SessionKeyRequester implements Callable<Collection<String>> {
 
       @Override
       public Collection<String> call() throws Exception {
-         return getApi().formLogin(getCreds().identity, getCreds().credential).getHeaders().get(HttpHeaders.SET_COOKIE);
+         if (!OrionConstantValues.DEBUG_MODE) {
+            return FormAuthentication.this
+                  .getApi()
+                  .formLogin(FormAuthentication.this.getCreds().identity, FormAuthentication.this.getCreds().credential)
+                  .getHeaders().get(HttpHeaders.SET_COOKIE);
+         } else {
+            HttpResponse res = FormAuthentication.this.getApi().formLogin(FormAuthentication.this.getCreds().identity,
+                  FormAuthentication.this.getCreds().credential);
+            return res.getHeaders().get(HttpHeaders.SET_COOKIE);
+         }
       }
 
    }
@@ -71,28 +79,15 @@ public class FormAuthentication implements HttpRequestFilter {
 
    @Override
    public HttpRequest filter(HttpRequest request) throws HttpException {
-      boolean ignoreAuthentication = false;
-      // The requests with the header ignoreauthentication will not be
-      // validated
-
-      if (request.getHeaders().containsKey(OrionHttpFields.IGNORE_AUTHENTICATION)) {
-         request = request.toBuilder().removeHeader(OrionHttpFields.IGNORE_AUTHENTICATION).build();
-         ignoreAuthentication = true;
-
-      }
       Collection<String> cachedKey = null;
       try {
-         if (!ignoreAuthentication) {
-            cachedKey = FormAuthentication.getKeycache().get(getCreds().identity, new SessionKeyRequester());
-            request = request.toBuilder()
-                  .replaceHeader(HttpHeaders.COOKIE, cachedKey.toArray(new String[cachedKey.size()])).build();
-         }
+         cachedKey = FormAuthentication.getKeycache().get(this.getCreds().identity, new SessionKeyRequester());
+         request = request.toBuilder()
+               .replaceHeader(HttpHeaders.COOKIE, cachedKey.toArray(new String[cachedKey.size()])).build();
       } catch (ExecutionException e) {
-         // TODO
          e.printStackTrace();
          throw new HttpException(e.getMessage());
       } catch (Exception e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
 
@@ -100,10 +95,10 @@ public class FormAuthentication implements HttpRequestFilter {
    }
 
    private OrionApi getApi() {
-      return api;
+      return this.api;
    }
 
    private Credentials getCreds() {
-      return creds;
+      return this.creds;
    }
 }

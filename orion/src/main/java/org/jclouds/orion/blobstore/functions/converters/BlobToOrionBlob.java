@@ -26,27 +26,29 @@ import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
 /**
- * @author Adrian Cole
+ * Convert jClouds {@link Blob} to {@link OrionBlob}
+ * 
+ * @author Adrian Cole, Timur
  */
 @Singleton
 public class BlobToOrionBlob implements Function<Blob, OrionBlob> {
-	private final BlobMetadataToBlobProperties blob2ObjectMd;
-	private final OrionBlob.Factory objectProvider;
+   private final BlobMetadataToBlobProperties blob2ObjectMd;
+   private final OrionBlob.Factory objectProvider;
 
-	@Inject
-	BlobToOrionBlob(BlobMetadataToBlobProperties blob2ObjectMd, OrionBlob.Factory objectProvider) {
-		this.blob2ObjectMd = blob2ObjectMd;
-		this.objectProvider = objectProvider;
-	}
+   @Inject
+   BlobToOrionBlob(BlobMetadataToBlobProperties blob2ObjectMd, OrionBlob.Factory objectProvider) {
+      this.blob2ObjectMd = blob2ObjectMd;
+      this.objectProvider = objectProvider;
+   }
 
-	@Override
-	public OrionBlob apply(Blob from) {
-		if (from == null) {
-			return null;
-		}
-		OrionBlob object = objectProvider.create(blob2ObjectMd.apply(from.getMetadata()));
-		object.setPayload(Preconditions.checkNotNull(from.getPayload(), "payload: " + from));
-		object.setAllHeaders(from.getAllHeaders());
-		return object;
-	}
+   @Override
+   public OrionBlob apply(Blob from) {
+      if (from == null) {
+         return null;
+      }
+      OrionBlob object = this.objectProvider.create(this.blob2ObjectMd.apply(from.getMetadata()));
+      object.setPayload(Preconditions.checkNotNull(from.getPayload(), "payload: " + from));
+      object.setAllHeaders(from.getAllHeaders());
+      return object;
+   }
 }
