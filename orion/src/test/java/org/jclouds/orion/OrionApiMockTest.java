@@ -16,8 +16,7 @@ import org.jclouds.orion.domain.OrionBlob;
 import org.jclouds.orion.domain.internal.MutableBlobPropertiesImpl;
 import org.jclouds.orion.domain.internal.OrionBlobImpl;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableSet;
@@ -55,12 +54,9 @@ public class OrionApiMockTest {
    }
 
    private OrionApi orionApi = null;
-   private MockWebServer mockServer = null;
    private static final String MOCKSERVER_PATH = "/";
-
    private static final String USER_NAME = "userName";
    private static final String password = "password";
-
    private static final String CONTAINER = "Container";
 
    /* Mock answers */
@@ -100,255 +96,298 @@ public class OrionApiMockTest {
       Assert.assertTrue(false, "no slug header");
    }
 
-   @AfterTest
-   public void testTeardown() throws IOException {
-      this.mockServer.shutdown();
+   @BeforeSuite
+   public void authenticate() throws IOException, InterruptedException {
+      MockWebServer mockServer = new MockWebServer();
+      mockServer.play();
+      mockServer.enqueue(getFormAuthenticationResponse());
+      mockServer.enqueue(getMockOKResponse());
+      /*
+       * Login once which will be kept in cache
+       */
+      this.orionApi = this.api(mockServer.getUrl("/").toString(), "orionblob");
+      this.orionApi.containerExists(USER_NAME, CONTAINER);
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), POST + MOCKSERVER_PATH
+            + OrionConstantValues.ORION_AUTH_PATH + HTTP_VERSION);
+      mockServer.takeRequest();
    }
 
-   @BeforeTest
-   public void formLogin() throws InterruptedException, IOException {
-      this.mockServer = new MockWebServer();
-      this.mockServer.play();
-      this.mockServer.enqueue(getFormAuthenticationResponse());
-      this.mockServer.enqueue(getMockOKResponse());
-      this.orionApi = this.api(this.mockServer.getUrl("/").toString(), "orionblob");
-      this.orionApi.containerExists(USER_NAME, CONTAINER);
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), POST + MOCKSERVER_PATH
-            + OrionConstantValues.ORION_AUTH_PATH + HTTP_VERSION);
-      this.mockServer.takeRequest();
+   public MockWebServer getMockServer() throws InterruptedException, IOException {
+      MockWebServer mockServer = new MockWebServer();
+      mockServer.play();
+      // update endpoint, login info is still in cache so no need to re-login
+      this.orionApi = this.api(mockServer.getUrl("/").toString(), "orionblob");
+      return mockServer;
    }
 
    @Test
-   public void containerExists() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void containerExists() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
+
       this.orionApi.containerExists(OrionApiMockTest.USER_NAME, CONTAINER);
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "?" + OrionHttpFields.QUERY_PARTS
             + "=" + OrionConstantValues.ORION_FILE_METADATA + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
    @Test
-   public void createContainer() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
-      // this.mockServer.enqueue(getMockOKResponse());
+   public void createContainer() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse());
 
       this.orionApi.createContainer(USER_NAME, CONTAINER);
 
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), POST + MOCKSERVER_PATH + OrionConstantValues.ORION_WORKSPACE_PATH
             + USER_NAME + "/" + HTTP_VERSION);
       this.checkSlugHeader(req, CONTAINER);
+      mockServer.shutdown();
    }
 
    @Test
-   public void blobExists() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void blobExists() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.blobExists(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + BLOB_NAME + "?"
             + OrionHttpFields.QUERY_PARTS + "=" + OrionConstantValues.ORION_FILE_METADATA + HTTP_VERSION);
+      mockServer.shutdown();
 
    }
 
-   @Test(enabled = false)
-   public void listContainers() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   @Test
+   public void listContainers() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       JsonObject object = new JsonObject();
 
-      this.mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
+      mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
       try {
          this.orionApi.listContainers(USER_NAME);
       } catch (IllegalStateException e) {
 
       }
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_WORKSPACE_PATH + USER_NAME + "/" + "?" + OrionHttpFields.QUERY_DEPTH + "="
             + "1" + HTTP_VERSION);
 
    }
 
-   @Test(enabled = false)
-   public void listContainerContents() throws InterruptedException {
+   @Test
+   public void listContainerContents() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
 
-      this.mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse());
       JsonObject object = new JsonObject();
 
-      this.mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
+      mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
       try {
          this.orionApi.listContainerContents(USER_NAME, CONTAINER);
       } catch (IllegalStateException e) {
          e.printStackTrace();
       }
 
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "?" + OrionHttpFields.QUERY_DEPTH
             + "=" + "1" + HTTP_VERSION);
+      mockServer.shutdown();
 
    }
 
    @Test
-   public void deleteContainerMetadata() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void deleteContainerMetadata() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.deleteContainerMetadata(USER_NAME, CONTAINER);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), DELETE + MOCKSERVER_PATH + OrionConstantValues.ORION_WORKSPACE_PATH
             + USER_NAME + "/" + OrionConstantValues.ORION_FILE_PATH + CONTAINER + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
    @Test(enabled = false)
-   public void deleteContainer() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void deleteContainer() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
 
       this.orionApi.deleteContainer(USER_NAME, CONTAINER);
 
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), DELETE + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH
             + USER_NAME + "/" + CONTAINER + HTTP_VERSION);
+      mockServer.shutdown();
 
    }
 
-   @Test(enabled = false)
-   public void removeBlob() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   @Test
+   public void removeBlob() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
 
       this.orionApi.removeBlob(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), DELETE + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH
             + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + HTTP_VERSION);
+      mockServer.shutdown();
 
    }
 
-   @Test(enabled = false)
-   public void createBlob() throws InterruptedException {
-
+   @Test
+   public void createBlob() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
       OrionBlob blob = new OrionBlobImpl(new MutableBlobPropertiesImpl());
       blob.getProperties().setName(BLOB_NAME);
 
-      this.mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.createBlob(USER_NAME, CONTAINER, PARENT_PATH, blob);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), POST + MOCKSERVER_PATH + OrionConstantValues.ORION_IMPORT_PATH
             + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + HTTP_VERSION);
       this.checkSlugHeader(req, BLOB_NAME);
+      mockServer.shutdown();
 
    }
 
    @Test
-   public void createFolder() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void createFolder() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.createFolder(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), POST + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH
             + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + HTTP_VERSION);
       this.checkSlugHeader(req, BLOB_NAME);
+      mockServer.shutdown();
 
    }
 
    @Test
-   public void getBlobContents() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void getBlobContents() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.getBlobContents(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + BLOB_NAME
             + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
    @Test
-   public void createMetadataFolder() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void createMetadataFolder() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.createMetadataFolder(USER_NAME, CONTAINER, PARENT_PATH);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), POST + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH
             + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + HTTP_VERSION);
+      mockServer.shutdown();
 
    }
 
-   @Test(enabled = false)
-   public void createMetadata() throws InterruptedException {
+   @Test
+   public void createMetadata() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
       OrionBlob blob = new OrionBlobImpl(new MutableBlobPropertiesImpl());
       blob.getProperties().setName(BLOB_NAME);
 
-      this.mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.createMetadata(USER_NAME, CONTAINER, PARENT_PATH, blob);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), POST + MOCKSERVER_PATH + OrionConstantValues.ORION_IMPORT_PATH
             + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + OrionConstantValues.ORION_METADATA_PATH + HTTP_VERSION);
       this.checkSlugHeader(req,
             OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(blob.getProperties().getName())));
+      mockServer.shutdown();
    }
 
    @Test
-   public void metadaFolderExits() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void metadaFolderExits() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.metadaFolderExits(USER_NAME, CONTAINER, PARENT_PATH);
-      RecordedRequest req = this.mockServer.takeRequest();
+      RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), GET + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH + USER_NAME
             + "/" + CONTAINER + "/" + PARENT_PATH + OrionConstantValues.ORION_METADATA_FILE_NAME + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
    @Test
-   public void putMetadata() throws InterruptedException {
+   public void putMetadata() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
       OrionBlob blob = new OrionBlobImpl(new MutableBlobPropertiesImpl());
       blob.getProperties().setName(BLOB_NAME);
 
-      this.mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.putMetadata(USER_NAME, CONTAINER, PARENT_PATH, blob);
       Assert.assertEquals(
-            this.mockServer.takeRequest().getRequestLine(),
+            mockServer.takeRequest().getRequestLine(),
             PUT + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/"
                   + PARENT_PATH + OrionConstantValues.ORION_METADATA_PATH
                   + OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(blob.getProperties().getName()))
                   + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
    @Test
-   public void getMetadata() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   public void getMetadata() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.getMetadata(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
       Assert.assertEquals(
-            this.mockServer.takeRequest().getRequestLine(),
+            mockServer.takeRequest().getRequestLine(),
             GET + MOCKSERVER_PATH + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/"
                   + PARENT_PATH + OrionConstantValues.ORION_METADATA_PATH
                   + OrionUtils.getMetadataName(OrionUtils.convertNameToSlug(BLOB_NAME)) + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
-   @Test(enabled = false)
-   public void deleteGivenPath() throws InterruptedException {
-      this.mockServer.enqueue(getMockOKResponse());
+   @Test
+   public void deleteGivenPath() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.deleteGivenPath(PARENT_PATH);
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), DELETE + MOCKSERVER_PATH + PARENT_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), DELETE + MOCKSERVER_PATH + PARENT_PATH
             + HTTP_VERSION);
    }
 
-   @Test(enabled = false)
-   public void list() throws InterruptedException {
+   @Test
+   public void list() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
       JsonObject object = new JsonObject();
       object.addProperty("name", BLOB_NAME);
       object.addProperty("container", CONTAINER);
       object.addProperty("parentPath", PARENT_PATH);
-      this.mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
+      mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
       this.orionApi.list(USER_NAME, CONTAINER, new ListContainerOptions());
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "?" + OrionHttpFields.QUERY_DEPTH
             + "=" + "1" + HTTP_VERSION);
+      mockServer.shutdown();
    }
 
-   @Test(enabled = false)
-   public void getBlob() throws InterruptedException {
+   @Test
+   public void getBlob() throws InterruptedException, IOException {
+      MockWebServer mockServer = this.getMockServer();
       JsonObject object = new JsonObject();
       object.addProperty("name", BLOB_NAME);
       object.addProperty("container", CONTAINER);
       object.addProperty("parentPath", PARENT_PATH);
-      this.mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
-      this.mockServer.enqueue(getMockOKResponse());
+      mockServer.enqueue(getMockOKResponse().setBody(new Gson().toJson(object)));
+      mockServer.enqueue(getMockOKResponse());
       this.orionApi.getBlob(USER_NAME, CONTAINER, PARENT_PATH, BLOB_NAME);
 
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH
             + OrionConstantValues.ORION_METADATA_PATH + OrionUtils.getMetadataName(BLOB_NAME) + HTTP_VERSION);
 
-      Assert.assertEquals(this.mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
+      Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
             + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + BLOB_NAME
             + HTTP_VERSION);
+      mockServer.shutdown();
    }
 }
