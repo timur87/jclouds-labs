@@ -60,9 +60,17 @@
 		<jclouds.version>1.7.0-SNAPSHOT</jclouds.version>
 		<test.orion.identity>user</test.orion.identity>
 		<test.orion.credential>password</test.orion.credential>
-		<test.orion.api-version>0.9</test.orion.api-version>
+		<test.orion.api-version>0.0.9</test.orion.api-version>
 		<test.orion.build-version></test.orion.build-version>
 		<test.orion.endpoint>https://orionhub.org</test.orion.endpoint>
+	    <jclouds.osgi.export>org.jclouds.orion*;version="${project.version}"</jclouds.osgi.export>
+	    <jclouds.osgi.import>
+	      org.jclouds.labs*;version="${project.version}",
+	      org.jclouds*;version="${jclouds.version}",
+	      org.eclipse.jetty*;version="[7.5,9)",
+	      javax.servlet*;version="[2.5,3)",
+	      *
+	    </jclouds.osgi.import>
 	</properties>
 	<dependencies>
 

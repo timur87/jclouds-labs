@@ -115,10 +115,10 @@ public class OrionBlobStoreLiveTests {
 
    /**
     * This test requires an extra external file called BigBlob.zip after adding
-    * it this can be activated
+    * it this can be activated Purpose is to test a blob with a larger size
     * 
     */
-   // @Test
+   @Test
    protected void putBigBlob() throws Exception {
 
       this.blobStore.createContainerInLocation(null, this.container);
