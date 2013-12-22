@@ -35,18 +35,8 @@
 	<!-- bootstrapping: need to fetch the project POM -->
 	<repositories>
 		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>repo.eclipse.org</id>
-			<url>https://repo.eclipse.org/content/repositories/orion-snapshots</url>
+			<id>apache-snapshots</id>
+			<url>https://repository.apache.org/content/repositories/snapshots</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -55,22 +45,21 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
 	<properties>
-		<jclouds.version>1.7.0-SNAPSHOT</jclouds.version>
+		<jclouds.version>1.8.0-SNAPSHOT</jclouds.version>
 		<test.orion.identity>user</test.orion.identity>
 		<test.orion.credential>password</test.orion.credential>
 		<test.orion.api-version>0.0.9</test.orion.api-version>
 		<test.orion.build-version></test.orion.build-version>
 		<test.orion.endpoint>https://orionhub.org</test.orion.endpoint>
-	    <jclouds.osgi.export>org.jclouds.orion*;version="${project.version}"</jclouds.osgi.export>
-	    <jclouds.osgi.import>
-	      org.jclouds.labs*;version="${project.version}",
-	      org.jclouds*;version="${jclouds.version}",
-	      org.eclipse.jetty*;version="[7.5,9)",
-	      javax.servlet*;version="[2.5,3)",
-	      *
-	    </jclouds.osgi.import>
+		<jclouds.osgi.export>org.jclouds.orion*;version="${project.version}"</jclouds.osgi.export>
+		<jclouds.osgi.import>
+			org.jclouds.labs*;version="${project.version}",
+			org.jclouds*;version="${jclouds.version}",
+			org.eclipse.jetty*;version="[7.5,9)",
+			javax.servlet*;version="[2.5,3)",
+			*
+		</jclouds.osgi.import>
 	</properties>
 	<dependencies>
 
