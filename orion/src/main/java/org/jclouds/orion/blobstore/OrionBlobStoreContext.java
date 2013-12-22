@@ -27,7 +27,6 @@ import org.jclouds.blobstore.attr.ConsistencyModel;
 import org.jclouds.internal.BaseView;
 import org.jclouds.location.Provider;
 import org.jclouds.rest.Utils;
-import org.jclouds.rest.annotationparsing.ClosableApiTest;
 
 import com.google.common.io.Closeables;
 import com.google.common.reflect.TypeToken;

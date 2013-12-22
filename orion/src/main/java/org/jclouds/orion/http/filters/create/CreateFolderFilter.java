@@ -15,9 +15,6 @@ package org.jclouds.orion.http.filters.create;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-import javax.ws.rs.core.MediaType;
-
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;

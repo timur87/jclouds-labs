@@ -16,13 +16,10 @@ import java.io.ByteArrayInputStream;
 
 import javax.ws.rs.core.MediaType;
 
-import org.jclouds.blobstore.domain.internal.MutableBlobMetadataImpl;
+
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
-import org.jclouds.io.MutableContentMetadata;
-import org.jclouds.io.Payload;
-import org.jclouds.io.payloads.BaseMutableContentMetadata;
 import org.jclouds.orion.blobstore.functions.converters.OrionSpecificObjectToJSON;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
