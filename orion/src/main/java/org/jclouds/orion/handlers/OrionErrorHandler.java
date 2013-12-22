@@ -74,7 +74,7 @@ public class OrionErrorHandler implements HttpErrorHandler {
             response.getStatusLine());
 
       try {
-         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())), Charsets.UTF_8));
+         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().openStream())), Charsets.UTF_8));
          OrionError error = jsonConverter.getStringAsObject(theString, OrionError.class);
          OrionResponseException orionException = new OrionResponseException(command, response, error);
          command.setException(orionException);

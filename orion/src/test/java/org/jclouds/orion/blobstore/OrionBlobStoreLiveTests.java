@@ -12,6 +12,7 @@
 
 package org.jclouds.orion.blobstore;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -108,7 +109,7 @@ public class OrionBlobStoreLiveTests {
       Assert.assertTrue(!this.blobStore.containerExists(String.valueOf(Calendar.getInstance().getTimeInMillis())),
             "Container SHOULD NOT exist");
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).payload("").type(StorageType.FOLDER).build();
+      Blob blob = this.blobStore.blobBuilder(this.blobName).payload(new ByteArrayInputStream("".getBytes())).type(StorageType.FOLDER).build();
       this.blobStore.putBlob(this.container, blob);
       Assert.assertEquals(true, this.blobStore.blobExists(this.container, this.blobName));
       this.blobStore.removeBlob(this.container, this.blobName);
@@ -130,7 +131,7 @@ public class OrionBlobStoreLiveTests {
     * it this can be activated Purpose is to test a blob with a larger size
     * 
     */
-   @Test
+   //@Test
    protected void putBigBlob() throws Exception {
 
       this.blobStore.createContainerInLocation(null, this.container);
@@ -147,7 +148,7 @@ public class OrionBlobStoreLiveTests {
 
       Blob returnedBlob = this.blobStore.getBlob(this.container, this.blobName);
       byte[] initialArray = Files.toByteArray(testFile);
-      byte[] uploadedArray = ByteStreams.toByteArray(returnedBlob.getPayload().getInput());
+      byte[] uploadedArray = ByteStreams.toByteArray(returnedBlob.getPayload().openStream());
 
       if (initialArray.length != uploadedArray.length) {
          Assert.assertFalse(true, "Sizes must be the same");
@@ -180,7 +181,7 @@ public class OrionBlobStoreLiveTests {
       this.blobStore.putBlob(this.container, blob);
       Blob returnBlob = this.blobStore.getBlob(this.container, this.blobName);
       ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
-      ByteStreams.copy(returnBlob.getPayload().getInput(), tempStream);
+      ByteStreams.copy(returnBlob.getPayload().openStream(), tempStream);
       Assert.assertEquals(this.payload, new String(tempStream.toByteArray()));
    }
 

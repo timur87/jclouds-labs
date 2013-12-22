@@ -14,6 +14,8 @@ package org.jclouds.orion.blobstore;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import org.jclouds.Context;
@@ -25,6 +27,7 @@ import org.jclouds.blobstore.attr.ConsistencyModel;
 import org.jclouds.internal.BaseView;
 import org.jclouds.location.Provider;
 import org.jclouds.rest.Utils;
+import org.jclouds.rest.annotationparsing.ClosableApiTest;
 
 import com.google.common.io.Closeables;
 import com.google.common.reflect.TypeToken;
@@ -58,6 +61,7 @@ public class OrionBlobStoreContext extends BaseView implements BlobStoreContext 
    }
 
    @Override
+   @Deprecated
    public AsyncBlobStore getAsyncBlobStore() {
       return null;
    }
@@ -74,7 +78,12 @@ public class OrionBlobStoreContext extends BaseView implements BlobStoreContext 
 
    @Override
    public void close() {
-      Closeables.closeQuietly(this.delegate());
+	   try {
+		Closeables.close(delegate(), true);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
 
    @Override

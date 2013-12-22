@@ -64,7 +64,7 @@ public class ListContainersResponseParser implements Function<HttpResponse, Page
       try {
          List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(this.jsonConverter
                .fetchContainerObjects(CharStreams.toString(CharStreams.newReaderSupplier(
-                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())),
+                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().openStream())),
                      Charsets.UTF_8))), this.childMetadataToStorageMetadata));
          return new OrionPageSet(storageDataList);
       } catch (IOException e) {

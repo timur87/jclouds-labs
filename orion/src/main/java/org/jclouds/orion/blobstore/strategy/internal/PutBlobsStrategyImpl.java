@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 public class PutBlobsStrategyImpl implements PutBlobsStrategy {
 
 	private final BlobStore blobstore;
-	private final ListeningExecutorService userExecutor;
 	@Resource
 	@Named(BlobStoreConstants.BLOBSTORE_LOGGER)
 	protected Logger logger = Logger.NULL;
@@ -52,7 +51,6 @@ public class PutBlobsStrategyImpl implements PutBlobsStrategy {
 	@Inject
 	PutBlobsStrategyImpl(@Named(Constants.PROPERTY_USER_THREADS) ListeningExecutorService userExecutor,
 	      BlobStore blobstore) {
-		this.userExecutor = userExecutor;
 		this.blobstore = blobstore;
 	}
 

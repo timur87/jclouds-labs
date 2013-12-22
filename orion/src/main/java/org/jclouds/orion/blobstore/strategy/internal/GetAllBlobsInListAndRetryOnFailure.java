@@ -23,7 +23,6 @@ import javax.inject.Singleton;
 import org.jclouds.Constants;
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.domain.Blob;
-import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.blobstore.reference.BlobStoreConstants;
 import org.jclouds.blobstore.strategy.GetBlobsInListStrategy;
@@ -68,7 +67,6 @@ public class GetAllBlobsInListAndRetryOnFailure implements GetBlobsInListStrateg
 
 	@Override
 	public Iterable<Blob> execute(final String container, ListContainerOptions options) {
-		Iterable<? extends BlobMetadata> list = this.getAllBlobMetadata.execute(container, options);
 		return null;
 	}
 }

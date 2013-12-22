@@ -12,6 +12,7 @@
 
 package org.jclouds.orion.blobstore;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -148,7 +149,7 @@ public class OrionBlobStore extends BaseBlobStore {
       // Copy temporarily the inputstream otherwise JVM closes the stream
       ByteArrayOutputStream tempOutputStream = new ByteArrayOutputStream();
       try {
-         ByteStreams.copy(blob.getPayload().getInput(), tempOutputStream);
+         ByteStreams.copy(blob.getPayload().openStream(), tempOutputStream);
          orionBlob.setPayload(tempOutputStream.toByteArray());
          orionBlob.getProperties().setContentMetadata(tempMD);
       } catch (IOException e1) {
@@ -227,7 +228,7 @@ public class OrionBlobStore extends BaseBlobStore {
          if (!this.api.blobExists(this.getUserWorkspace(), containerName, parentPath, path)) {
             this.insertBlob(
                   containerName,
-                  this.blob2OrionBlob.apply(this.blobUtils.blobBuilder().payload("").name(parentPath + path)
+                  this.blob2OrionBlob.apply(this.blobUtils.blobBuilder().payload(new ByteArrayInputStream("".getBytes())).name(parentPath + path)
                         .type(StorageType.FOLDER).build()));
 
          }

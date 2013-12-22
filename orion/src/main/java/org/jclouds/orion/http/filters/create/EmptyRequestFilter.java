@@ -12,9 +12,17 @@
 
 package org.jclouds.orion.http.filters.create;
 
+import java.io.ByteArrayInputStream;
+
+import javax.ws.rs.core.MediaType;
+
+import org.jclouds.blobstore.domain.internal.MutableBlobMetadataImpl;
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
+import org.jclouds.io.MutableContentMetadata;
+import org.jclouds.io.Payload;
+import org.jclouds.io.payloads.BaseMutableContentMetadata;
 import org.jclouds.orion.blobstore.functions.converters.OrionSpecificObjectToJSON;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
@@ -47,7 +55,9 @@ public class EmptyRequestFilter implements HttpRequestFilter {
     */
    @Override
    public HttpRequest filter(HttpRequest req) throws HttpException {
-      req = req.toBuilder().payload(this.orionSpecificObject2JSON.apply(this.metadata)).build();
+	  
+      req = req.toBuilder().payload(new ByteArrayInputStream(this.orionSpecificObject2JSON.apply(this.metadata).getBytes())).build();
+      req.getPayload().getContentMetadata().setContentType(MediaType.APPLICATION_JSON);
       return req;
    }
 

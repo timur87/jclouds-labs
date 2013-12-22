@@ -59,7 +59,7 @@ public class FolderListResposeParser implements Function<HttpResponse, List<Orio
       try {
          theString = CharStreams
                .toString(CharStreams.newReaderSupplier(
-                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().getInput())),
+                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().openStream())),
                      Charsets.UTF_8));
          return this.jsonUtils.fetchFileObjects(theString);
       } catch (IOException e) {

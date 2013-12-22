@@ -45,7 +45,7 @@ public class MetadataResponseParser implements Function<HttpResponse, MutableBlo
       MutableBlobProperties properties = null;
       try {
          String theString = CharStreams.toString(CharStreams.newReaderSupplier(
-               ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().getInput())),
+               ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().openStream())),
                Charsets.UTF_8));
          properties = this.jsonConverter.getStringAsObject(theString, MutableBlobProperties.class);
       } catch (IOException e) {

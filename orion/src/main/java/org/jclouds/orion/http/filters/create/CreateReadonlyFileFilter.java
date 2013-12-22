@@ -12,6 +12,10 @@
 
 package org.jclouds.orion.http.filters.create;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
@@ -19,7 +23,9 @@ import org.jclouds.orion.blobstore.functions.converters.JSONToOrionSpecificObjec
 import org.jclouds.orion.blobstore.functions.converters.OrionSpecificObjectToJSON;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.io.CharStreams;
 import com.google.inject.Inject;
 
 /**
@@ -50,9 +56,24 @@ public class CreateReadonlyFileFilter implements HttpRequestFilter {
    @Override
    public HttpRequest filter(HttpRequest request) throws HttpException {
       OrionSpecificFileMetadata metadata;
-      metadata = this.json2OrionSpecificObj.apply((String) request.getPayload().getRawContent());
-      metadata.getAttributes().setReadOnly(true);
-      request = request.toBuilder().payload(this.orionSpecificObject2JSON.apply(metadata)).build();
-      return request;
+		try {
+			metadata = this.json2OrionSpecificObj.apply(CharStreams
+					.toString(new InputStreamReader(request.getPayload()
+							.openStream(), Charsets.UTF_8)));
+			metadata.getAttributes().setReadOnly(true);
+			String updatedContent = this.orionSpecificObject2JSON.apply(metadata);
+			request = request
+					.toBuilder()
+					.payload(
+							new ByteArrayInputStream(
+									updatedContent.getBytes())).build();
+			//update content length
+			request.getPayload().getContentMetadata().setContentLength((long) updatedContent.length());
+		} catch (IOException e) {
+			System.err.println(getClass().getCanonicalName()
+					+ ": Payload could not be converted to string");
+			e.printStackTrace();
+		}
+		return request;
    }
 }

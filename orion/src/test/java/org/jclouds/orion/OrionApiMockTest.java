@@ -49,7 +49,7 @@ public class OrionApiMockTest {
    public OrionApi api(String uri, String provider, Properties overrides) {
       overrides.setProperty(PROPERTY_MAX_RETRIES, "1");
 
-      return ContextBuilder.newBuilder(provider).credentials(this.USER_NAME, this.password).endpoint(uri)
+      return ContextBuilder.newBuilder(provider).credentials(OrionApiMockTest.USER_NAME, OrionApiMockTest.PASSWORD).endpoint(uri)
             .overrides(overrides).modules(this.modules).buildApi(new TypeToken<OrionApi>(OrionApi.class) {
             });
    }
@@ -68,7 +68,7 @@ public class OrionApiMockTest {
    private OrionApi orionApi = null;
    private static final String MOCKSERVER_PATH = "/";
    private static final String USER_NAME = "userName";
-   private static final String password = "password";
+   private static final String PASSWORD = "password";
    private static final String CONTAINER = "Container";
 
    /* Mock answers */
