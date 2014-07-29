@@ -41,8 +41,7 @@ import com.google.common.net.HttpHeaders;
  * This class is used to make a form-based authentication. It contains a cache.
  * The authentication keys for users are kept in a cache table
  * 
- * @author Timur
- * 
+ *
  */
 public class FormAuthentication implements HttpRequestFilter {
 

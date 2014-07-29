@@ -22,8 +22,7 @@ import java.util.Properties;
 /**
  * Orion related constants
  * 
- * @author timur
- * 
+ *
  */
 public class OrionConstantValues {
 

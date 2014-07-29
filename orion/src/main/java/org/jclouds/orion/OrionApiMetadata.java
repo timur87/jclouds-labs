@@ -36,7 +36,7 @@ import com.google.inject.Module;
 /**
  * Implementation of {@link ApiMetadata} for Orion 0.0.1 API
  * 
- * @author Timur Sungur
+ *
  */
 public class OrionApiMetadata extends BaseHttpApiMetadata<OrionApi> {
 

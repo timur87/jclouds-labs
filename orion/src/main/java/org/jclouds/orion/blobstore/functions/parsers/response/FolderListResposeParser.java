@@ -34,8 +34,7 @@ import com.google.inject.Inject;
  * Convert received HttpResponse to {@link OrionChildMetadata} for further
  * processing
  * 
- * @author Timur
- * 
+ *
  */
 public class FolderListResposeParser implements Function<HttpResponse, List<OrionChildMetadata>> {
 

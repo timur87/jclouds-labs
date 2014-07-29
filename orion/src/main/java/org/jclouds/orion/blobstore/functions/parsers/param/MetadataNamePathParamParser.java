@@ -23,8 +23,7 @@ import com.google.common.base.Function;
 /**
  * Encodes blob name, used in case if the name will be used in a path
  * 
- * @author timur
- * 
+ *
  */
 public class MetadataNamePathParamParser implements Function<Object, String> {
 

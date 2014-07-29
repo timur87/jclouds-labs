@@ -29,8 +29,7 @@ import com.google.inject.Provides;
 /**
  * Configure orion specific settings in this module
  * 
- * @author timur
- * 
+ *
  */
 public class OrionCustomModule extends AbstractModule {
 

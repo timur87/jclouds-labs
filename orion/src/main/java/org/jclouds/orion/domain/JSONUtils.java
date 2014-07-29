@@ -25,8 +25,7 @@ import com.google.inject.ImplementedBy;
 /**
  * JSON processing utilities for Orion domain objects
  * 
- * @author timur
- * 
+ *
  */
 @ImplementedBy(JSONUtilsImpl.class)
 public interface JSONUtils {

@@ -37,8 +37,7 @@ import com.google.inject.Scopes;
 /**
  * Initialize OrionBlobStore modules
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionBlobStoreModule extends AbstractModule {
 

@@ -36,8 +36,7 @@ import com.google.common.util.concurrent.ListenableFuture;
  *      .com/timur87/orion-jclouds/blob/master/src/main/java/org/jclouds/orion
  *      /blobstore/fallbacks/SameFileWithDiffTypeFallback.java</a> )
  * 
- * @author Timur
- * 
+ *
  */
 public class SameFileWithDiffTypeFallback implements Fallback<Boolean> {
 

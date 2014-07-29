@@ -34,8 +34,7 @@ import com.google.inject.Injector;
  * This function is used to create {@link OrionStorageMetadata} from orion
  * specific {@link OrionChildMetadata} objects
  * 
- * @author Timur
- * 
+ *
  */
 public class ChildMetadataToStorageMetadata implements Function<OrionChildMetadata, OrionStorageMetadata> {
 

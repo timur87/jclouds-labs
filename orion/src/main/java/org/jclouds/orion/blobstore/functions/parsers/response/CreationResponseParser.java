@@ -23,8 +23,7 @@ import com.google.common.base.Function;
 /**
  * Checks if the return response to file creation is positive
  * 
- * @author Timur
- * 
+ *
  */
 public class CreationResponseParser implements Function<HttpResponse, Boolean> {
 

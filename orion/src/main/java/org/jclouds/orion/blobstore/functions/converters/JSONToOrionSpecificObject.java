@@ -27,8 +27,7 @@ import com.google.inject.Inject;
  * A function to de-serialize {@link OrionSpecificFileMetadata} from a JSON
  * String
  * 
- * @author Timur
- * 
+ *
  */
 public class JSONToOrionSpecificObject implements Function<String, OrionSpecificFileMetadata> {
 

@@ -19,7 +19,7 @@ package org.jclouds.orion.internal;
 import org.jclouds.rest.internal.BaseRestApiExpectTest;
 
 /**
- * @author Timur Sungur
+ *
  */
 public class BaseOrionExpectTest<T> extends BaseRestApiExpectTest<T> {
 

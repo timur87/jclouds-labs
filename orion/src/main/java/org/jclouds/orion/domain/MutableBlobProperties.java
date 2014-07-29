@@ -27,7 +27,7 @@ import com.google.inject.ImplementedBy;
 
 /**
  * 
- * @author Adrian Cole, Timur Sungur
+ *
  * 
  */
 @ImplementedBy(MutableBlobPropertiesImpl.class)

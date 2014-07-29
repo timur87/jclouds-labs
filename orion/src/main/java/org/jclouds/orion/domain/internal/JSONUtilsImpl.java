@@ -46,8 +46,7 @@ import com.google.gson.JsonSerializer;
 
 /**
  * @see JSONUtils
- * @author Timur
- * 
+ *
  */
 
 public class JSONUtilsImpl implements JSONUtils {

@@ -24,8 +24,7 @@ import org.jclouds.rest.Binder;
 /**
  * Add Slug header to the request from String object
  * 
- * @author timur
- * 
+ *
  */
 public class SlugHeaderFromString implements Binder {
 

@@ -26,8 +26,7 @@ import org.jclouds.rest.Binder;
 /**
  * Add Slug header to the request from OrionBlob object
  * 
- * @author Timur
- * 
+ *
  */
 public class SlugHeaderFromBlobBinder implements Binder {
 

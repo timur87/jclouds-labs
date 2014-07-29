@@ -24,8 +24,7 @@ import com.google.common.base.Function;
 /**
  * Used to fetch encoded blob name from a {@link OrionBlob} object
  * 
- * @author timur
- * 
+ *
  */
 public class BlobNameParamParser implements Function<Object, String> {
 

@@ -25,8 +25,7 @@ import com.google.common.base.Function;
  * Fetch the file name from OrionBlob, convert it to metadata and name encode it
  * once.
  * 
- * @author timur
- * 
+ *
  */
 public class BlobMetadataNameParamParser implements Function<Object, String> {
 

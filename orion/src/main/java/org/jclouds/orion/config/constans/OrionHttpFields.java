@@ -19,8 +19,7 @@ package org.jclouds.orion.config.constans;
 /**
  * Http related fields such as headers, query fields, form fields
  * 
- * @author timur
- * 
+ *
  */
 public class OrionHttpFields {
 

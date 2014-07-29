@@ -26,8 +26,7 @@ import com.google.inject.Inject;
 /**
  * A function to serialize to {@link OrionSpecificFileMetadata} to JSON format
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionSpecificObjectToJSON implements Function<OrionSpecificFileMetadata, String> {
 

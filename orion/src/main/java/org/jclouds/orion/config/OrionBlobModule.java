@@ -30,8 +30,7 @@ import com.google.inject.Scopes;
 /**
  * OrionBlob modules
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionBlobModule extends AbstractModule {
    @Override

@@ -19,8 +19,7 @@ package org.jclouds.orion.blobstore.functions.parsers.response;
 /**
  * Parses response to a blob metadata request and after parsing {@link MutableBlobProperties}
  * a new request is done to fetch the actual blob
- * @author Timur
- *
+ * *
  */
 
 import java.io.IOException;

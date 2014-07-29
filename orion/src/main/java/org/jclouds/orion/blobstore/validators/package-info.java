@@ -16,7 +16,6 @@
  */
 /**
  * String validators
- * @author timur
- *
+ * *
  */
 package org.jclouds.orion.blobstore.validators;

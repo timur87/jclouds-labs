@@ -24,8 +24,7 @@ import org.jclouds.orion.domain.OrionError;
 /**
  * Orion response exception object
  * 
- * @author timur
- * 
+ *
  */
 public class OrionResponseException extends HttpResponseException {
    OrionError orionError;

@@ -24,8 +24,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * A realization of {@link OrionSpecificFileMetadata}
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata {
 

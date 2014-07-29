@@ -55,8 +55,7 @@ import com.google.inject.Inject;
 /**
  * BlobStore API for Orion based back-ends
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionBlobStore extends BaseBlobStore {
 

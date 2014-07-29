@@ -25,8 +25,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 /**
  * Return false in case it was not found
  * 
- * @author timur
- * 
+ *
  */
 public class ReturnFalseOnNotFound implements Fallback<Boolean> {
 

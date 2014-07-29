@@ -29,7 +29,7 @@ import com.google.common.collect.Multimap;
 
 /**
  * @see OrionBlob
- * @author Adrian Cole, Timur Sungur
+ *
  */
 public class OrionBlobImpl extends PayloadEnclosingImpl implements OrionBlob, Comparable<OrionBlob> {
 

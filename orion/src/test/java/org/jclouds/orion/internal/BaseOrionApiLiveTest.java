@@ -20,7 +20,7 @@ import org.jclouds.apis.BaseApiLiveTest;
 import org.jclouds.orion.OrionApi;
 
 /**
- * @author Timur Sungur
+ *
  */
 public class BaseOrionApiLiveTest extends BaseApiLiveTest<OrionApi> {
 

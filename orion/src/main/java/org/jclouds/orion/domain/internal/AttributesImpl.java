@@ -22,8 +22,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @see Attributes
- * @author Timur
- * 
+ *
  */
 public class AttributesImpl implements Attributes {
    @SerializedName("ReadOnly")

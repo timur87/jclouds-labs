@@ -26,8 +26,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 /**
  * If the requested container already exists returns false
  * 
- * @author Timur
- * 
+ *
  */
 public class DuplicateCreationFallback implements Fallback<Boolean> {
 

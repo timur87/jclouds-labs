@@ -23,8 +23,7 @@ import org.jclouds.predicates.Validator;
 /**
  * name validator for string types
  * 
- * @author Timur
- * 
+ *
  */
 public class StringNameValidator extends Validator<String> {
 

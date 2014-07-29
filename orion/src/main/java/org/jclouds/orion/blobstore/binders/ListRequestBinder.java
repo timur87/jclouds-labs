@@ -27,8 +27,7 @@ import org.jclouds.rest.Binder;
  * Adds query depth parameter based on {@link ListContainerOptions}
  * {@link ListContainerOptions} are not yet fully supported
  * 
- * @author Timur
- * 
+ *
  */
 public class ListRequestBinder implements Binder {
 

@@ -38,8 +38,7 @@ import com.google.inject.Inject;
 /**
  * Convert domain specific Orion list functionality to jClouds format
  * 
- * @author timur
- * 
+ *
  */
 public class ListContainersResponseParser implements Function<HttpResponse, PageSet<? extends StorageMetadata>> {
 

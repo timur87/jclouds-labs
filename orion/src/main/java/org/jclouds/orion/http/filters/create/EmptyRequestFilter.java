@@ -32,8 +32,7 @@ import com.google.inject.Inject;
 /**
  * This class should be present before providing remaining filters
  * 
- * @author timur
- * 
+ *
  */
 public class EmptyRequestFilter implements HttpRequestFilter {
 

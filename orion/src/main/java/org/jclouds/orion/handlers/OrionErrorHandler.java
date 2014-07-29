@@ -44,7 +44,7 @@ import com.google.inject.Inject;
 /**
  * This will parse and set an appropriate exception on the command object.
  * 
- * @author Timur Sungur
+ *
  * 
  */
 @Singleton

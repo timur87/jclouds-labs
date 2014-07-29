@@ -32,8 +32,7 @@ import com.google.inject.Inject;
 /**
  * Add header Slug, lastModified time stamp and set payload as json
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionMetadataBinder implements Binder {
 

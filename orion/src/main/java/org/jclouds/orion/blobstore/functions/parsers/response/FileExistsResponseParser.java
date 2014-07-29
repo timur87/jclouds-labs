@@ -19,8 +19,7 @@ import com.google.common.base.Function;
 /**
  * Check if the response is positive to file request
  * 
- * @author timur
- * 
+ *
  */
 public class FileExistsResponseParser implements Function<HttpResponse, Boolean> {
 

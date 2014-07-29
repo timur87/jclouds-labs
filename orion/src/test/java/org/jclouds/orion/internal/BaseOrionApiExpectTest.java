@@ -19,7 +19,7 @@ package org.jclouds.orion.internal;
 import org.jclouds.orion.OrionApi;
 
 /**
- * @author Timur Sungur
+ *
  */
 public class BaseOrionApiExpectTest extends BaseOrionExpectTest<OrionApi> {
 

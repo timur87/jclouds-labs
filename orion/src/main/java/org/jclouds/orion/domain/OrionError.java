@@ -19,8 +19,7 @@ package org.jclouds.orion.domain;
 /**
  * Orion error Java representation
  * 
- * @author Timur
- * 
+ *
  */
 public interface OrionError {
 

@@ -35,8 +35,7 @@ import com.google.inject.Inject;
 /**
  * Make Directory attribute of file attributes true in the request
  * 
- * @author Timur
- * 
+ *
  */
 public class CreateFolderFilter implements HttpRequestFilter {
 

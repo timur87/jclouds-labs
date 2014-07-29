@@ -22,8 +22,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @see OrionChildMetadata
- * @author timur
- * 
+ *
  */
 
 public class OrionChildMetadataImpl implements OrionChildMetadata {

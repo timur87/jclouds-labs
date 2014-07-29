@@ -32,7 +32,7 @@ import com.google.common.base.Function;
 
 /**
  * Convert {@link BlobMetadata} to {@link MutableBlobProperties
- * @author Adrian Cole, Timur Sungur
+ *
  */
 @Singleton
 public class BlobMetadataToBlobProperties implements Function<BlobMetadata, MutableBlobProperties> {

@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * 
- * @author Adrian Cole, Timur Sungur
+ *
  */
 public enum BlobType {
 	FOLDER_BLOB, PROJECT_BLOB, UNRECOGNIZED, FILE_BLOB;

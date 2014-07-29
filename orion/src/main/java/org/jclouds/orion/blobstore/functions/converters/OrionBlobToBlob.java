@@ -29,8 +29,7 @@ import com.google.common.base.Preconditions;
 /**
  * Convert {@link OrionBlob} to {@link Blob}
  * 
- * @author Timur
- * 
+ *
  */
 @Singleton
 public class OrionBlobToBlob implements Function<OrionBlob, Blob> {

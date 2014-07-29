@@ -34,8 +34,7 @@ import com.google.inject.Inject;
 /**
  * Utilities for Orion blob store
  * 
- * @author Timur
- * 
+ *
  */
 public class OrionUtils {
 

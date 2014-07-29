@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
 
 /**
  * 
- * @author Timur Sungur
+ *
  */
 @Test(groups = "unit", testName = "OrionErrorHandlerTest")
 public class OrionErrorHandlerTest {

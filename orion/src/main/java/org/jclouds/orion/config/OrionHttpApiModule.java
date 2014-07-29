@@ -30,7 +30,7 @@ import org.jclouds.rest.config.HttpApiModule;
 /**
  * Configures the Orion connection.
  * 
- * @author Timur Sungur
+ *
  */
 @ConfiguresHttpApi
 public class OrionHttpApiModule extends HttpApiModule<OrionApi> {

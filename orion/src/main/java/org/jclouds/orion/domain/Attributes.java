@@ -19,8 +19,7 @@ package org.jclouds.orion.domain;
 /**
  * File object attributes
  * 
- * @author Timur
- * 
+ *
  */
 public interface Attributes {
 

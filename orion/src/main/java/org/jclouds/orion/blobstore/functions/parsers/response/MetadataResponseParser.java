@@ -31,8 +31,7 @@ import com.google.inject.Inject;
 /**
  * Parse metadata response of a blob
  * 
- * @author Timur
- * 
+ *
  */
 public class MetadataResponseParser implements Function<HttpResponse, MutableBlobProperties> {
 

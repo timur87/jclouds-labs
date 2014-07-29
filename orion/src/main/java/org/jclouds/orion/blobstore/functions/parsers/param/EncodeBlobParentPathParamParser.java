@@ -23,8 +23,7 @@ import com.google.common.base.Function;
 /**
  * This class converts a blob name to a location string which is encoded once
  * 
- * @author timur
- * 
+ *
  */
 public class EncodeBlobParentPathParamParser implements Function<Object, String> {
 

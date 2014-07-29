@@ -46,8 +46,7 @@ import com.google.common.io.InputSupplier;
  * Live tests, one first needs to specify endpoint.properties before running
  * tests
  * 
- * @author timur
- * 
+ *
  */
 @Test(groups = "unit", testName = "OrionApiMetadataTest")
 public class OrionBlobStoreLiveTests {

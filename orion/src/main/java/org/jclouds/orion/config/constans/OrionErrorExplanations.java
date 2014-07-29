@@ -19,8 +19,7 @@ package org.jclouds.orion.config.constans;
 /**
  * Errors displayed
  * 
- * @author timur
- * 
+ *
  */
 public class OrionErrorExplanations {
 

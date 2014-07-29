@@ -25,8 +25,7 @@ import com.google.gson.JsonParser;
 /**
  * Check if the received object is folder
  * 
- * @author Timur
- * 
+ *
  */
 public class FolderMetadataResponseParser implements Function<HttpResponse, Boolean> {
 

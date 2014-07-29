@@ -24,8 +24,7 @@ import com.google.common.base.Function;
  * 
  * Blob name is converted to location string by encoding it once
  * 
- * @author timur
- * 
+ *
  */
 public class EncodeParamParser implements Function<Object, String> {
 

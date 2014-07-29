@@ -25,8 +25,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 /**
  * Return null in case file not found response received
  * 
- * @author Timur
- * 
+ *
  */
 public class ReturnNullOnNotFound implements Fallback<Object> {
 

@@ -26,8 +26,7 @@ import org.jclouds.orion.domain.OrionStorageMetadata;
 /**
  * PageSet implementation of Orion
  * 
- * @author timur
- * 
+ *
  */
 public class OrionPageSet implements PageSet<OrionStorageMetadata> {
 	List<OrionStorageMetadata> orionStorageMetadataList;

@@ -23,8 +23,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * {@see OrionError}
  * 
- * @author timur
- * 
+ *
  */
 public class OrionErrorImpl implements OrionError {
 

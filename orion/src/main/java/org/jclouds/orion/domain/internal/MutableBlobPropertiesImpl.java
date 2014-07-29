@@ -32,7 +32,7 @@ import com.google.common.collect.Maps;
 /**
  * Allows you to manipulate metadata.
  * 
- * @author Adrian Cole, Timur Sungur
+ *
  */
 public class MutableBlobPropertiesImpl implements MutableBlobProperties {
 

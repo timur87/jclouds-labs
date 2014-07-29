@@ -28,8 +28,7 @@ import org.jclouds.domain.ResourceMetadata;
 /**
  * Orion version of {@code StorageMetadata}
  * 
- * @author timur
- * 
+ *
  */
 public interface OrionStorageMetadata extends StorageMetadata {
 
