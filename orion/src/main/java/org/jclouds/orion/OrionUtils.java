@@ -67,8 +67,8 @@ public class OrionUtils {
    }
 
    /**
-    * Convert blobName to an hashed unique ID SHA-256 hashing is used This
-    * method is used to create
+    * Convert blobName to an hashed unique ID. This this unique id used to store metadata information.
+    * SHA-256 hashing is used to generate unique id.
     * 
     * @param blobName
     * @return
