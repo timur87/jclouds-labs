@@ -22,9 +22,6 @@ import org.virtualbox_4_2.IMachine;
 
 import java.util.Map;
 
-/**
- * @author Andrea Turli
- */
 public class ApplyBootOrderToMachine implements Function<IMachine, Void> {
 
 
@@ -36,7 +33,7 @@ public class ApplyBootOrderToMachine implements Function<IMachine, Void> {
 
    @Override
    public Void apply(IMachine machine) {
-      for(long position : positionAndDeviceType.keySet()) {
+      for (long position : positionAndDeviceType.keySet()) {
          machine.setBootOrder(position, positionAndDeviceType.get(position));
       }
       machine.saveSettings();

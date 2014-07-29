@@ -29,8 +29,6 @@ import org.jclouds.domain.Location;
 import org.jclouds.domain.LocationBuilder;
 import org.jclouds.domain.LocationScope;
 import org.jclouds.joyent.cloudapi.v6_5.compute.config.JoyentCloudComputeServiceContextModule;
-import org.jclouds.joyent.cloudapi.v6_5.compute.functions.MachineInDatacenterToNodeMetadata;
-import org.jclouds.joyent.cloudapi.v6_5.compute.functions.OrphanedGroupsByDatacenterId;
 import org.jclouds.joyent.cloudapi.v6_5.domain.Machine.State;
 import org.jclouds.joyent.cloudapi.v6_5.domain.datacenterscoped.DatacenterAndName;
 import org.jclouds.joyent.cloudapi.v6_5.domain.datacenterscoped.MachineInDatacenter;
@@ -45,11 +43,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Guice;
 
-/**
- * 
- * 
- * @author Adrian Cole
- */
 @Test(testName = "OrphanedGroupsByDatacenterIdTest")
 public class OrphanedGroupsByDatacenterIdTest {
 

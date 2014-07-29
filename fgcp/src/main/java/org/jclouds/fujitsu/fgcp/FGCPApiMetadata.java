@@ -22,7 +22,6 @@ import java.net.URI;
 import java.util.Properties;
 
 import org.jclouds.Constants;
-import org.jclouds.apis.ApiMetadata;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.fujitsu.fgcp.compute.config.FGCPComputeServiceContextModule;
 import org.jclouds.fujitsu.fgcp.config.FGCPHttpApiModule;
@@ -33,8 +32,6 @@ import com.google.inject.Module;
 
 /**
  * Implementation of {@link ApiMetadata} for Fujitsu's Global Cloud Platform (FGCP)
- * 
- * @author Dies Koper
  */
 public class FGCPApiMetadata extends BaseHttpApiMetadata<FGCPApi> {
 

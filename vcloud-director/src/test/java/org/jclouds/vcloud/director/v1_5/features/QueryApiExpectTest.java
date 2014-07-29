@@ -20,8 +20,6 @@ import static org.testng.Assert.assertEquals;
 
 import java.net.URI;
 
-import javax.ws.rs.core.HttpHeaders;
-
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.vcloud.director.v1_5.VCloudDirectorMediaType;
@@ -34,10 +32,10 @@ import org.jclouds.vcloud.director.v1_5.internal.VCloudDirectorAdminApiExpectTes
 import org.jclouds.vcloud.director.v1_5.user.VCloudDirectorApi;
 import org.testng.annotations.Test;
 
+import com.google.common.net.HttpHeaders;
+
 /**
  * Test the {@link QueryApi} by observing its side effects.
- * 
- * @author grkvlt@apache.org
  */
 @Test(groups = { "unit", "user" }, singleThreaded = true, testName = "QueryApiExpectTest")
 public class QueryApiExpectTest extends VCloudDirectorAdminApiExpectTest {
@@ -52,7 +50,7 @@ public class QueryApiExpectTest extends VCloudDirectorAdminApiExpectTest {
               .addHeader(HttpHeaders.COOKIE, "vcloud-token=" + token)
               .build();
 
-      HttpResponse queryResponse= HttpResponse.builder()
+      HttpResponse queryResponse = HttpResponse.builder()
               .statusCode(200)
               .payload(payloadFromResourceWithContentType("/query/allCatalogs.xml", VCloudDirectorMediaType.QUERY_RESULT_RECORDS + ";version=1.5"))
               .build();
@@ -127,7 +125,7 @@ public class QueryApiExpectTest extends VCloudDirectorAdminApiExpectTest {
               .addHeader(HttpHeaders.COOKIE, "vcloud-token=" + token)
               .build();
 
-      HttpResponse queryResponse= HttpResponse.builder()
+      HttpResponse queryResponse = HttpResponse.builder()
               .statusCode(200)
               .payload(payloadFromResourceWithContentType("/query/allCatalogReferences.xml", VCloudDirectorMediaType.QUERY_RESULT_RECORDS + ";version=1.5"))
               .build();

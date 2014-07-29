@@ -26,7 +26,6 @@ import org.jclouds.rest.ApiContext;
 import com.abiquo.model.transport.SingleResourceTransportDto;
 import com.abiquo.server.core.task.TaskDto;
 import com.abiquo.server.core.task.TasksDto;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Longs;
@@ -34,8 +33,6 @@ import com.google.common.primitives.Longs;
 /**
  * This class is used to decorate transport objects that are owners of some
  * {@link TaskDto}
- * 
- * @author Ignasi Barrera
  */
 public abstract class DomainWithTasksWrapper<T extends SingleResourceTransportDto> extends DomainWrapper<T> {
 
@@ -43,7 +40,7 @@ public abstract class DomainWithTasksWrapper<T extends SingleResourceTransportDt
       super(context, target);
    }
 
-   public List<AsyncTask<?, ?>> listTasks() {
+   public Iterable<AsyncTask<?, ?>> listTasks() {
       TasksDto result = context.getApi().getTaskApi().listTasks(target);
       List<AsyncTask<?, ?>> tasks = Lists.newArrayList();
       for (TaskDto dto : result.getCollection()) {
@@ -58,6 +55,6 @@ public abstract class DomainWithTasksWrapper<T extends SingleResourceTransportDt
          }
       }.reverse());
 
-      return ImmutableList.copyOf(tasks);
+      return tasks;
    }
 }

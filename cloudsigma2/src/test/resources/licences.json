@@ -1,0 +1,25 @@
+{
+    "meta": {
+        "limit": 2,
+        "offset": 0,
+        "total_count": 3
+    },
+    "objects": [
+        {
+            "burstable": false,
+            "long_name": "Microsoft Windows Web Server 2008",
+            "name": "msft_lwa_00135",
+            "resource_uri": "/api/2.0/licenses/9/",
+            "type": "instance",
+            "user_metric": ""
+        },
+        {
+            "burstable": false,
+            "long_name": "Windows Server 2008 Standard",
+            "name": "msft_p73_04837",
+            "resource_uri": "/api/2.0/licenses/10/",
+            "type": "instance",
+            "user_metric": ""
+        }
+    ]
+}

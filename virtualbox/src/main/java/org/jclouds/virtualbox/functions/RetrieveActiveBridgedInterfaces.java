@@ -46,9 +46,6 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-/**
- * @author Andrea Turli
- */
 public class RetrieveActiveBridgedInterfaces implements Function<NodeMetadata, List<BridgedIf>> {
 
 @Resource
@@ -91,7 +88,7 @@ public class RetrieveActiveBridgedInterfaces implements Function<NodeMetadata, L
       List<BridgedIf> bridgedInterfaces = Lists.newArrayList();
       // separate the different bridge block
       for (String bridgedIfBlock : Splitter.on(Pattern.compile("(?m)^[ \t]*\r?\n")).split(bridgedIfBlocks)) {
-    	  if(!bridgedIfBlock.isEmpty())
+    	  if (!bridgedIfBlock.isEmpty())
     		  bridgedInterfaces.add(new BridgedIfStringToBridgedIf().apply(bridgedIfBlock));
       }
       return bridgedInterfaces;

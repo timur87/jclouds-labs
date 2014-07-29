@@ -33,16 +33,23 @@ import org.jclouds.Fallbacks.NullOnNotFoundOr404;
 import org.jclouds.abiquo.binders.AppendToPath;
 import org.jclouds.abiquo.binders.BindToPath;
 import org.jclouds.abiquo.binders.BindToXMLPayloadAndPath;
+import org.jclouds.abiquo.domain.PaginatedCollection;
 import org.jclouds.abiquo.domain.enterprise.options.EnterpriseOptions;
+import org.jclouds.abiquo.domain.enterprise.options.UserOptions;
 import org.jclouds.abiquo.functions.infrastructure.ParseDatacenterId;
+import org.jclouds.abiquo.functions.pagination.ParseEnterprises;
+import org.jclouds.abiquo.functions.pagination.ParseUsers;
 import org.jclouds.abiquo.http.filters.AbiquoAuthentication;
 import org.jclouds.abiquo.http.filters.AppendApiVersionToMediaType;
 import org.jclouds.abiquo.rest.annotations.EndpointLink;
+import org.jclouds.collect.PagedIterable;
 import org.jclouds.rest.annotations.BinderParam;
 import org.jclouds.rest.annotations.Fallback;
 import org.jclouds.rest.annotations.JAXBResponseParser;
 import org.jclouds.rest.annotations.ParamParser;
 import org.jclouds.rest.annotations.RequestFilters;
+import org.jclouds.rest.annotations.ResponseParser;
+import org.jclouds.rest.annotations.Transform;
 import org.jclouds.rest.binders.BindToXMLPayload;
 
 import com.abiquo.am.model.TemplatesStateDto;
@@ -69,8 +76,6 @@ import com.abiquo.server.core.infrastructure.network.VLANNetworksDto;
  * 
  * @see API: <a href="http://community.abiquo.com/display/ABI20/API+Reference">
  *      http://community.abiquo.com/display/ABI20/API+Reference</a>
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  */
 @RequestFilters({ AbiquoAuthentication.class, AppendApiVersionToMediaType.class })
 @Path("/admin")
@@ -87,8 +92,9 @@ public interface EnterpriseApi extends Closeable {
    @GET
    @Path("/enterprises")
    @Consumes(EnterprisesDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   EnterprisesDto listEnterprises();
+   @ResponseParser(ParseEnterprises.class)
+   @Transform(ParseEnterprises.ToPagedIterable.class)
+   PagedIterable<EnterpriseDto> listEnterprises();
 
    /**
     * List enterprises with options.
@@ -101,8 +107,8 @@ public interface EnterpriseApi extends Closeable {
    @GET
    @Path("/enterprises")
    @Consumes(EnterprisesDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   EnterprisesDto listEnterprises(EnterpriseOptions options);
+   @ResponseParser(ParseEnterprises.class)
+   PaginatedCollection<EnterpriseDto, EnterprisesDto> listEnterprises(EnterpriseOptions options);
 
    /**
     * List filtered enterprises by datacenter.
@@ -116,9 +122,9 @@ public interface EnterpriseApi extends Closeable {
    @Named("enterprise:list")
    @GET
    @Consumes(EnterprisesDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   EnterprisesDto listEnterprises(@EndpointLink("enterprises") @BinderParam(BindToPath.class) DatacenterDto datacenter,
-         EnterpriseOptions options);
+   @ResponseParser(ParseEnterprises.class)
+   PaginatedCollection<EnterpriseDto, EnterprisesDto> listEnterprises(
+         @EndpointLink("enterprises") @BinderParam(BindToPath.class) DatacenterDto datacenter, EnterpriseOptions options);
 
    /**
     * Create a new enterprise.
@@ -326,8 +332,25 @@ public interface EnterpriseApi extends Closeable {
    @Named("user:list")
    @GET
    @Consumes(UsersDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   UsersDto listUsers(@EndpointLink("users") @BinderParam(BindToPath.class) EnterpriseDto enterprise);
+   @ResponseParser(ParseUsers.class)
+   @Transform(ParseUsers.ToPagedIterable.class)
+   PagedIterable<UserDto> listUsers(@EndpointLink("users") @BinderParam(BindToPath.class) EnterpriseDto enterprise);
+
+   /**
+    * List filtered users by enterprise.
+    * 
+    * @param enterprise
+    *           The given enterprise.
+    * @param options
+    *           Filtering options.
+    * @return The list of Users.
+    */
+   @Named("user:list")
+   @GET
+   @Consumes(UsersDto.BASE_MEDIA_TYPE)
+   @ResponseParser(ParseUsers.class)
+   PaginatedCollection<UserDto, UsersDto> listUsers(
+         @EndpointLink("users") @BinderParam(BindToPath.class) EnterpriseDto enterprise, UserOptions options);
 
    /**
     * Create a new user in the given enterprise.

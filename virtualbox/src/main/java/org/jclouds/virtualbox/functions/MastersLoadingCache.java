@@ -79,7 +79,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Supplier;
 import com.google.common.cache.AbstractLoadingCache;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -93,9 +92,6 @@ import com.google.common.util.concurrent.ListenableFuture;
  * including downloading isos and creating cache/config directories. This also
  * implements {@link Supplier} in order to provide jetty with the current image
  * (only one master can be created at a time).
- * 
- * @author dralves, andrea turli
- * 
  */
 @Singleton
 public class MastersLoadingCache extends AbstractLoadingCache<Image, Master> {

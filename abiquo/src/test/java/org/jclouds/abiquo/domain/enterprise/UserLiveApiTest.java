@@ -32,12 +32,9 @@ import org.testng.annotations.Test;
 
 import com.abiquo.server.core.enterprise.UserDto;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 
 /**
  * Live integration tests for the {@link User} domain class.
- * 
- * @author Francesc Montserrat
  */
 @Test(groups = "api", testName = "UserLiveApiTest")
 public class UserLiveApiTest extends BaseAbiquoApiLiveApiTest {
@@ -82,7 +79,7 @@ public class UserLiveApiTest extends BaseAbiquoApiLiveApiTest {
 
    public void testListUser() {
       Iterable<User> users = env.enterprise.listUsers();
-      assertEquals(Iterables.size(users), 2);
+      assertEquals(size(users), 2);
 
       users = filter(env.enterprise.listUsers(), nick(env.user.getNick()));
       assertEquals(size(users), 1);

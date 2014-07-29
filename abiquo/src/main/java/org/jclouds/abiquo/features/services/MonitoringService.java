@@ -31,9 +31,6 @@ import com.google.inject.ImplementedBy;
 
 /**
  * Utility service to monitor asynchronous operations.
- * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  */
 @ImplementedBy(BaseMonitoringService.class)
 public interface MonitoringService {
@@ -49,7 +46,7 @@ public interface MonitoringService {
     * @param objects
     *           The objects to monitor.
     */
-   public <T> void awaitCompletion(final Function<T, MonitorStatus> completeCondition, final T... objects);
+   <T> void awaitCompletion(final Function<T, MonitorStatus> completeCondition, final T... objects);
 
    /**
     * Monitor the given objects using the given complete condition.
@@ -64,7 +61,7 @@ public interface MonitoringService {
     * @param objects
     *           The objects to monitor.
     */
-   public <T> void awaitCompletion(final Long maxWait, final TimeUnit timeUnit,
+   <T> void awaitCompletion(final Long maxWait, final TimeUnit timeUnit,
          final Function<T, MonitorStatus> completeCondition, final T... objects);
 
    /**
@@ -76,7 +73,7 @@ public interface MonitoringService {
     * @param objects
     *           The objects to monitor.
     */
-   public <T> void monitor(final Function<T, MonitorStatus> completeCondition, final T... objects);
+   <T> void monitor(final Function<T, MonitorStatus> completeCondition, final T... objects);
 
    /**
     * Monitor the given objects using the given complete condition.
@@ -91,7 +88,7 @@ public interface MonitoringService {
     * @param objects
     *           The objects to monitor.
     */
-   public <T> void monitor(final Long maxWait, final TimeUnit timeUnit,
+   <T> void monitor(final Long maxWait, final TimeUnit timeUnit,
          final Function<T, MonitorStatus> completeCondition, final T... objects);
 
    /*************** Handler registration methods ***************/
@@ -104,7 +101,7 @@ public interface MonitoringService {
     * @param handler
     *           The event handler to register.
     */
-   public <T extends AbstractEventHandler<?>> void register(T handler);
+   <T extends AbstractEventHandler<?>> void register(T handler);
 
    /**
     * Unregisters the given event handler.
@@ -114,7 +111,7 @@ public interface MonitoringService {
     * @param handler
     *           The event handler to unregister.
     */
-   public <T extends AbstractEventHandler<?>> void unregister(T handler);
+   <T extends AbstractEventHandler<?>> void unregister(T handler);
 
    /*************** Delegating monitors ***************/
 
@@ -123,26 +120,26 @@ public interface MonitoringService {
     * 
     * @return The virtual machine monitor service.
     */
-   public VirtualMachineMonitor getVirtualMachineMonitor();
+   VirtualMachineMonitor getVirtualMachineMonitor();
 
    /**
     * Gets the virtual appliance monitor service.
     * 
     * @return The virtual appliance monitor service.
     */
-   public VirtualApplianceMonitor getVirtualApplianceMonitor();
+   VirtualApplianceMonitor getVirtualApplianceMonitor();
 
    /**
     * Gets the asynchronous task monitor service.
     * 
     * @return The asynchronous task monitor service.
     */
-   public AsyncTaskMonitor getAsyncTaskMonitor();
+   AsyncTaskMonitor getAsyncTaskMonitor();
 
    /**
     * Gets the conversion monitor service.
     * 
     * @return The conversion monitor service.
     */
-   public ConversionMonitor getConversionMonitor();
+   ConversionMonitor getConversionMonitor();
 }

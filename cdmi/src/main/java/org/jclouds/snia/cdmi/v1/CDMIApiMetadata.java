@@ -19,7 +19,6 @@ package org.jclouds.snia.cdmi.v1;
 import java.net.URI;
 import java.util.Properties;
 
-import org.jclouds.apis.ApiMetadata;
 import org.jclouds.rest.RestContext;
 import org.jclouds.rest.internal.BaseRestApiMetadata;
 import org.jclouds.snia.cdmi.v1.config.CDMIRestClientModule;
@@ -30,8 +29,6 @@ import com.google.inject.Module;
 
 /**
  * Implementation of {@link ApiMetadata} for CDMI 1.0.1 API
- * 
- * @author Adrian Cole
  */
 public class CDMIApiMetadata extends BaseRestApiMetadata {
 

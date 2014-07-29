@@ -16,6 +16,7 @@
  */
 package org.jclouds.abiquo.domain.cloud;
 
+import static com.google.common.collect.Iterables.size;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
@@ -26,8 +27,6 @@ import org.testng.annotations.Test;
 
 /**
  * Live integration tests
- * 
- * @author Susana Acedo
  */
 @Test(groups = "live", testName = "AccountLiveTest")
 public class AccountLiveTest extends BaseAbiquoLiveApiTest {
@@ -46,11 +45,11 @@ public class AccountLiveTest extends BaseAbiquoLiveApiTest {
    }
 
    public void testAllowedDatacenters() {
-      assertTrue(enterprise.listAllowedDatacenters().size() > 0);
+      assertTrue(size(enterprise.listAllowedDatacenters()) > 0);
    }
 
    public void testAvailableTemplates() {
-      assertTrue(enterprise.listTemplates().size() > 0);
+      assertTrue(size(enterprise.listTemplates()) > 0);
    }
 
 }

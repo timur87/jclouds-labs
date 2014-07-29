@@ -22,11 +22,15 @@ import org.jclouds.ContextBuilder;
 import org.jclouds.apis.Compute;
 import org.jclouds.management.ComputeManagement;
 import org.jclouds.management.ManagementContext;
-import org.jclouds.management.internal.BaseManagementContext;
 import org.jclouds.providers.JcloudsTestComputeProviderMetadata;
 import org.testng.annotations.Test;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 @Test(groups = "unit", testName = "ManagementLifecycleTest")
 public class ManagementLifecycleTest {

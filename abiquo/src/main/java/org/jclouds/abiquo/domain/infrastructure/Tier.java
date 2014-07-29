@@ -16,8 +16,6 @@
  */
 package org.jclouds.abiquo.domain.infrastructure;
 
-import java.util.List;
-
 import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.domain.DomainWrapper;
 import org.jclouds.abiquo.reference.rest.ParentLinkName;
@@ -33,8 +31,6 @@ import com.abiquo.server.core.infrastructure.storage.TierDto;
  * only logical levels of QoS and the real QoS (networking speed, volume
  * replication, availability) must be configured manually in the infrastructure.
  * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  * @see API: <a href="http://community.abiquo.com/display/ABI20/TierResource">
  *      http://community.abiquo.com/display/ABI20/TierResource</a>
  */
@@ -73,7 +69,7 @@ public class Tier extends DomainWrapper<TierDto> {
     *      StoragePoolResource- Retrievestoragepools</a>
     * @return List of storage pools in this tier.
     */
-   public List<StoragePool> listStoragePools() {
+   public Iterable<StoragePool> listStoragePools() {
       StoragePoolsDto storagePools = context.getApi().getInfrastructureApi().listStoragePools(target);
       return wrap(context, StoragePool.class, storagePools.getCollection());
    }

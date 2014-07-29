@@ -28,7 +28,6 @@ import javax.inject.Inject;
 import org.jclouds.compute.config.BaseComputeServiceContextModule;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.reference.ComputeServiceConstants;
-import org.jclouds.config.ValueOfConfigurationKeyOrNull;
 import org.jclouds.json.Json;
 import org.jclouds.json.config.GsonModule;
 import org.jclouds.location.Provider;
@@ -60,9 +59,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
-/**
- * @author Andrea Turli, Mattias Holmqvist
- */
 @Test(groups = "live", singleThreaded = true, testName = "CreateAndInstallVmLiveTest")
 public class CreateAndInstallVmLiveTest extends BaseVirtualBoxClientLiveTest {
 

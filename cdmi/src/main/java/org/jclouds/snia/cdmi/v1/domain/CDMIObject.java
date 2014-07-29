@@ -19,7 +19,6 @@ package org.jclouds.snia.cdmi.v1.domain;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +33,6 @@ import com.google.common.collect.Maps;
 
 /**
  * The base type for all objects in the CDMI model.
- * 
- * @author Kenneth Nagin
  */
 public class CDMIObject {
 

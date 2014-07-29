@@ -22,14 +22,11 @@ import static org.testng.Assert.assertTrue;
 
 import org.jclouds.abiquo.domain.cloud.VirtualMachineTemplate;
 import org.jclouds.abiquo.strategy.BaseAbiquoStrategyLiveApiTest;
-import org.jclouds.abiquo.strategy.cloud.ListVirtualAppliances;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 /**
  * Live tests for the {@link ListVirtualAppliances} strategy.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "api", testName = "ListVirtualMachineTemplatesLiveApiTest")
 public class ListVirtualMachineTemplatesLiveApiTest extends BaseAbiquoStrategyLiveApiTest {

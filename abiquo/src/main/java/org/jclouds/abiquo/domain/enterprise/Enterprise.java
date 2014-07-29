@@ -16,21 +16,22 @@
  */
 package org.jclouds.abiquo.domain.enterprise;
 
-import java.util.List;
-
 import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.domain.DomainWithLimitsWrapper;
+import org.jclouds.abiquo.domain.PaginatedCollection;
 import org.jclouds.abiquo.domain.builder.LimitsBuilder;
 import org.jclouds.abiquo.domain.cloud.VirtualAppliance;
 import org.jclouds.abiquo.domain.cloud.VirtualDatacenter;
 import org.jclouds.abiquo.domain.cloud.VirtualMachine;
 import org.jclouds.abiquo.domain.cloud.VirtualMachineTemplate;
+import org.jclouds.abiquo.domain.enterprise.options.UserOptions;
 import org.jclouds.abiquo.domain.exception.AbiquoException;
 import org.jclouds.abiquo.domain.infrastructure.Datacenter;
 import org.jclouds.abiquo.domain.infrastructure.Machine;
 import org.jclouds.abiquo.domain.network.ExternalNetwork;
 import org.jclouds.abiquo.domain.network.UnmanagedNetwork;
 import org.jclouds.abiquo.strategy.enterprise.ListVirtualMachineTemplates;
+import org.jclouds.collect.PagedIterable;
 import org.jclouds.http.HttpResponse;
 import org.jclouds.http.functions.ParseXMLWithJAXB;
 import org.jclouds.rest.ApiContext;
@@ -39,7 +40,6 @@ import com.abiquo.model.rest.RESTLink;
 import com.abiquo.server.core.appslibrary.TemplateDefinitionListDto;
 import com.abiquo.server.core.appslibrary.TemplateDefinitionListsDto;
 import com.abiquo.server.core.appslibrary.VirtualMachineTemplateDto;
-import com.abiquo.server.core.appslibrary.VirtualMachineTemplatesDto;
 import com.abiquo.server.core.cloud.VirtualAppliancesDto;
 import com.abiquo.server.core.cloud.VirtualDatacentersDto;
 import com.abiquo.server.core.cloud.VirtualMachinesWithNodeExtendedDto;
@@ -54,7 +54,6 @@ import com.abiquo.server.core.infrastructure.DatacentersDto;
 import com.abiquo.server.core.infrastructure.MachinesDto;
 import com.abiquo.server.core.infrastructure.network.VLANNetworksDto;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.inject.TypeLiteral;
 
@@ -64,9 +63,6 @@ import com.google.inject.TypeLiteral;
  * Each tenant has a set of available locations, and a set of compute,
  * networking and storage resources that can be consumed in the assigned
  * locations.
- * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  */
 public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
    /** The default value for the reservation restricted flag. */
@@ -131,7 +127,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      RetrievealistofvitualdatacentersbyanEnterprise</a>
     * @return List of virtual datacenters in this enterprise.
     */
-   public List<VirtualDatacenter> listVirtualDatacenters() {
+   public Iterable<VirtualDatacenter> listVirtualDatacenters() {
       VirtualDatacentersDto dto = context.getApi().getEnterpriseApi().listVirtualDatacenters(target);
       return wrap(context, VirtualDatacenter.class, dto.getCollection());
    }
@@ -146,7 +142,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      TemplateDefinitionListResource-Retrievealltemplatedefinitionlists</a>
     * @return List of template definition lists of the enterprise.
     */
-   public List<TemplateDefinitionList> listTemplateDefinitionLists() {
+   public Iterable<TemplateDefinitionList> listTemplateDefinitionLists() {
       TemplateDefinitionListsDto dto = context.getApi().getEnterpriseApi().listTemplateDefinitionLists(target);
       return wrap(context, TemplateDefinitionList.class, dto.getCollection());
    }
@@ -179,7 +175,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      DatacenterLimitsResource-Retrievelimitsbyenterprise</a>
     * @return List of datacenter limits by enterprise.
     */
-   public List<Limits> listLimits() {
+   public Iterable<Limits> listLimits() {
       DatacentersLimitsDto dto = context.getApi().getEnterpriseApi().listLimits(this.unwrap());
       return wrap(context, Limits.class, dto.getCollection());
    }
@@ -206,12 +202,30 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      "http://community.abiquo.com/display/ABI20/UserResource#UserResource-Retrievealistofusers"
     *      >
     *      http://community.abiquo.com/display/ABI20/UserResource#UserResource-
-    *      Retrievealistofusers </a>
+    *      Retrievealistofusers</a>
     * @return List of users of this enterprise.
     */
-   public List<User> listUsers() {
-      UsersDto dto = context.getApi().getEnterpriseApi().listUsers(this.unwrap());
-      return wrap(context, User.class, dto.getCollection());
+   public Iterable<User> listUsers() {
+      PagedIterable<UserDto> dto = context.getApi().getEnterpriseApi().listUsers(target);
+      return wrap(context, User.class, dto.concat());
+   }
+
+   /**
+    * Retrieve the list of users of this enterprise, allowing pagination
+    * 
+    * @param options
+    *           User options
+    * @see API: <a href=
+    *      "http://community.abiquo.com/display/ABI20/UserResource#UserResource-Retrievealistofusers"
+    *      >
+    *      http://community.abiquo.com/display/ABI20/UserResource#UserResource-
+    *      Retrievealistofusers</a>
+    * @return List of users of this enterprise, according to the specified
+    *         pagination options
+    */
+   public Iterable<User> listUsers(final UserOptions options) {
+      PaginatedCollection<UserDto, UsersDto> dto = context.getApi().getEnterpriseApi().listUsers(target, options);
+      return wrap(context, User.class, dto.toPagedIterable().concat());
    }
 
    /**
@@ -236,15 +250,15 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     * 
     * @return List of roles by this enterprise.
     */
-   public List<Role> listRoles() {
+   public Iterable<Role> listRoles() {
       RolesDto dto = context.getApi().getAdminApi().listRoles(target);
       return wrap(context, Role.class, dto.getCollection());
    }
 
-   public List<VirtualMachineTemplate> listTemplatesInRepository(final Datacenter datacenter) {
-      VirtualMachineTemplatesDto dto = context.getApi().getVirtualMachineTemplateApi()
+   public Iterable<VirtualMachineTemplate> listTemplatesInRepository(final Datacenter datacenter) {
+      PagedIterable<VirtualMachineTemplateDto> templates = context.getApi().getVirtualMachineTemplateApi()
             .listVirtualMachineTemplates(target.getId(), datacenter.getId());
-      return wrap(context, VirtualMachineTemplate.class, dto.getCollection());
+      return wrap(context, VirtualMachineTemplate.class, templates.concat());
    }
 
    public VirtualMachineTemplate getTemplateInRepository(final Datacenter datacenter, final Integer id) {
@@ -253,12 +267,12 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
       return wrap(context, VirtualMachineTemplate.class, template);
    }
 
-   public List<VirtualMachineTemplate> listTemplates() {
+   public Iterable<VirtualMachineTemplate> listTemplates() {
       ListVirtualMachineTemplates strategy = context.utils().injector().getInstance(ListVirtualMachineTemplates.class);
-      return ImmutableList.copyOf(strategy.execute(this));
+      return strategy.execute(this);
    }
 
-   public List<Datacenter> listAllowedDatacenters() {
+   public Iterable<Datacenter> listAllowedDatacenters() {
       DatacentersDto datacenters = context.getApi().getEnterpriseApi().listAllowedDatacenters(target.getId());
       return wrap(context, Datacenter.class, datacenters.getCollection());
    }
@@ -269,7 +283,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      > http://community.abiquo.com/display/ABI20/Enterprise+Resource#
     *      EnterpriseResource- Getthelistofexternalnetworks</a>
     */
-   public List<ExternalNetwork> listExternalNetworks(final Datacenter datacenter) {
+   public Iterable<ExternalNetwork> listExternalNetworks(final Datacenter datacenter) {
       DatacenterLimitsDto limitForDatacenter = getLimits(datacenter);
 
       HttpResponse response = context.getApi().get(limitForDatacenter.searchLink("externalnetworks"));
@@ -280,7 +294,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
       return wrap(context, ExternalNetwork.class, parser.apply(response).getCollection());
    }
 
-   public List<UnmanagedNetwork> listUnmanagedNetworks(final Datacenter datacenter) {
+   public Iterable<UnmanagedNetwork> listUnmanagedNetworks(final Datacenter datacenter) {
       DatacenterLimitsDto limitForDatacenter = getLimits(datacenter);
 
       // The "rel" for the unmanaged networks is the same than the one used for
@@ -303,7 +317,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      RetrievethelistofvirtualappliancesbyanEnterprise</a>
     * @return List of virtual appliances by this enterprise.
     */
-   public List<VirtualAppliance> listVirtualAppliances() {
+   public Iterable<VirtualAppliance> listVirtualAppliances() {
       VirtualAppliancesDto virtualAppliances = context.getApi().getEnterpriseApi().listVirtualAppliances(target);
       return wrap(context, VirtualAppliance.class, virtualAppliances.getCollection());
    }
@@ -317,12 +331,12 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
     *      EnterpriseResource- RetrievealistofvirtualmachinesbyanEnterprise</a>
     * @return List of virtual machines by this enterprise.
     */
-   public List<VirtualMachine> listVirtualMachines() {
+   public Iterable<VirtualMachine> listVirtualMachines() {
       VirtualMachinesWithNodeExtendedDto machines = context.getApi().getEnterpriseApi().listVirtualMachines(target);
       return wrap(context, VirtualMachine.class, machines.getCollection());
    }
 
-   public List<Machine> listReservedMachines() {
+   public Iterable<Machine> listReservedMachines() {
       MachinesDto machines = context.getApi().getEnterpriseApi().listReservedMachines(target);
       return wrap(context, Machine.class, machines.getCollection());
    }
@@ -517,7 +531,7 @@ public class Enterprise extends DomainWithLimitsWrapper<EnterpriseDto> {
          return Enterprise.builder(in.context).name(in.getName())
                .ramLimits(in.getRamSoftLimitInMb(), in.getRamHardLimitInMb())
                .cpuCountLimits(in.getCpuCountSoftLimit(), in.getCpuCountHardLimit())
-               .hdLimitsInMb(in.getHdSoftLimitInMb(), in.getHdHardLimitInMb())
+               .hdLimitsInMb(in.getHdSoftLimitInBytes(), in.getHdHardLimitInBytes())
                .storageLimits(in.getStorageSoft(), in.getStorageHard())
                .vlansLimits(in.getVlansSoft(), in.getVlansHard())
                .publicIpsLimits(in.getPublicIpsSoft(), in.getPublicIpsHard())

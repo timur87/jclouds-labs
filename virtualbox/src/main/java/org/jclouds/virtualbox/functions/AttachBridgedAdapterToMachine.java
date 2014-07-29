@@ -16,7 +16,6 @@
  */
 package org.jclouds.virtualbox.functions;
 
-import static org.virtualbox_4_2.NetworkAdapterType.Am79C973;
 import static org.virtualbox_4_2.NetworkAttachmentType.Bridged;
 
 import org.jclouds.virtualbox.domain.NetworkInterfaceCard;
@@ -25,9 +24,6 @@ import org.virtualbox_4_2.INetworkAdapter;
 
 import com.google.common.base.Function;
 
-/**
- * @author Andrea Turli
- */
 public class AttachBridgedAdapterToMachine implements Function<IMachine, Void> {
 
   private NetworkInterfaceCard networkInterfaceCard;

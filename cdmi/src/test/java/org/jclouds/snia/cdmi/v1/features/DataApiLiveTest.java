@@ -25,7 +25,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -39,12 +38,8 @@ import org.testng.annotations.Test;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
-import com.google.common.io.CharStreams;
 import com.google.common.io.Files;
 
-/**
- * @author Kenneth Nagin
- */
 @Test(groups = "live", testName = "DataApiLiveTest")
 public class DataApiLiveTest extends BaseCDMIApiLiveTest {
    @Test
@@ -450,9 +445,8 @@ public class DataApiLiveTest extends BaseCDMIApiLiveTest {
          System.out.println(dataObject);
          System.out.println("value: " + dataObject.getValueAsString());
          assertEquals(dataObject.getValueAsString(), value);
-         assertNotNull(dataObject.getValueAsInputSupplier());
-         assertEquals(CharStreams.toString(CharStreams.newReaderSupplier(
-                  dataObject.getValueAsInputSupplier(Charsets.UTF_8), Charsets.UTF_8)), value);
+         assertNotNull(dataObject.getValueAsByteSource());
+         assertEquals(dataObject.getValueAsByteSource(Charsets.UTF_8).asCharSource(Charsets.UTF_8).read(), value);
          assertEquals(Integer.parseInt(dataObject.getSystemMetadata().get("cdmi_size")), value.length());
          assertEquals(dataObject.getObjectName(), dataObjectNameIn);
          assertEquals(dataObject.getObjectType(), "application/cdmi-object");
@@ -578,7 +572,7 @@ public class DataApiLiveTest extends BaseCDMIApiLiveTest {
          System.out.println(dataObject.getValueAsString());
          assertEquals(dataObject.getMimetype(), "text/plain");
          // value is SGVsbA==. This needs investigating to determine if this
-         // is problem with CDMI server or the jcloud client or must understanding of spec
+         // is problem with CDMI server or the jclouds client or must understanding of spec
 
          dataApi.delete(dataObjectNameIn);
          assertEquals(containerApi.get(containerName).getChildren().contains(dataObjectNameIn), false);

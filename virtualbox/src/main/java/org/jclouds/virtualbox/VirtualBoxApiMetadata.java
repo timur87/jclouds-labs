@@ -27,7 +27,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.Properties;
 
-import org.jclouds.apis.ApiMetadata;
 import org.jclouds.apis.internal.BaseApiMetadata;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.virtualbox.config.HardcodeLocalhostAsNodeMetadataSupplier;
@@ -39,7 +38,6 @@ import com.google.inject.Module;
 /**
  * Implementation of {@link ApiMetadata} for VirtualBox API
 
- * @author Adrian Cole
  */
 public class VirtualBoxApiMetadata extends BaseApiMetadata {
 

@@ -34,15 +34,11 @@ import org.virtualbox_4_2.VirtualBoxManager;
 import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.cache.AbstractLoadingCache;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Maps;
 
 /**
  * A {@link LoadingCache} for ip addresses. If the requested ip address has been
  * previously extracted this returns it, if not it calls vbox api.
- * 
- * @author Andrea Turli
- * 
  */
 @Singleton
 public class IpAddressesLoadingCache extends
@@ -68,7 +64,7 @@ public class IpAddressesLoadingCache extends
       String query = String.format("/VirtualBox/GuestInfo/Net/%s/V4/IP", machineNameOrIdAndNicPort.getSlotText());
       String ipAddress = Strings.nullToEmpty(manager.get().getVBox()
             .findMachine(machineNameOrIdAndNicPort.getMachineNameOrId()).getGuestPropertyValue(query));
-      if(!ipAddress.isEmpty()) {
+      if (!ipAddress.isEmpty()) {
          logger.debug("<< vm(%s) has IP address(%s) at slot(%s)", machineNameOrIdAndNicPort.getMachineNameOrId(),
             ipAddress, machineNameOrIdAndNicPort.getSlotText());
       }

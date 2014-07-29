@@ -1,0 +1,28 @@
+{
+    "meta": {
+        "limit": 1,
+        "offset": 1,
+        "total_count": 2
+    },
+    "objects": [
+        {
+            "gateway": "185.12.5.1",
+            "meta": {},
+            "nameservers": [
+                "178.22.66.167",
+                "178.22.71.56",
+                "8.8.8.8"
+            ],
+            "netmask": 24,
+            "owner": {
+                "resource_uri": "/api/2.0/user/5b4a69a3-8e78-4c45-a8ba-8b13f0895e23/",
+                "uuid": "5b4a69a3-8e78-4c45-a8ba-8b13f0895e23"
+            },
+            "resource_uri": "/api/2.0/ips/185.12.5.233/",
+            "server": null,
+            "subscription": null,
+            "tags": [],
+            "uuid": "185.12.5.233"
+        }
+    ]
+}

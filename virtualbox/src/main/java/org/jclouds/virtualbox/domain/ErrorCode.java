@@ -40,8 +40,6 @@ import com.google.common.collect.ImmutableMap;
  *    ErrorCode errorCode = ErrorCode.valueOf(faultCode);
  * }
  * </pre>
- * 
- * @author Mattias Holmqvist
  */
 public enum ErrorCode {
 
@@ -73,7 +71,7 @@ public enum ErrorCode {
       this.code = code;
    }
 
-   private final static Map<Long, ErrorCode> TABLE;
+   private static final Map<Long, ErrorCode> TABLE;
    static {
       ImmutableMap.Builder<Long, ErrorCode> builder = ImmutableMap.builder();
       for (ErrorCode errorCode : ErrorCode.values()) {

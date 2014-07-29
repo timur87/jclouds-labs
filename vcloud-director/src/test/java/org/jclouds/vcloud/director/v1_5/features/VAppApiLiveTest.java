@@ -16,7 +16,6 @@
  */
 package org.jclouds.vcloud.director.v1_5.features;
 
-import static org.jclouds.vcloud.director.v1_5.VCloudDirectorLiveTestConstants.CONDITION_FMT;
 import static org.jclouds.vcloud.director.v1_5.VCloudDirectorLiveTestConstants.CORRECT_VALUE_OBJECT_FMT;
 import static org.jclouds.vcloud.director.v1_5.VCloudDirectorLiveTestConstants.ENTITY_EQUAL;
 import static org.jclouds.vcloud.director.v1_5.VCloudDirectorLiveTestConstants.MATCHES_STRING_FMT;
@@ -41,7 +40,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -105,8 +103,6 @@ import com.google.common.collect.Sets;
 
 /**
  * Tests behavior of the {@link VAppApi}.
- * 
- * @author grkvlt@apache.org
  */
 @Test(singleThreaded = true, testName = "VAppApiLiveTest")
 public class VAppApiLiveTest extends AbstractVAppApiLiveTest {
@@ -553,11 +549,11 @@ public class VAppApiLiveTest extends AbstractVAppApiLiveTest {
       checkNetworkConfigSection(modified);
       
       Optional<VAppNetworkConfiguration> modifiedOptionalVAppNetwork = Iterables.tryFind(modified.getNetworkConfigs(), new IsVAppNetworkNamed(networkName));
-      if(!modifiedOptionalVAppNetwork.isPresent())
+      if (!modifiedOptionalVAppNetwork.isPresent())
          fail(String.format("Could not find vApp network named %s", networkName));
       
       Optional<VAppNetworkConfiguration> newOptionalVAppNetwork = Iterables.tryFind(newSection.getNetworkConfigs(), new IsVAppNetworkNamed(networkName));
-      if(!newOptionalVAppNetwork.isPresent())
+      if (!newOptionalVAppNetwork.isPresent())
          fail(String.format("Could not find vApp network named %s", networkName));
 
       assertEquals(modifiedOptionalVAppNetwork.get().getNetworkName(), newOptionalVAppNetwork.get().getNetworkName(), String.format(ENTITY_EQUAL, "NetworkName"));

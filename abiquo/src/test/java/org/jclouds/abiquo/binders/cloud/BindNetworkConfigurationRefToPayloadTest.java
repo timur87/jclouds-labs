@@ -44,8 +44,6 @@ import com.google.common.reflect.Invokable;
 
 /**
  * Unit tests for the {@link BindNetworkConfigurationRefToPayload} binder.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "unit", testName = "BindNetworkConfigurationRefToPayloadTest")
 public class BindNetworkConfigurationRefToPayloadTest {
@@ -120,7 +118,7 @@ public class BindNetworkConfigurationRefToPayloadTest {
             + "\" rel=\"network_configuration\"/></links>"), LinksDto.class);
    }
 
-   static interface TestNetworkConfig {
+   interface TestNetworkConfig {
       @GET
       void withoutVirtualMachine(VLANNetworkDto network);
 

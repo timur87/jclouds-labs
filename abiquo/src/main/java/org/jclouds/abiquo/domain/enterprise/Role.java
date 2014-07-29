@@ -33,8 +33,6 @@ import com.abiquo.server.core.enterprise.RoleDto;
 /**
  * Adds high level functionality to {@link RoleDto}.
  * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  * @see API: <a href="http://community.abiquo.com/display/ABI20/Roles+Resource">
  *      http://community.abiquo.com/display/ABI20/Roles+Resource</a>
  */
@@ -126,9 +124,8 @@ public class Role extends DomainWrapper<RoleDto> {
     *      > http://community.abiquo.com/display/ABI20/Roles+Resource#
     *      RolesResource- RetrievealistofprivilegesfromaRole</a>
     */
-   public List<Privilege> listPrivileges() {
+   public Iterable<Privilege> listPrivileges() {
       PrivilegesDto dto = context.getApi().getAdminApi().listPrivileges(target);
-
       return wrap(context, Privilege.class, dto.getCollection());
    }
 

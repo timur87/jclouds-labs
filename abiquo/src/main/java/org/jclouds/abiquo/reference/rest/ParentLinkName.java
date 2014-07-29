@@ -18,8 +18,6 @@ package org.jclouds.abiquo.reference.rest;
 
 /**
  * Names of the "rel" attribute of the links that point to parent objects.
- * 
- * @author Francesc Montserrat
  */
 public class ParentLinkName {
    public static final String RACK = "rack";
@@ -58,5 +56,7 @@ public class ParentLinkName {
 
    public static final String NETWORK_GATEWAY = "network_configuration";
 
-   public final static String TASK_RESULT = "result";
+   public static final String TASK_RESULT = "result";
+   
+   public static final String VIRTUAL_MACHINE = "virtualmachine";
 }

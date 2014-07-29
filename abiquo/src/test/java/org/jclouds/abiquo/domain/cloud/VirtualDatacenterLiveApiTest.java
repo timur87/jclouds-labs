@@ -17,7 +17,9 @@
 package org.jclouds.abiquo.domain.cloud;
 
 import static com.google.common.collect.Iterables.find;
+import static com.google.common.collect.Iterables.get;
 import static com.google.common.collect.Iterables.size;
+import static com.google.common.collect.Lists.newArrayList;
 import static org.jclouds.abiquo.reference.AbiquoTestConstants.PREFIX;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -42,8 +44,6 @@ import com.google.common.base.Predicate;
 
 /**
  * Live integration tests for the {@link VirtualDatacenter} domain class.
- * 
- * @author Francesc Montserrat
  */
 @Test(groups = "api", testName = "VirtualDatacenterLiveApiTest")
 public class VirtualDatacenterLiveApiTest extends BaseAbiquoApiLiveApiTest {
@@ -79,13 +79,13 @@ public class VirtualDatacenterLiveApiTest extends BaseAbiquoApiLiveApiTest {
       Enterprise enterprise = env.enterpriseAdminContext.getAdministrationService().getCurrentUser().getEnterprise();
       assertNotNull(enterprise);
 
-      List<Datacenter> datacenters = enterprise.listAllowedDatacenters();
+      List<Datacenter> datacenters = newArrayList(enterprise.listAllowedDatacenters());
       assertNotNull(datacenters);
       assertTrue(size(datacenters) > 0);
 
       Datacenter datacenter = datacenters.get(0);
 
-      List<HypervisorType> hypervisors = datacenter.listAvailableHypervisors();
+      List<HypervisorType> hypervisors = newArrayList(datacenter.listAvailableHypervisors());
       assertNotNull(datacenters);
       assertTrue(size(datacenters) > 0);
 
@@ -130,7 +130,7 @@ public class VirtualDatacenterLiveApiTest extends BaseAbiquoApiLiveApiTest {
    }
 
    public void testPurchaseIp() {
-      final PublicIp publicIp = env.virtualDatacenter.listAvailablePublicIps().get(0);
+      final PublicIp publicIp = get(env.virtualDatacenter.listAvailablePublicIps(), 0);
       assertNotNull(publicIp);
       env.virtualDatacenter.purchasePublicIp(publicIp);
 
@@ -160,7 +160,7 @@ public class VirtualDatacenterLiveApiTest extends BaseAbiquoApiLiveApiTest {
    }
 
    public void testGetAvailableTemplates() {
-      List<VirtualMachineTemplate> templates = env.virtualDatacenter.listAvailableTemplates();
+      List<VirtualMachineTemplate> templates = newArrayList(env.virtualDatacenter.listAvailableTemplates());
       assertNotNull(templates);
       assertFalse(templates.isEmpty());
 

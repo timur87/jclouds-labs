@@ -21,13 +21,9 @@ import static org.testng.Assert.assertEquals;
 import java.util.Set;
 
 import org.jclouds.joyent.cloudapi.v6_5.domain.Dataset;
-import org.jclouds.joyent.cloudapi.v6_5.features.DatasetApi;
 import org.jclouds.joyent.cloudapi.v6_5.internal.BaseJoyentCloudApiLiveTest;
 import org.testng.annotations.Test;
 
-/**
- * @author Gerald Pereira
- */
 @Test(groups = "live", testName = "DatasetApiLiveTest")
 public class DatasetApiLiveTest extends BaseJoyentCloudApiLiveTest {
 

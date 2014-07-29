@@ -18,15 +18,21 @@ package org.jclouds.abiquo.predicates;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.regex.Pattern;
+
 import com.abiquo.model.rest.RESTLink;
+import com.abiquo.server.core.infrastructure.network.NicDto;
+import com.abiquo.server.core.infrastructure.storage.VolumeManagementDto;
 import com.google.common.base.Predicate;
 
 /**
  * Container for {@link RESTLink} filters.
- * 
- * @author Ignasi Barrera
  */
 public class LinkPredicates {
+
+   private static final Pattern IS_NIC_REL_PATTERN = Pattern.compile("^" + NicDto.REL_PREFIX + "[0-9]+$");
+   private static final Pattern IS_DISK_REL_PATTERN = Pattern.compile("^" + VolumeManagementDto.REL_PREFIX + "[0-9]+$");
+
    public static Predicate<RESTLink> rel(final String rel) {
       checkNotNull(rel, "rel must be defined");
       return new Predicate<RESTLink>() {
@@ -41,8 +47,18 @@ public class LinkPredicates {
       return new Predicate<RESTLink>() {
          @Override
          public boolean apply(final RESTLink link) {
-            return link.getRel().matches("^nic[0-9]+$");
+            return IS_NIC_REL_PATTERN.matcher(link.getRel()).matches();
          }
       };
    }
+
+   public static Predicate<RESTLink> isDisk() {
+      return new Predicate<RESTLink>() {
+         @Override
+         public boolean apply(RESTLink link) {
+            return IS_DISK_REL_PATTERN.matcher(link.getRel()).matches();
+         }
+      };
+   }
+
 }

@@ -39,7 +39,6 @@ import com.google.common.eventbus.Subscribe;
  * Issue 786</a> {@link #handle(MonitorEvent)} is marked <code>final</code>to
  * avoid having duplicate events.
  * 
- * @author Ignasi Barrera
  * @param <T>
  *           The monitored object.
  */
@@ -113,7 +112,7 @@ public class BlockingEventHandler<T> extends AbstractEventHandler<T> {
             logger.debug("creating lock for %s object(s)", lockedObjects.size());
             completeSignal.await();
          } catch (InterruptedException ex) {
-            Throwables.propagate(ex);
+            throw Throwables.propagate(ex);
          }
       } else {
          logger.debug("there is nothing to watch. Ignoring lock.");

@@ -20,12 +20,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.jclouds.virtualbox.config.VirtualBoxConstants.VIRTUALBOX_IMAGE_PREFIX;
 import static org.testng.Assert.assertTrue;
 
-import org.jclouds.config.ValueOfConfigurationKeyOrNull;
 import org.jclouds.ssh.SshClient;
 import org.jclouds.virtualbox.BaseVirtualBoxClientLiveTest;
 import org.jclouds.virtualbox.domain.CloneSpec;
 import org.jclouds.virtualbox.domain.HardDisk;
-import org.jclouds.virtualbox.domain.IsoSpec;
 import org.jclouds.virtualbox.domain.MasterSpec;
 import org.jclouds.virtualbox.domain.NetworkAdapter;
 import org.jclouds.virtualbox.domain.NetworkInterfaceCard;
@@ -49,9 +47,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.inject.Injector;
 
-/**
- * @author Andrea Turli
- */
 @Test(groups = "live", singleThreaded = true, testName = "GuestAdditionsInstallerLiveTest")
 public class GuestAdditionsInstallerLiveTest extends BaseVirtualBoxClientLiveTest {
 
@@ -107,7 +102,7 @@ public class GuestAdditionsInstallerLiveTest extends BaseVirtualBoxClientLiveTes
          assertTrue(NetworkUtils.isIpv4(networkUtils.getIpAddressFromNicSlot(machine.getName(), 0l)));
 
       } finally {
-         if(machine!=null) {
+         if (machine != null) {
             for (String vmNameOrId : ImmutableSet.of(machine.getName())) {
                machineController.ensureMachineHasPowerDown(vmNameOrId);
                undoVm(vmNameOrId);

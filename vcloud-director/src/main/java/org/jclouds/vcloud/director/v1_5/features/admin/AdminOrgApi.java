@@ -19,7 +19,6 @@ package org.jclouds.vcloud.director.v1_5.features.admin;
 import java.net.URI;
 
 import org.jclouds.vcloud.director.v1_5.domain.org.AdminOrg;
-import org.jclouds.vcloud.director.v1_5.domain.org.Org;
 import org.jclouds.vcloud.director.v1_5.domain.org.OrgEmailSettings;
 import org.jclouds.vcloud.director.v1_5.domain.org.OrgGeneralSettings;
 import org.jclouds.vcloud.director.v1_5.domain.org.OrgLdapSettings;
@@ -33,7 +32,6 @@ import org.jclouds.vcloud.director.v1_5.features.OrgApi;
  * Provides synchronous access to {@link Org} objects.
  * 
  * @see AdminOrgAsyncApi
- * @author danikov, Adrian Cole
  */
 public interface AdminOrgApi extends OrgApi {
 

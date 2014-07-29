@@ -18,22 +18,26 @@ package org.jclouds.abiquo.config;
 
 /**
  * Configuration properties and constants used in Abiquo connections.
- * 
- * @author Ignasi Barrera
  */
 public interface AbiquoProperties {
    /**
-    * Boolean property indicating if the provided credential is an api token.
+    * Credential type to be used to authenticate against the Abiquo Api.
     * <p>
-    * Default value: false
+    * Valid values: password, token (deprecated).
     */
-   public static final String CREDENTIAL_IS_TOKEN = "abiquo.credential-is-token";
+   public static final String CREDENTIAL_TYPE = "abiquo.credential-type";
 
    /**
-    * The delay (in ms) used between requests by the {@link MonitoringService}
+    * The delay (in ms) used between requests by the
+    * <code>MonitoringService<code>
     * when monitoring asynchronous task state.
     * <p>
     * Default value: 5000 ms
     */
    public static final String ASYNC_TASK_MONITOR_DELAY = "abiquo.monitor-delay";
+
+   /**
+    * The name of the Abiquo logger.
+    */
+   public static final String ABIQUO_LOGGER = "jclouds.abiquo";
 }

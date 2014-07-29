@@ -21,7 +21,6 @@ import static org.jclouds.reflect.Reflection2.method;
 import java.io.IOException;
 
 import org.jclouds.Fallbacks.NullOnNotFoundOr404;
-import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.features.BaseAbiquoApiTest;
 import org.jclouds.functions.IdentityFunction;
 import org.jclouds.reflect.Invocation;
@@ -35,8 +34,6 @@ import com.google.common.reflect.Invokable;
 
 /**
  * Tests annotation parsing of {@code AbiquoApi}.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "unit", testName = "AbiquoApiTest")
 public class AbiquoApiTest extends BaseAbiquoApiTest<AbiquoApi> {

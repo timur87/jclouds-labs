@@ -20,8 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -48,8 +46,6 @@ import com.google.common.collect.Lists;
 
 /**
  * Links a {@link VirtualMachine} object to a {@link NodeMetadata} one.
- * 
- * @author Ignasi Barrera
  */
 @Singleton
 public class VirtualMachineToNodeMetadata implements Function<VirtualMachine, NodeMetadata> {
@@ -114,7 +110,7 @@ public class VirtualMachineToNodeMetadata implements Function<VirtualMachine, No
       builder.hardware(hardware);
 
       // Networking configuration
-      List<Ip<?, ?>> nics = vm.listAttachedNics();
+      Iterable<Ip<?, ?>> nics = vm.listAttachedNics();
       builder.privateAddresses(ips(filter(nics, Predicates.instanceOf(PrivateIp.class))));
       builder.publicAddresses(ips(filter(nics, Predicates.not(Predicates.instanceOf(PrivateIp.class)))));
 

@@ -37,13 +37,10 @@ import org.jclouds.vcloud.director.v1_5.internal.VCloudDirectorAdminApiExpectTes
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.net.HttpHeaders;
 
 /**
  * Test the {@link UserApi} by observing its side effects.
- * 
- * @author danikov, Adrian Cole
  */
 @Test(groups = { "unit", "admin" }, singleThreaded = true, testName = "UserApiExpectTest")
 public class UserApiExpectTest extends VCloudDirectorAdminApiExpectTest {
@@ -284,14 +281,14 @@ public class UserApiExpectTest extends VCloudDirectorAdminApiExpectTest {
 
    public static final User editUserSource() {
       return user().toBuilder()
-         .fullName("new"+user().getFullName())
-         .emailAddress("new"+user().getEmailAddress())
-         .telephone("1-"+user().getTelephone())
+         .fullName("new" + user().getFullName())
+         .emailAddress("new" + user().getEmailAddress())
+         .telephone("1-" + user().getTelephone())
          .isEnabled(true)
-         .im("new"+user().getIM())
+         .im("new" + user().getIM())
          .isAlertEnabled(true)
-         .alertEmailPrefix("new"+user().getAlertEmailPrefix())
-         .alertEmail("new"+user().getAlertEmail())
+         .alertEmailPrefix("new" + user().getAlertEmailPrefix())
+         .alertEmail("new" + user().getAlertEmail())
          .storedVmQuota(1)
          .deployedVmQuota(1)
          .password("newPassword")

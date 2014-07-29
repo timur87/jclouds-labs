@@ -25,13 +25,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.jclouds.abiquo.monitor.events.MonitorEvent;
 import org.jclouds.abiquo.monitor.events.MonitorEvent.Type;
-import org.jclouds.abiquo.monitor.handlers.BlockingEventHandler;
 import org.testng.annotations.Test;
 
 /**
  * Unit tests for the {@link BlockingEventHandler} handler.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "unit", testName = "BlockingEventHandlerTest")
 public class BlockingEventHandlerTest {

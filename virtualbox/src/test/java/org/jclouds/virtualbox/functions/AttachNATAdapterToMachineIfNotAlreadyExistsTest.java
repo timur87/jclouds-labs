@@ -25,8 +25,9 @@ import static org.easymock.EasyMock.verify;
 import static org.virtualbox_4_2.NATProtocol.TCP;
 import static org.virtualbox_4_2.NetworkAttachmentType.NAT;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import org.jclouds.virtualbox.domain.NetworkAdapter;
 import org.jclouds.virtualbox.domain.NetworkInterfaceCard;
@@ -37,9 +38,6 @@ import org.virtualbox_4_2.INetworkAdapter;
 import org.virtualbox_4_2.NetworkAttachmentType;
 import org.virtualbox_4_2.VBoxException;
 
-/**
- * @author Mattias Holmqvist, Andrea Turli
- */
 @Test(groups = "unit", testName = "AttachNATAdapterToMachineIfNotAlreadyExistsTest")
 public class AttachNATAdapterToMachineIfNotAlreadyExistsTest {
 
@@ -54,7 +52,7 @@ public class AttachNATAdapterToMachineIfNotAlreadyExistsTest {
 		iNetworkAdapter.setAttachmentType(NAT);
 		expect(iNetworkAdapter.getNATEngine()).andReturn(natEngine).anyTimes();
 
-		List<String> redirects = new ArrayList<String>();
+		List<String> redirects = Lists.newArrayList();
 		expect(natEngine.getRedirects()).andReturn(redirects);
 		natEngine.addRedirect("TCP@127.0.0.1:2222->:22", TCP, "127.0.0.1",
 				2222, "", 22);
@@ -85,7 +83,7 @@ public class AttachNATAdapterToMachineIfNotAlreadyExistsTest {
 		iNetworkAdapter.setAttachmentType(NAT);
 		expect(iNetworkAdapter.getNATEngine()).andReturn(natEngine).anyTimes();
 
-		List<String> redirects = new ArrayList<String>();
+		List<String> redirects = Lists.newArrayList();
 		expect(natEngine.getRedirects()).andReturn(redirects);
 
 		natEngine.addRedirect("TCP@127.0.0.1:2222->:22", TCP, "127.0.0.1",
@@ -110,7 +108,7 @@ public class AttachNATAdapterToMachineIfNotAlreadyExistsTest {
 		verify(machine, iNetworkAdapter, natEngine);
 	}
 
-	@Test(enabled=false, expectedExceptions = VBoxException.class)
+	@Test(enabled = false, expectedExceptions = VBoxException.class)
 	public void testRethrowInvalidAdapterSlotException() throws Exception {
 		Long slotId = 30l;
 		IMachine machine = createMock(IMachine.class);

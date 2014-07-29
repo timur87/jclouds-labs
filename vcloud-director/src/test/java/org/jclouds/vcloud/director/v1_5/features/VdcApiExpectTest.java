@@ -53,8 +53,6 @@ import org.testng.annotations.Test;
 
 /**
  * Allows us to test a api via its side effects.
- * 
- * @author danikov
  */
 @Test(groups = { "unit", "user" }, singleThreaded = true, testName = "VdcApiExpectTest")
 public class VdcApiExpectTest extends VCloudDirectorAdminApiExpectTest {
@@ -64,7 +62,7 @@ public class VdcApiExpectTest extends VCloudDirectorAdminApiExpectTest {
    @BeforeClass
    public void before() {
       String vdcId = "e9cd3387-ac57-4d27-a481-9bee75e0690f";
-      vdcURI = URI.create(endpoint+"/vdc/"+vdcId);
+      vdcURI = URI.create(endpoint + "/vdc/" + vdcId);
    }
    
    @Test

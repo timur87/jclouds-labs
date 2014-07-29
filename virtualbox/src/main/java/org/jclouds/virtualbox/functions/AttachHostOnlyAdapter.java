@@ -19,14 +19,10 @@ package org.jclouds.virtualbox.functions;
 import org.jclouds.virtualbox.domain.NetworkInterfaceCard;
 import org.virtualbox_4_2.IMachine;
 import org.virtualbox_4_2.INetworkAdapter;
-import org.virtualbox_4_2.NetworkAdapterType;
 import org.virtualbox_4_2.NetworkAttachmentType;
 
 import com.google.common.base.Function;
 
-/**
- * @author dralves
- */
 public class AttachHostOnlyAdapter implements Function<IMachine, Void> {
 
    private NetworkInterfaceCard networkInterfaceCard;

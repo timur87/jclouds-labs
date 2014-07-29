@@ -51,7 +51,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Iterables.transform;
 import static org.jclouds.scriptbuilder.domain.Statements.call;
-import static org.jclouds.virtualbox.config.VirtualBoxConstants.*;
+import static org.jclouds.virtualbox.config.VirtualBoxConstants.GUEST_OS_PASSWORD;
+import static org.jclouds.virtualbox.config.VirtualBoxConstants.GUEST_OS_USER;
+import static org.jclouds.virtualbox.config.VirtualBoxConstants.VIRTUALBOX_PRECONFIGURATION_URL;
 
 @Singleton
 public class CreateAndInstallVm implements Function<MasterSpec, IMachine> {
@@ -104,7 +106,7 @@ public class CreateAndInstallVm implements Function<MasterSpec, IMachine> {
 
       SshClient client = sshClientForIMachine.apply(masterMachine);
       logger.debug(">> awaiting installation to finish node(%s)", masterName);
-      Stopwatch stopwatch = new Stopwatch();
+      Stopwatch stopwatch = Stopwatch.createUnstarted();
       stopwatch.start();
       checkState(sshResponds.apply(client), "timed out waiting for guest %s to be accessible via ssh", masterName);
       stopwatch.stop();

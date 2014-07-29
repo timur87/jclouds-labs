@@ -18,8 +18,6 @@ package org.jclouds.abiquo.domain.infrastructure;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
-
 import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.domain.DomainWrapper;
 import org.jclouds.abiquo.reference.ValidationErrors;
@@ -34,8 +32,6 @@ import com.abiquo.server.core.infrastructure.RackDto;
  * Adds high level functionality to {@link RackDto}. Represents unmanaged racks
  * in the Abiquo platform.
  * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  * @see API: <a href="http://community.abiquo.com/display/ABI20/RackResource">
  *      http://community.abiquo.com/display/ABI20/RackResource</a>
  */
@@ -127,7 +123,7 @@ public class Rack extends DomainWrapper<RackDto> {
     *      > http://community.abiquo.com/display/ABI20/MachineResource#
     *      MachineResource- RetrievealistofMachines</a>
     */
-   public List<Machine> listMachines() {
+   public Iterable<Machine> listMachines() {
       MachinesDto machines = context.getApi().getInfrastructureApi().listMachines(target);
       return wrap(context, Machine.class, machines.getCollection());
    }

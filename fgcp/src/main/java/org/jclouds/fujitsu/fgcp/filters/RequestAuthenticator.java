@@ -37,7 +37,6 @@ import javax.inject.Named;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.jclouds.Constants;
@@ -60,12 +59,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Multimap;
+import com.google.common.net.HttpHeaders;
 
 /**
  * Generates and signs the access key id and adds the mandatory http header and
  * request parameters to the request.
- * 
- * @author Dies Koper
  */
 @Singleton
 public class RequestAuthenticator implements HttpRequestFilter, RequestSigner {
@@ -80,8 +78,8 @@ public class RequestAuthenticator implements HttpRequestFilter, RequestSigner {
    private final HttpUtils utils;
    private final String apiVersion;
 
-   final static String SIGNATURE_VERSION = "1.0";
-   final static String SIGNATURE_METHOD = "SHA1withRSA";
+   static final String SIGNATURE_VERSION = "1.0";
+   static final String SIGNATURE_METHOD = "SHA1withRSA";
 
    @Inject
    public RequestAuthenticator(Supplier<FGCPCredentials> creds,
@@ -155,22 +153,12 @@ public class RequestAuthenticator implements HttpRequestFilter, RequestSigner {
 
    @VisibleForTesting
    HttpRequest addQueryParamsToRequest(HttpRequest request, String accessKeyId, String signature, String lang) {
-      // url encode "+" (which comes from base64 encoding) or else it may be
-      // converted into a %20 (space) which the API endpoint doesn't
-      // expect/accept.
-      accessKeyId = accessKeyId.replace("+", "%2B");
-      signature = signature.replace("+", "%2B");
-
       Multimap<String, String> decodedParams = queryParser().apply(request.getEndpoint().getRawQuery());
       Builder<?> builder = request.toBuilder().endpoint(request.getEndpoint()).method(request.getMethod());
       if (!decodedParams.containsKey("Version")) {
          builder.addQueryParam(RequestParameters.VERSION, apiVersion);
       }
       builder.addQueryParam(RequestParameters.LOCALE, lang).addQueryParam(RequestParameters.ACCESS_KEY_ID, accessKeyId)
-      // the addition of another param causes %2B's in prev. params to
-      // convert to %20. Needs to be addressed if there are cases where
-      // accessKeyId contains %2B's.
-      // So signature should be added last:
             .addQueryParam(RequestParameters.SIGNATURE, signature);
 
       return builder.build();

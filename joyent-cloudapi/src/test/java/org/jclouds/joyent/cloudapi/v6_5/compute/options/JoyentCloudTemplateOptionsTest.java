@@ -26,13 +26,10 @@ import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 
 import org.jclouds.compute.options.TemplateOptions;
-import org.jclouds.joyent.cloudapi.v6_5.compute.options.JoyentCloudTemplateOptions;
 import org.testng.annotations.Test;
 
 /**
  * Tests possible uses of JoyentCloudTemplateOptions and JoyentCloudTemplateOptions.Builder.*
- * 
- * @author Adrian Cole
  */
 @Test(testName = "JoyentCloudTemplateOptionsTest")
 public class JoyentCloudTemplateOptionsTest {

@@ -39,8 +39,6 @@ import com.google.common.collect.Lists;
 
 /**
  * Get a VmSpec from an IMachine
- * 
- * @author Andrea Turli
  */
 public class IMachineToVmSpec implements Function<IMachine, VmSpec> {
 
@@ -75,7 +73,7 @@ public class IMachineToVmSpec implements Function<IMachine, VmSpec> {
          for (IMediumAttachment iMediumAttachment : machine.getMediumAttachmentsOfController(iStorageController
                   .getName())) {
             IMedium iMedium = iMediumAttachment.getMedium();
-            if(iMedium != null) {
+            if (iMedium != null) {
                if (iMedium.getDeviceType().equals(DeviceType.HardDisk)) {
                   storageControllerBuilder.attachHardDisk(HardDisk.builder().diskpath(iMedium.getLocation())
                            .autoDelete(true).controllerPort(iMediumAttachment.getPort())

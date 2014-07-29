@@ -76,9 +76,6 @@ import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 
-/**
- * @author Mattias Holmqvist, Andrea Turli
- */
 @SuppressWarnings("unchecked")
 public class VirtualBoxComputeServiceContextModule extends
          ComputeServiceAdapterContextModule<IMachine, Hardware, Image, Location> {
@@ -147,7 +144,7 @@ public class VirtualBoxComputeServiceContextModule extends
 
          @Override
          public VirtualBoxManager apply(Supplier<NodeMetadata> nodeSupplier) {
-            if(nodeSupplier.get().getId() != null)
+            if (nodeSupplier.get().getId() != null)
             	return VirtualBoxManager.createInstance(nodeSupplier.get().getId());
 
            	return VirtualBoxManager.createInstance("");

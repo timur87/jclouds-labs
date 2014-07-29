@@ -18,16 +18,11 @@ package org.jclouds.joyent.cloudapi.v6_5;
 
 import org.jclouds.View;
 import org.jclouds.apis.internal.BaseApiMetadataTest;
-import org.jclouds.joyent.cloudapi.v6_5.JoyentCloudApiMetadata;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 
-/**
- * 
- * @author Adrian Cole
- */
 @Test(groups = "unit", testName = "JoyentCloudApiMetadataTest")
 public class JoyentCloudApiMetadataTest extends BaseApiMetadataTest {
    public JoyentCloudApiMetadataTest() {

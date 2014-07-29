@@ -69,8 +69,6 @@ import com.google.common.collect.Iterables;
 
 /**
  * Tests behavior of {@code MediaApi}
- * 
- * @author danikov
  */
 @Test(groups = { "live", "user" }, singleThreaded = true, testName = "MediaApiLiveTest")
 public class MediaApiLiveTest extends BaseVCloudDirectorApiLiveTest {
@@ -87,7 +85,8 @@ public class MediaApiLiveTest extends BaseVCloudDirectorApiLiveTest {
    /*
     * Shared state between dependent tests.
     */
-   private Media media, oldMedia;
+   private Media media;
+   private Media oldMedia;
    private Owner owner;
    private Metadata metadata;
    private String metadataValue;

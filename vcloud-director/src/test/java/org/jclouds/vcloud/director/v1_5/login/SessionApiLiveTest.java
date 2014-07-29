@@ -30,7 +30,6 @@ import org.jclouds.rest.RestContext;
 import org.jclouds.vcloud.director.testng.FormatApiResultsListener;
 import org.jclouds.vcloud.director.v1_5.VCloudDirectorConstants;
 import org.jclouds.vcloud.director.v1_5.domain.SessionWithToken;
-import org.jclouds.vcloud.director.v1_5.user.VCloudDirectorApi;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -40,8 +39,6 @@ import com.google.common.reflect.TypeToken;
 /**
  * Tests behavior of {@link SessionApi}. Note this class is tested completely independently of
  * {@link VCloudDirectorApi} as it is a dependency of the {@code vcloud-director} context working.
- * 
- * @author Adrian Cole
  */
 @Listeners(FormatApiResultsListener.class)
 @Test(groups = { "live", "user" }, testName = "SessionApiLiveTest")

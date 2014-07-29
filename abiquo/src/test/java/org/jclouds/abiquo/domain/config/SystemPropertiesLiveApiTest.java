@@ -18,14 +18,11 @@ package org.jclouds.abiquo.domain.config;
 
 import static org.testng.Assert.assertEquals;
 
-import org.jclouds.abiquo.domain.enterprise.User;
 import org.jclouds.abiquo.internal.BaseAbiquoApiLiveApiTest;
 import org.testng.annotations.Test;
 
 /**
  * Live integration tests for the {@link User} domain class.
- * 
- * @author Francesc Montserrat
  */
 @Test(groups = "api", testName = "SystemPropertiesLiveApiTest")
 public class SystemPropertiesLiveApiTest extends BaseAbiquoApiLiveApiTest {

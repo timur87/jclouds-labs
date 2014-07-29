@@ -19,7 +19,6 @@ package org.jclouds.vcloud.director.v1_5.domain;
 import static com.google.common.base.Objects.equal;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +47,6 @@ import com.google.common.collect.Maps;
  * </pre>
  *
  *  TODO: this object and the hierarchy is wrong.  it is literally a Task with a Task container.  please review class diagram
- *
- * @author grkvlt@apache.org
  */
 @XmlRootElement(name = "Task")
 public class Task extends Entity {

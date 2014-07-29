@@ -21,15 +21,11 @@ import static org.testng.Assert.assertEquals;
 import java.util.Set;
 
 import org.jclouds.joyent.cloudapi.v6_5.domain.Key;
-import org.jclouds.joyent.cloudapi.v6_5.features.KeyApi;
 import org.jclouds.joyent.cloudapi.v6_5.internal.BaseJoyentCloudApiLiveTest;
 import org.jclouds.ssh.SshKeys;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-/**
- * @author Adrian Cole
- */
 @Test(groups = "live", singleThreaded = true, testName = "KeyApiLiveTest")
 public class KeyApiLiveTest extends BaseJoyentCloudApiLiveTest {
 

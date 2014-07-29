@@ -25,7 +25,6 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -44,8 +43,6 @@ import com.google.common.base.Predicate;
 
 /**
  * Live integration tests for the {@link Machine} domain class.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "api", testName = "MachineLiveApiTest")
 public class MachineLiveApiTest extends BaseAbiquoApiLiveApiTest {
@@ -115,9 +112,8 @@ public class MachineLiveApiTest extends BaseAbiquoApiLiveApiTest {
    }
 
    public void testListVirtualMachines() {
-      List<VirtualMachine> machines = env.machine.listRemoteVirtualMachines();
+      Iterable<VirtualMachine> machines = env.machine.listRemoteVirtualMachines();
       assertNotNull(machines);
-      assertTrue(machines.size() >= 0);
    }
 
    public void testReserveMachine() {

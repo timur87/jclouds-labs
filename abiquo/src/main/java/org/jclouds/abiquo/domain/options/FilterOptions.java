@@ -22,8 +22,6 @@ import com.google.common.collect.Multimap;
 
 /**
  * Available options to filter and pagination methods.
- * 
- * @author Francesc Montserrat
  */
 public class FilterOptions extends BaseHttpRequestOptions {
    @Override
@@ -76,18 +74,8 @@ public class FilterOptions extends BaseHttpRequestOptions {
          return (T) this;
       }
 
-      public T ascendant(final boolean asc) {
+      public T asc(final boolean asc) {
          this.asc = asc;
-         return (T) this;
-      }
-
-      public T descendant(final boolean desc) {
-         this.asc = !desc;
-         return (T) this;
-      }
-
-      public T disablePagination() {
-         this.limit = 0;
          return (T) this;
       }
 

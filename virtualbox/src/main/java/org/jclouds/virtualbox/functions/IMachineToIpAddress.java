@@ -30,8 +30,6 @@ import com.google.common.base.Function;
 
 /**
  * Get an IP address from an IMachine using arp of the host machine.
- * 
- * @author Mattias Holmqvist, Andrea Turli
  */
 public class IMachineToIpAddress implements Function<IMachine, String> {
 
@@ -47,7 +45,8 @@ public class IMachineToIpAddress implements Function<IMachine, String> {
    public String apply(IMachine machine) {
 
       String macAddress = machine.getNetworkAdapter(0l).getMACAddress();
-      int offset = 0, step = 2;
+      int offset = 0;
+      int step = 2;
       for (int j = 1; j <= 5; j++) {
          macAddress = new StringBuilder(macAddress).insert(j * step + offset, ":").toString().toLowerCase();
          offset++;

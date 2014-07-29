@@ -26,8 +26,6 @@ import com.google.inject.ImplementedBy;
 
 /**
  * {@link VirtualAppliance} monitoring features.
- * 
- * @author Ignasi Barrera
  */
 @ImplementedBy(BaseVirtualApplianceMonitor.class)
 public interface VirtualApplianceMonitor extends MonitoringService {
@@ -47,7 +45,7 @@ public interface VirtualApplianceMonitor extends MonitoringService {
     * @param VirtualAppliance
     *           The {@link VirtualAppliance}s to monitor.
     */
-   public void monitorDeploy(final VirtualAppliance... vapps);
+   void monitorDeploy(final VirtualAppliance... vapps);
 
    /**
     * Monitor the given {@link VirtualAppliance}s and block until the deploy
@@ -73,7 +71,7 @@ public interface VirtualApplianceMonitor extends MonitoringService {
     * @param vapps
     *           The {@link VirtualAppliance}s to monitor.
     */
-   public void monitorDeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualAppliance... vapps);
+   void monitorDeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualAppliance... vapps);
 
    /**
     * Monitor the given {@link VirtualAppliance}s and block until the undeploy
@@ -91,7 +89,7 @@ public interface VirtualApplianceMonitor extends MonitoringService {
     * @param vapps
     *           The {@link VirtualAppliance}s to monitor.
     */
-   public void monitorUndeploy(final VirtualAppliance... vapps);
+   void monitorUndeploy(final VirtualAppliance... vapps);
 
    /**
     * Monitor the given {@link VirtualAppliance}s and blocks until the undeploy
@@ -119,5 +117,5 @@ public interface VirtualApplianceMonitor extends MonitoringService {
     * @param vapps
     *           The {@link VirtualAppliance}s to monitor.
     */
-   public void monitorUndeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualAppliance... vapps);
+   void monitorUndeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualAppliance... vapps);
 }

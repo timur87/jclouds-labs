@@ -36,7 +36,6 @@ import org.jclouds.json.config.GsonModule;
 import org.jclouds.virtualbox.config.VirtualBoxComputeServiceContextModule;
 import org.jclouds.virtualbox.util.NetworkUtils;
 import org.testng.annotations.Test;
-import org.virtualbox_4_2.IGuest;
 import org.virtualbox_4_2.IGuestOSType;
 import org.virtualbox_4_2.IMachine;
 import org.virtualbox_4_2.INATEngine;
@@ -58,7 +57,7 @@ public class IMachineToNodeMetadataTest {
    }.provideOsVersionMap(new ComputeServiceConstants.ReferenceData(), Guice.createInjector(new GsonModule())
             .getInstance(Json.class));
 
-   @Test(enabled=false)
+   @Test(enabled = false)
    public void testCreateFromMaster() throws Exception {
 
       IMachine vm = createNiceMock(IMachine.class);
@@ -98,7 +97,7 @@ public class IMachineToNodeMetadataTest {
       assertEquals("", node.getGroup());
    }
 
-   @Test(enabled=false)
+   @Test(enabled = false)
    public void testCreateFromNode() throws Exception {
 
       IMachine vm = createNiceMock(IMachine.class);

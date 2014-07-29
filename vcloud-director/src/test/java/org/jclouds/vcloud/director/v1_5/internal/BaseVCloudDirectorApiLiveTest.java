@@ -43,7 +43,6 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -95,7 +94,6 @@ import org.jclouds.vcloud.director.v1_5.predicates.LinkPredicates;
 import org.jclouds.vcloud.director.v1_5.predicates.ReferencePredicates;
 import org.jclouds.vcloud.director.v1_5.predicates.TaskStatusEquals;
 import org.jclouds.vcloud.director.v1_5.predicates.TaskSuccess;
-import org.jclouds.vcloud.director.v1_5.user.VCloudDirectorApi;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -115,9 +113,6 @@ import com.google.inject.Guice;
 
 /**
  * Tests behavior of {@link VCloudDirectorApi} and acts as parent for other api live tests.
- * 
- * @author Adrian Cole
- * @author grkvlt@apache.org
  */
 @Listeners(FormatApiResultsListener.class)
 @Test(groups = "live")
@@ -483,7 +478,7 @@ public abstract class BaseVCloudDirectorApiLiveTest extends BaseContextLiveTest<
 
 			@Override
 			public boolean apply(VAppTemplate input) {
-				if(input.getName().startsWith("captured-") || input.getName().startsWith("uploaded-") || input.getName().startsWith("vappTemplateClone-"))
+				if (input.getName().startsWith("captured-") || input.getName().startsWith("uploaded-") || input.getName().startsWith("vappTemplateClone-"))
 					context.getApi().getVAppTemplateApi().remove(input.getHref());
 				return false;
 			}});

@@ -18,8 +18,6 @@ package org.jclouds.abiquo.domain.infrastructure;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
-
 import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.domain.DomainWrapper;
 import org.jclouds.abiquo.domain.infrastructure.options.StoragePoolOptions;
@@ -37,8 +35,6 @@ import com.abiquo.server.core.infrastructure.storage.TiersDto;
  * Adds high level functionality to {@link StorageDeviceDto}. The Storage Device
  * Resource offers the functionality of managing the external storage.
  * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  * @see API: <a
  *      href="http://community.abiquo.com/display/ABI20/StorageDeviceResource">
  *      http://community.abiquo.com/display/ABI20/StorageDeviceResource</a>
@@ -121,11 +117,11 @@ public class StorageDevice extends DomainWrapper<StorageDeviceDto> {
     *      StoragePoolResource- Retrievestoragepools</a>
     * @return Synchronized list of storage pools in this device.
     */
-   public List<StoragePool> listRemoteStoragePools() {
+   public Iterable<StoragePool> listRemoteStoragePools() {
       StoragePoolsDto storagePools = context.getApi().getInfrastructureApi()
             .listStoragePools(target, StoragePoolOptions.builder().sync(true).build());
 
-      List<StoragePool> storagePoolList = wrap(context, StoragePool.class, storagePools.getCollection());
+      Iterable<StoragePool> storagePoolList = wrap(context, StoragePool.class, storagePools.getCollection());
 
       for (StoragePool storagePool : storagePoolList) {
          storagePool.storageDevice = this;
@@ -144,7 +140,7 @@ public class StorageDevice extends DomainWrapper<StorageDeviceDto> {
     *      StoragePoolResource- Retrievestoragepools</a>
     * @return Unsynchronized list of storage pools in this device.
     */
-   public List<StoragePool> listStoragePools() {
+   public Iterable<StoragePool> listStoragePools() {
       StoragePoolsDto storagePools = context.getApi().getInfrastructureApi()
             .listStoragePools(target, StoragePoolOptions.builder().sync(false).build());
       return wrap(context, StoragePool.class, storagePools.getCollection());
@@ -177,7 +173,7 @@ public class StorageDevice extends DomainWrapper<StorageDeviceDto> {
     *      Retrievethelistoftiers </a>
     * @return List of tiers in the datacenter using this device.
     */
-   public List<Tier> listTiersFromDatacenter() {
+   public Iterable<Tier> listTiersFromDatacenter() {
       DatacenterDto datacenter;
 
       if (this.datacenter == null) {

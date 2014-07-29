@@ -22,7 +22,6 @@ import org.jclouds.vcloud.director.v1_5.domain.ProductSectionList;
 import org.jclouds.vcloud.director.v1_5.domain.RasdItemsList;
 import org.jclouds.vcloud.director.v1_5.domain.ScreenTicket;
 import org.jclouds.vcloud.director.v1_5.domain.Task;
-import org.jclouds.vcloud.director.v1_5.domain.VApp;
 import org.jclouds.vcloud.director.v1_5.domain.Vm;
 import org.jclouds.vcloud.director.v1_5.domain.VmPendingQuestion;
 import org.jclouds.vcloud.director.v1_5.domain.VmQuestionAnswer;
@@ -40,7 +39,6 @@ import org.jclouds.vcloud.director.v1_5.domain.section.VirtualHardwareSection;
 /**
  * Provides synchronous access to {@link Vm} objects.
  * 
- * @author grkvlt@apache.org, Adrian Cole
  * @see VmAsyncApi
  * @version 1.5
  */

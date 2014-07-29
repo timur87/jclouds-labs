@@ -19,7 +19,6 @@ package org.jclouds.snia.cdmi.v1.features;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -34,10 +33,6 @@ import org.jclouds.snia.cdmi.v1.options.CreateContainerOptions;
 import org.jclouds.snia.cdmi.v1.queryparams.ContainerQueryParams;
 import org.testng.annotations.Test;
 
-/**
- * 
- * @author Kenneth Nagin
- */
 
 @Test(groups = "live", testName = "ContainerApiLiveTest")
 public class ContainerApiLiveTest extends BaseCDMIApiLiveTest {

@@ -17,16 +17,16 @@
 package org.jclouds.abiquo.domain.network;
 
 import static com.google.common.collect.Iterables.find;
+import static com.google.common.collect.Iterables.size;
 import static org.jclouds.abiquo.reference.AbiquoTestConstants.PREFIX;
 import static org.jclouds.abiquo.util.Assert.assertHasError;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
 
-import java.util.List;
-
 import javax.ws.rs.core.Response.Status;
 
+import org.jclouds.abiquo.domain.PaginatedCollection;
 import org.jclouds.abiquo.domain.exception.AbiquoException;
 import org.jclouds.abiquo.domain.network.options.IpOptions;
 import org.jclouds.abiquo.internal.BaseAbiquoApiLiveApiTest;
@@ -35,13 +35,12 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.abiquo.server.core.infrastructure.network.ExternalIpDto;
 import com.abiquo.server.core.infrastructure.network.ExternalIpsDto;
 import com.google.common.base.Predicate;
 
 /**
  * Live integration tests for the {@link ExternalNetwork} domain class.
- * 
- * @author Ignasi Barrera
  */
 @Test(groups = "api", testName = "ExternalNetworkLiveApiTest")
 public class ExternalNetworkLiveApiTest extends BaseAbiquoApiLiveApiTest {
@@ -58,27 +57,26 @@ public class ExternalNetworkLiveApiTest extends BaseAbiquoApiLiveApiTest {
    }
 
    public void testListIps() {
-      ExternalIpsDto ipsDto = env.context.getApiContext().getApi().getInfrastructureApi()
-            .listExternalIps(externalNetwork.unwrap(), IpOptions.builder().limit(1).build());
+      PaginatedCollection<ExternalIpDto, ExternalIpsDto> ipsDto = env.context.getApiContext().getApi()
+            .getInfrastructureApi().listExternalIps(externalNetwork.unwrap(), IpOptions.builder().limit(1).build());
       int totalIps = ipsDto.getTotalSize();
 
-      List<ExternalIp> ips = externalNetwork.listIps();
-
-      assertEquals(ips.size(), totalIps);
+      Iterable<ExternalIp> ips = externalNetwork.listIps();
+      assertEquals(size(ips), totalIps);
    }
 
    public void testListIpsWithOptions() {
-      List<ExternalIp> ips = externalNetwork.listIps(IpOptions.builder().limit(5).build());
-      assertEquals(ips.size(), 5);
+      Iterable<ExternalIp> ips = externalNetwork.listIps(IpOptions.builder().limit(5).build());
+      assertEquals(size(ips), 5);
    }
 
    public void testListUnusedIps() {
-      ExternalIpsDto ipsDto = env.context.getApiContext().getApi().getInfrastructureApi()
-            .listExternalIps(externalNetwork.unwrap(), IpOptions.builder().limit(1).build());
+      PaginatedCollection<ExternalIpDto, ExternalIpsDto> ipsDto = env.context.getApiContext().getApi()
+            .getInfrastructureApi().listExternalIps(externalNetwork.unwrap(), IpOptions.builder().limit(1).build());
       int totalIps = ipsDto.getTotalSize();
 
-      List<ExternalIp> ips = externalNetwork.listUnusedIps();
-      assertEquals(ips.size(), totalIps);
+      Iterable<ExternalIp> ips = externalNetwork.listUnusedIps();
+      assertEquals(size(ips), totalIps);
    }
 
    public void testUpdateBasicInfo() {

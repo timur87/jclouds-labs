@@ -40,6 +40,7 @@ import org.jclouds.abiquo.binders.cloud.BindNetworkConfigurationRefToPayload;
 import org.jclouds.abiquo.binders.cloud.BindNetworkRefToPayload;
 import org.jclouds.abiquo.binders.cloud.BindVirtualDatacenterRefToPayload;
 import org.jclouds.abiquo.binders.cloud.BindVolumeRefsToPayload;
+import org.jclouds.abiquo.domain.PaginatedCollection;
 import org.jclouds.abiquo.domain.cloud.options.VirtualApplianceOptions;
 import org.jclouds.abiquo.domain.cloud.options.VirtualDatacenterOptions;
 import org.jclouds.abiquo.domain.cloud.options.VirtualMachineOptions;
@@ -50,9 +51,15 @@ import org.jclouds.abiquo.fallbacks.MovedVolume;
 import org.jclouds.abiquo.functions.ReturnTaskReferenceOrNull;
 import org.jclouds.abiquo.functions.enterprise.ParseEnterpriseId;
 import org.jclouds.abiquo.functions.infrastructure.ParseDatacenterId;
+import org.jclouds.abiquo.functions.pagination.ParsePrivateIps;
+import org.jclouds.abiquo.functions.pagination.ParsePublicIps;
+import org.jclouds.abiquo.functions.pagination.ParseVirtualMachineTemplates;
+import org.jclouds.abiquo.functions.pagination.ParseVirtualMachines;
+import org.jclouds.abiquo.functions.pagination.ParseVolumes;
 import org.jclouds.abiquo.http.filters.AbiquoAuthentication;
 import org.jclouds.abiquo.http.filters.AppendApiVersionToMediaType;
 import org.jclouds.abiquo.rest.annotations.EndpointLink;
+import org.jclouds.collect.PagedIterable;
 import org.jclouds.http.functions.ReturnStringIf2xx;
 import org.jclouds.rest.annotations.BinderParam;
 import org.jclouds.rest.annotations.Fallback;
@@ -61,6 +68,7 @@ import org.jclouds.rest.annotations.ParamParser;
 import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
 import org.jclouds.rest.annotations.SinceApiVersion;
+import org.jclouds.rest.annotations.Transform;
 import org.jclouds.rest.binders.BindToXMLPayload;
 
 import com.abiquo.model.transport.AcceptedRequestDto;
@@ -100,8 +108,6 @@ import com.abiquo.server.core.infrastructure.storage.VolumesManagementDto;
  * 
  * @see API: <a href="http://community.abiquo.com/display/ABI20/API+Reference">
  *      http://community.abiquo.com/display/ABI20/API+Reference</a>
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  */
 @RequestFilters({ AbiquoAuthentication.class, AppendApiVersionToMediaType.class })
 @Path("/cloud")
@@ -195,8 +201,9 @@ public interface CloudApi extends Closeable {
    @Named("vdc:listtemplates")
    @GET
    @Consumes(VirtualMachineTemplatesDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VirtualMachineTemplatesDto listAvailableTemplates(
+   @ResponseParser(ParseVirtualMachineTemplates.class)
+   @Transform(ParseVirtualMachineTemplates.ToPagedIterable.class)
+   PagedIterable<VirtualMachineTemplateDto> listAvailableTemplates(
          @EndpointLink("templates") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter);
 
    /**
@@ -211,8 +218,8 @@ public interface CloudApi extends Closeable {
    @Named("vdc:listtemplates")
    @GET
    @Consumes(VirtualMachineTemplatesDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VirtualMachineTemplatesDto listAvailableTemplates(
+   @ResponseParser(ParseVirtualMachineTemplates.class)
+   PaginatedCollection<VirtualMachineTemplateDto, VirtualMachineTemplatesDto> listAvailableTemplates(
          @EndpointLink("templates") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter,
          VirtualMachineTemplateOptions options);
 
@@ -229,8 +236,26 @@ public interface CloudApi extends Closeable {
    @Named("vdc:listavailablepublicips")
    @GET
    @Consumes(PublicIpsDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   PublicIpsDto listAvailablePublicIps(
+   @ResponseParser(ParsePublicIps.class)
+   @Transform(ParsePublicIps.ToPagedIterable.class)
+   PagedIterable<PublicIpDto> listAvailablePublicIps(
+         @EndpointLink("topurchase") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter);
+
+   /**
+    * List all available ips to purchase in the datacenter by the virtual
+    * datacenter.
+    * 
+    * @param virtualDatacenter
+    *           The virtual datacenter.
+    * @param options
+    *           Filtering options.
+    * @return The list of available ips.
+    */
+   @Named("vdc:listavailablepublicips")
+   @GET
+   @Consumes(PublicIpsDto.BASE_MEDIA_TYPE)
+   @ResponseParser(ParsePublicIps.class)
+   PaginatedCollection<PublicIpDto, PublicIpsDto> listAvailablePublicIps(
          @EndpointLink("topurchase") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter,
          IpOptions options);
 
@@ -246,8 +271,25 @@ public interface CloudApi extends Closeable {
    @Named("vdc:listpurchasedpublicips")
    @GET
    @Consumes(PublicIpsDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   PublicIpsDto listPurchasedPublicIps(
+   @ResponseParser(ParsePublicIps.class)
+   @Transform(ParsePublicIps.ToPagedIterable.class)
+   PagedIterable<PublicIpDto> listPurchasedPublicIps(
+         @EndpointLink("purchased") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter);
+
+   /**
+    * List all purchased public ip addresses in the virtual datacenter.
+    * 
+    * @param virtualDatacenter
+    *           The virtual datacenter.
+    * @param options
+    *           Filtering options.
+    * @return The list of purchased ips.
+    */
+   @Named("vdc:listpurchasedpublicips")
+   @GET
+   @Consumes(PublicIpsDto.BASE_MEDIA_TYPE)
+   @ResponseParser(ParsePublicIps.class)
+   PaginatedCollection<PublicIpDto, PublicIpsDto> listPurchasedPublicIps(
          @EndpointLink("purchased") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter,
          IpOptions options);
 
@@ -426,8 +468,10 @@ public interface CloudApi extends Closeable {
    @Named("privatenetwork:listips")
    @GET
    @Consumes(PrivateIpsDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   PrivateIpsDto listPrivateNetworkIps(@EndpointLink("ips") @BinderParam(BindToPath.class) VLANNetworkDto network);
+   @ResponseParser(ParsePrivateIps.class)
+   @Transform(ParsePrivateIps.ToPagedIterable.class)
+   PagedIterable<PrivateIpDto> listPrivateNetworkIps(
+         @EndpointLink("ips") @BinderParam(BindToPath.class) VLANNetworkDto network);
 
    /**
     * List all ips for a private network with options.
@@ -441,9 +485,9 @@ public interface CloudApi extends Closeable {
    @Named("privatenetwork:listips")
    @GET
    @Consumes(PrivateIpsDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   PrivateIpsDto listPrivateNetworkIps(@EndpointLink("ips") @BinderParam(BindToPath.class) VLANNetworkDto network,
-         IpOptions options);
+   @ResponseParser(ParsePrivateIps.class)
+   PaginatedCollection<PrivateIpDto, PrivateIpsDto> listPrivateNetworkIps(
+         @EndpointLink("ips") @BinderParam(BindToPath.class) VLANNetworkDto network, IpOptions options);
 
    /**
     * Get the requested ip from the given private network.
@@ -611,7 +655,7 @@ public interface CloudApi extends Closeable {
     * @return A <code>String</code> representation of the price of the virtual
     *         appliance.
     */
-   @Named("vapp:gerprice")
+   @Named("vapp:getprice")
    @GET
    @Consumes(MediaType.TEXT_PLAIN)
    @ResponseParser(ReturnStringIf2xx.class)
@@ -630,8 +674,25 @@ public interface CloudApi extends Closeable {
    @GET
    @Path("/virtualmachines")
    @Consumes(VirtualMachinesWithNodeExtendedDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VirtualMachinesWithNodeExtendedDto listAllVirtualMachines();
+   @ResponseParser(ParseVirtualMachines.class)
+   @Transform(ParseVirtualMachines.ToPagedIterable.class)
+   PagedIterable<VirtualMachineWithNodeExtendedDto> listAllVirtualMachines();
+
+   /**
+    * List all virtual machines available to the current user.
+    * 
+    * @param options
+    *           The filter options.
+    * @return The list of all virtual machines available to the current user.
+    */
+   @SinceApiVersion("2.4")
+   @Named("vm:listall")
+   @GET
+   @Path("/virtualmachines")
+   @Consumes(VirtualMachinesWithNodeExtendedDto.BASE_MEDIA_TYPE)
+   @ResponseParser(ParseVirtualMachines.class)
+   PaginatedCollection<VirtualMachineWithNodeExtendedDto, VirtualMachinesWithNodeExtendedDto> listAllVirtualMachines(
+         VirtualMachineOptions options);
 
    /**
     * List all virtual machines for a virtual appliance.
@@ -643,8 +704,9 @@ public interface CloudApi extends Closeable {
    @Named("vm:list")
    @GET
    @Consumes(VirtualMachinesWithNodeExtendedDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VirtualMachinesWithNodeExtendedDto listVirtualMachines(
+   @ResponseParser(ParseVirtualMachines.class)
+   @Transform(ParseVirtualMachines.ToPagedIterable.class)
+   PagedIterable<VirtualMachineWithNodeExtendedDto> listVirtualMachines(
          @EndpointLink("virtualmachines") @BinderParam(BindToPath.class) VirtualApplianceDto virtualAppliance);
 
    /**
@@ -659,8 +721,8 @@ public interface CloudApi extends Closeable {
    @Named("vm:list")
    @GET
    @Consumes(VirtualMachinesWithNodeExtendedDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VirtualMachinesWithNodeExtendedDto listVirtualMachines(
+   @ResponseParser(ParseVirtualMachines.class)
+   PaginatedCollection<VirtualMachineWithNodeExtendedDto, VirtualMachinesWithNodeExtendedDto> listVirtualMachines(
          @EndpointLink("virtualmachines") @BinderParam(BindToPath.class) VirtualApplianceDto virtualAppliance,
          VirtualMachineOptions options);
 
@@ -1079,8 +1141,9 @@ public interface CloudApi extends Closeable {
    @Named("volume:list")
    @GET
    @Consumes(VolumesManagementDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VolumesManagementDto listVolumes(
+   @ResponseParser(ParseVolumes.class)
+   @Transform(ParseVolumes.ToPagedIterable.class)
+   PagedIterable<VolumeManagementDto> listVolumes(
          @EndpointLink("volumes") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter);
 
    /**
@@ -1095,8 +1158,8 @@ public interface CloudApi extends Closeable {
    @Named("volume:list")
    @GET
    @Consumes(VolumesManagementDto.BASE_MEDIA_TYPE)
-   @JAXBResponseParser
-   VolumesManagementDto listVolumes(
+   @ResponseParser(ParseVolumes.class)
+   PaginatedCollection<VolumeManagementDto, VolumesManagementDto> listVolumes(
          @EndpointLink("volumes") @BinderParam(BindToPath.class) VirtualDatacenterDto virtualDatacenter,
          VolumeOptions options);
 

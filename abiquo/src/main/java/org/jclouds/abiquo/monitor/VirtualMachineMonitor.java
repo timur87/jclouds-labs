@@ -27,8 +27,6 @@ import com.google.inject.ImplementedBy;
 
 /**
  * {@link VirtualMachine} monitoring features.
- * 
- * @author Ignasi Barrera
  */
 @ImplementedBy(BaseVirtualMachineMonitor.class)
 public interface VirtualMachineMonitor extends MonitoringService {
@@ -48,7 +46,7 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorDeploy(final VirtualMachine... vms);
+   void monitorDeploy(final VirtualMachine... vms);
 
    /**
     * Monitor the given {@link VirtualMachine}s and block until all deploys
@@ -74,7 +72,7 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorDeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualMachine... vms);
+   void monitorDeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualMachine... vms);
 
    /**
     * Monitor the given {@link VirtualMachine}s and block until all undeploys
@@ -92,7 +90,7 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorUndeploy(final VirtualMachine... vms);
+   void monitorUndeploy(final VirtualMachine... vms);
 
    /**
     * Monitor the given {@link VirtualMachine}s and blocks until all undeploys
@@ -120,7 +118,7 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorUndeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualMachine... vms);
+   void monitorUndeploy(final Long maxWait, final TimeUnit timeUnit, final VirtualMachine... vms);
 
    /**
     * Monitor the given {@link VirtualMachine}s and block until it is in the
@@ -138,7 +136,7 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorState(VirtualMachineState state, final VirtualMachine... vms);
+   void monitorState(VirtualMachineState state, final VirtualMachine... vms);
 
    /**
     * Monitor the given {@link VirtualMachine}s and block until it is in the
@@ -166,6 +164,6 @@ public interface VirtualMachineMonitor extends MonitoringService {
     * @param vms
     *           The {@link VirtualMachine}s to monitor.
     */
-   public void monitorState(final Long maxWait, final TimeUnit timeUnit, VirtualMachineState state,
+   void monitorState(final Long maxWait, final TimeUnit timeUnit, VirtualMachineState state,
          final VirtualMachine... vms);
 }

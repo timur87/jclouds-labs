@@ -32,8 +32,6 @@ import org.testng.annotations.Test;
 
 /**
  * Tests live behavior of {@link AdminGroupApi}.
- * 
- * @author danikov
  */
 @Test(groups = { "live", "admin" }, singleThreaded = true, testName = "GroupApiLiveTest")
 public class GroupApiLiveTest extends BaseVCloudDirectorApiLiveTest {
@@ -49,7 +47,8 @@ public class GroupApiLiveTest extends BaseVCloudDirectorApiLiveTest {
     * Shared state between dependant tests.
     */
    private Group group;
-   private OrgLdapSettings oldLdapSettings, newLdapSettings;
+   private OrgLdapSettings oldLdapSettings;
+   private OrgLdapSettings newLdapSettings;
    
    @Override
    @BeforeClass(alwaysRun = true)
@@ -84,9 +83,9 @@ public class GroupApiLiveTest extends BaseVCloudDirectorApiLiveTest {
    @Test(description = "PUT /admin/group/{id}", dependsOnMethods = { "testGetGroup" } )
    public void testEditGroup() {
       String oldName = group.getName();
-      String newName = "new "+oldName;
+      String newName = "new " + oldName;
       String oldDescription = group.getDescription();
-      String newDescription = "new "+oldDescription;
+      String newDescription = "new " + oldDescription;
       //TODO: check other modifiables
       
       try {

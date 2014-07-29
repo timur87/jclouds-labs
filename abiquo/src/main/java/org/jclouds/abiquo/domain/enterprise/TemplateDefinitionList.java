@@ -18,8 +18,6 @@ package org.jclouds.abiquo.domain.enterprise;
 
 import static com.google.common.collect.Iterables.filter;
 
-import java.util.List;
-
 import org.jclouds.abiquo.AbiquoApi;
 import org.jclouds.abiquo.domain.DomainWrapper;
 import org.jclouds.abiquo.domain.infrastructure.Datacenter;
@@ -28,16 +26,12 @@ import org.jclouds.rest.ApiContext;
 import com.abiquo.am.model.TemplatesStateDto;
 import com.abiquo.server.core.appslibrary.TemplateDefinitionListDto;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
 
 /**
  * Adds high level functionality to {@link TemplateDefinitionListDto}. A
  * Template Definition List provides a way to organize multiple Template
  * Definitions. A single Template Definition can be shared by many lists. Its
  * compatible with ovfindex.xml format.
- * 
- * @author Ignasi Barrera
- * @author Francesc Montserrat
  */
 public class TemplateDefinitionList extends DomainWrapper<TemplateDefinitionListDto> {
    /** The enterprise where the list belongs. */
@@ -111,7 +105,7 @@ public class TemplateDefinitionList extends DomainWrapper<TemplateDefinitionList
     *      TemplateDefinitionListResource# TemplateDefinitionListResource-
     *      Retrievealistofthestatusofalltemplatestatuslist</a>
     */
-   public List<TemplateState> listStatus(final Datacenter datacenter) {
+   public Iterable<TemplateState> listStatus(final Datacenter datacenter) {
       TemplatesStateDto states = context.getApi().getEnterpriseApi()
             .listTemplateListStatus(target, datacenter.unwrap());
       return wrap(context, TemplateState.class, states.getCollection());
@@ -134,8 +128,8 @@ public class TemplateDefinitionList extends DomainWrapper<TemplateDefinitionList
     *      TemplateDefinitionListResource# TemplateDefinitionListResource-
     *      Retrievealistofthestatusofalltemplatestatuslist</a>
     */
-   public List<TemplateState> listStatus(final Predicate<TemplateState> filter, final Datacenter datacenter) {
-      return ImmutableList.copyOf(filter(listStatus(datacenter), filter));
+   public Iterable<TemplateState> listStatus(final Predicate<TemplateState> filter, final Datacenter datacenter) {
+      return filter(listStatus(datacenter), filter);
    }
 
    // Builder

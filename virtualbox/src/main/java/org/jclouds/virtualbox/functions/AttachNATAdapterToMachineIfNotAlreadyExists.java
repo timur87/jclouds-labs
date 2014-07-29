@@ -22,16 +22,12 @@ import org.jclouds.virtualbox.domain.NetworkInterfaceCard;
 import org.jclouds.virtualbox.domain.RedirectRule;
 import org.virtualbox_4_2.IMachine;
 import org.virtualbox_4_2.INetworkAdapter;
-import org.virtualbox_4_2.NetworkAdapterType;
 import org.virtualbox_4_2.VBoxException;
 
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
-/**
- * @author Mattias Holmqvist, Andrea Turli
- */
 public class AttachNATAdapterToMachineIfNotAlreadyExists implements Function<IMachine, Void> {
 
    private NetworkInterfaceCard networkInterfaceCard;
@@ -46,14 +42,14 @@ public class AttachNATAdapterToMachineIfNotAlreadyExists implements Function<IMa
       // clean up previously set rules
       for (String redirectRule : iNetworkAdapter.getNATEngine().getRedirects()) {
          String redirectRuleName = Iterables.getFirst(Splitter.on(",").split(redirectRule), null);
-         if(redirectRuleName != null) {
+         if (redirectRuleName != null) {
             iNetworkAdapter.getNATEngine().removeRedirect(redirectRuleName);
          }
       }
       iNetworkAdapter.setAttachmentType(NAT);
       for (RedirectRule rule : networkInterfaceCard.getNetworkAdapter().getRedirectRules()) {
          try {
-            String ruleName = String.format("%s@%s:%s->%s:%s",rule.getProtocol(), rule.getHost(), rule.getHostPort(), 
+            String ruleName = String.format("%s@%s:%s->%s:%s", rule.getProtocol(), rule.getHost(), rule.getHostPort(), 
                      rule.getGuest(), rule.getGuestPort());
             iNetworkAdapter.getNATEngine().addRedirect(ruleName, rule.getProtocol(), rule.getHost(), rule.getHostPort(),
                      rule.getGuest(), rule.getGuestPort());

@@ -21,15 +21,12 @@ import static org.testng.Assert.fail;
 
 import javax.ws.rs.core.Response.Status;
 
-import org.jclouds.abiquo.domain.enterprise.User;
 import org.jclouds.abiquo.domain.exception.AbiquoException;
 import org.jclouds.abiquo.internal.BaseAbiquoApiLiveApiTest;
 import org.testng.annotations.Test;
 
 /**
  * Live integration tests for the {@link User} domain class.
- * 
- * @author Francesc Montserrat
  */
 @Test(groups = "api", testName = "LicenseLiveApiTest")
 public class LicenseLiveApiTest extends BaseAbiquoApiLiveApiTest {

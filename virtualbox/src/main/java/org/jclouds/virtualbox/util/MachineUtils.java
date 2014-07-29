@@ -31,7 +31,12 @@ import org.jclouds.compute.reference.ComputeServiceConstants;
 import org.jclouds.logging.Logger;
 import org.jclouds.scriptbuilder.domain.Statement;
 import org.jclouds.util.Throwables2;
-import org.virtualbox_4_2.*;
+import org.virtualbox_4_2.IMachine;
+import org.virtualbox_4_2.ISession;
+import org.virtualbox_4_2.LockType;
+import org.virtualbox_4_2.SessionState;
+import org.virtualbox_4_2.VBoxException;
+import org.virtualbox_4_2.VirtualBoxManager;
 
 import javax.annotation.Resource;
 import javax.inject.Named;
@@ -44,8 +49,6 @@ import static org.jclouds.util.Predicates2.retry;
 
 /**
  * Utilities for executing functions on a VirtualBox machine.
- * 
- * @author Adrian Cole, Mattias Holmqvist, Andrea Turli, David Alves
  */
 
 @Singleton
@@ -191,13 +194,13 @@ public class MachineUtils {
                   type, e.getMessage()), e);
       } finally {
          // this is a workaround for shared lock type, where session state is not updated immediately
-         if(type == LockType.Shared) {
+         if (type == LockType.Shared) {
             Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
          }
          if (session.getState().equals(SessionState.Locked)) {
             session.unlockMachine();
          } 
-         if(!session.getState().equals(SessionState.Unlocked)) {
+         if (!session.getState().equals(SessionState.Unlocked)) {
             checkSessionIsUnlocked(session, 5, 3L, TimeUnit.SECONDS);
          }
       }

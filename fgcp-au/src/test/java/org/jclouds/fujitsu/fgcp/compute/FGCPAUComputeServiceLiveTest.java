@@ -16,13 +16,8 @@
  */
 package org.jclouds.fujitsu.fgcp.compute;
 
-import org.jclouds.fujitsu.fgcp.compute.FGCPBaseComputeServiceLiveTest;
 import org.testng.annotations.Test;
 
-/**
- * @author Dies Koper
- *
- */
 @Test(groups = "live", enabled = true, singleThreaded = true, testName = "FGCPAUComputeServiceLiveTest")
 public class FGCPAUComputeServiceLiveTest extends FGCPBaseComputeServiceLiveTest {
 
