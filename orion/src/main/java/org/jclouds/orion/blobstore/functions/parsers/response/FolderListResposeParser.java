@@ -17,6 +17,7 @@
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.jclouds.http.HttpResponse;
@@ -26,8 +27,7 @@ import org.jclouds.orion.domain.OrionChildMetadata;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
+import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 /**
@@ -53,19 +53,21 @@ public class FolderListResposeParser implements Function<HttpResponse, List<Orio
     * @see com.google.common.base.Function#apply(java.lang.Object)
     */
    @Override
-   public List<OrionChildMetadata> apply(HttpResponse res) {
+   public List<OrionChildMetadata> apply(final HttpResponse res) {
+      ByteSource source = new ByteSource() {
 
-      String theString;
+         @Override
+         public InputStream openStream() throws IOException {
+            return res.getPayload().openStream();
+         }
+      };
       try {
-         theString = CharStreams
-               .toString(CharStreams.newReaderSupplier(
-                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().openStream())),
-                     Charsets.UTF_8));
-         return this.jsonUtils.fetchFileObjects(theString);
+         return this.jsonUtils.fetchFileObjects(source.asCharSource(Charsets.UTF_8).read());
       } catch (IOException e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
       return null;
+
+
    }
 }

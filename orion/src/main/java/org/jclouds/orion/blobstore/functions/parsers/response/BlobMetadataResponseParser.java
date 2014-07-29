@@ -17,19 +17,19 @@
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
 /**
- * Parses response to a blob metadata request and after parsing {@link MutableBlobProperties} 
+ * Parses response to a blob metadata request and after parsing {@link MutableBlobProperties}
  * a new request is done to fetch the actual blob
  * @author Timur
  *
  */
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.jclouds.blobstore.domain.Blob;
-import org.jclouds.domain.Credentials;
 import org.jclouds.http.HttpResponse;
-import org.jclouds.location.Provider;
 import org.jclouds.orion.OrionApi;
+import org.jclouds.orion.OrionUtils;
 import org.jclouds.orion.blobstore.functions.converters.OrionBlobToBlob;
 import org.jclouds.orion.domain.BlobType;
 import org.jclouds.orion.domain.JSONUtils;
@@ -40,38 +40,40 @@ import org.jclouds.orion.domain.OrionBlob.Factory;
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Supplier;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
+import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> {
 
    private final OrionApi api;
-   private final String userWorkspace;
    private final Factory orionBlobProvider;
    private final OrionBlobToBlob orionBlob2Blob;
    private final JSONUtils jsonConverter;
+   private final OrionUtils utils;
 
    @Inject
-   public BlobMetadataResponseParser(JSONUtils jsonConverter, OrionApi api, @Provider Supplier<Credentials> creds,
+   public BlobMetadataResponseParser(JSONUtils jsonConverter, OrionApi api, OrionUtils utils,
          OrionBlob.Factory orionBlobProvider, OrionBlobToBlob orionBlob2Blob) {
       this.jsonConverter = Preconditions.checkNotNull(jsonConverter, "mapper is null");
       this.api = Preconditions.checkNotNull(api, "api is null");
-      this.userWorkspace = Preconditions.checkNotNull(creds, "creds is null").get().identity;
+      this.utils = utils;
       this.orionBlobProvider = Preconditions.checkNotNull(orionBlobProvider, "orionBlobProvider is null");
       this.orionBlob2Blob = Preconditions.checkNotNull(orionBlob2Blob, "orionBlob2Blob is null");
 
    }
 
    @Override
-   public Blob apply(HttpResponse response) {
+   public Blob apply(final HttpResponse response) {
       MutableBlobProperties properties = null;
       try {
-         String theString = CharStreams.toString(CharStreams.newReaderSupplier(
-               ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().openStream())),
-               Charsets.UTF_8));
-         properties = this.jsonConverter.getStringAsObject(theString, MutableBlobProperties.class);
+         ByteSource source = new ByteSource() {
+
+            @Override
+            public InputStream openStream() throws IOException {
+               return response.getPayload().openStream();
+            }
+         };
+         properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(), MutableBlobProperties.class);
          OrionBlob orionBlob = this.orionBlobProvider.create(properties);
          if (properties.getType() == BlobType.FILE_BLOB) {
             HttpResponse payloadRes = this.api.getBlobContents(this.getUserWorkspace(), properties.getContainer(),
@@ -92,7 +94,10 @@ public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> 
     * @return
     */
    private String getUserWorkspace() {
-      // TODO Auto-generated method stub
-      return this.userWorkspace;
+      return getUtils().getUserWorkspace();
+   }
+
+   public OrionUtils getUtils() {
+      return this.utils;
    }
 }

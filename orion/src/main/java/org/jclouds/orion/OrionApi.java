@@ -1,18 +1,18 @@
-/**
- * Licensed to jclouds, Inc. (jclouds) under one or more contributor license
- * agreements. See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership. jclouds licenses this file to you
- * under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the
- * License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.jclouds.orion;
 
@@ -76,10 +76,12 @@ import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
 
 /**
- * Provides synchronous access to Orion via their REST API.
+ * Provides asynchronous access to Orion via their REST API. Orion is an open source platform For cloud based development, which provides FILE APIs. This project leverages the available File manipulation APIs and creates a BlobStore out of them.
+ * @see <a href="http://www.eclipse.org/orion/"/>
  * <p/>
  * 
- * @author Timur Sungur
+ * @see OrionClient
+ * @see <a href="http://wiki.eclipse.org/Orion/Documentation" />
  */
 
 public interface OrionApi extends Closeable {
@@ -161,7 +163,7 @@ public interface OrionApi extends Closeable {
    @Fallback(ReturnFalseOnNotFound.class)
    @Headers(keys = { OrionHttpFields.ORION_ECLIPSE_WEB_FIELD }, values = { OrionConstantValues.ORION_VERSION })
    @RequestFilters({ FormAuthentication.class })
-   Boolean deleteContainerMetadata(@PathParam("userWorkspace") String userWorkspace,
+   Boolean deleteContainerViaWorkspaceApi(@PathParam("userWorkspace") String userWorkspace,
          @PathParam("containerName") @ParamParser(EncodeParamParser.class) String containerName);
 
    /**
@@ -270,7 +272,7 @@ public interface OrionApi extends Closeable {
    @POST
    @Path(OrionConstantValues.ORION_FILE_PATH + "{userWorkspace}/{containerName}/{parentPath}")
    @RequestFilters({ FormAuthentication.class, EmptyRequestFilter.class, CreateFolderFilter.class,
-         CreateHiddenFileFilter.class, CreateReadonlyFileFilter.class })
+      CreateHiddenFileFilter.class, CreateReadonlyFileFilter.class })
    @Produces(MediaType.APPLICATION_JSON)
    @Headers(keys = { OrionHttpFields.ORION_VERSION_FIELD }, values = { OrionConstantValues.ORION_VERSION })
    @ResponseParser(CreationResponseParser.class)
@@ -332,7 +334,7 @@ public interface OrionApi extends Closeable {
    @POST
    @Path(OrionConstantValues.ORION_FILE_PATH + "{userWorkspace}/{containerName}/{parentPath}")
    @RequestFilters({ FormAuthentication.class, EmptyRequestFilter.class, CreateFolderFilter.class,
-         CreateHiddenFileFilter.class, CreateReadonlyFileFilter.class })
+      CreateHiddenFileFilter.class, CreateReadonlyFileFilter.class })
    @Produces(MediaType.APPLICATION_JSON)
    @Headers(keys = { OrionHttpFields.HEADER_SLUG, OrionHttpFields.ORION_VERSION_FIELD }, values = {
          OrionConstantValues.ORION_METADATA_FILE_NAME, OrionConstantValues.ORION_VERSION })

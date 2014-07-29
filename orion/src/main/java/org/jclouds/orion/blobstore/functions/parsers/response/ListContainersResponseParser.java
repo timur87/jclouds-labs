@@ -17,6 +17,7 @@
 package org.jclouds.orion.blobstore.functions.parsers.response;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.jclouds.blobstore.domain.PageSet;
@@ -31,8 +32,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
+import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 /**
@@ -60,15 +60,20 @@ public class ListContainersResponseParser implements Function<HttpResponse, Page
     * @see com.google.common.base.Function#apply(java.lang.Object)
     */
    @Override
-   public PageSet<? extends StorageMetadata> apply(HttpResponse res) {
+   public PageSet<? extends StorageMetadata> apply(final HttpResponse res) {
       try {
+
+         ByteSource source = new ByteSource() {
+
+            @Override
+            public InputStream openStream() throws IOException {
+               return res.getPayload().openStream();
+            }
+         };
          List<OrionStorageMetadata> storageDataList = Lists.newArrayList(Lists.transform(this.jsonConverter
-               .fetchContainerObjects(CharStreams.toString(CharStreams.newReaderSupplier(
-                     ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(res.getPayload().openStream())),
-                     Charsets.UTF_8))), this.childMetadataToStorageMetadata));
+               .fetchContainerObjects(source.asCharSource(Charsets.UTF_8).read()), this.childMetadataToStorageMetadata));
          return new OrionPageSet(storageDataList);
       } catch (IOException e) {
-         // TODO Auto-generated catch block
          e.printStackTrace();
       }
       return null;

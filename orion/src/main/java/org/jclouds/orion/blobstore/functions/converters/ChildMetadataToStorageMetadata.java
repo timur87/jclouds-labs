@@ -28,6 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 /**
  * This function is used to create {@link OrionStorageMetadata} from orion
@@ -38,14 +39,14 @@ import com.google.inject.Inject;
  */
 public class ChildMetadataToStorageMetadata implements Function<OrionChildMetadata, OrionStorageMetadata> {
 
-   private final OrionStorageMetadata storageMetadata;
    private final Location location;
+   private final Injector injector;
 
    @Inject
-   public ChildMetadataToStorageMetadata(OrionStorageMetadata storageMetadata, Supplier<Location> defaultLocation) {
+   public ChildMetadataToStorageMetadata(Supplier<Location> defaultLocation, Injector injector) {
 
       this.location = Preconditions.checkNotNull(defaultLocation, "defaultLocation is null").get();
-      this.storageMetadata = Preconditions.checkNotNull(storageMetadata, "storageMetadata is null");
+      this.injector = injector;
    }
 
    /*
@@ -55,20 +56,25 @@ public class ChildMetadataToStorageMetadata implements Function<OrionChildMetada
     */
    @Override
    public OrionStorageMetadata apply(OrionChildMetadata childMetadata) {
-      this.storageMetadata.setLocation(this.location);
-      this.storageMetadata.setName(OrionUtils.createContainerName(childMetadata.getLocation()));
+      OrionStorageMetadata storageMetadata = getInjector().getInstance(OrionStorageMetadata.class);
+      storageMetadata.setLocation(this.location);
+      storageMetadata.setName(OrionUtils.createContainerName(childMetadata.getLocation()));
 
       if (OrionUtils.isContainerFromPath(childMetadata.getLocation())) {
-         this.storageMetadata.setType(StorageType.CONTAINER);
+         storageMetadata.setType(StorageType.CONTAINER);
       } else if (childMetadata.isDirectory()) {
-         this.storageMetadata.setType(StorageType.FOLDER);
+         storageMetadata.setType(StorageType.FOLDER);
       } else if (!childMetadata.isDirectory()) {
-         this.storageMetadata.setType(StorageType.BLOB);
+         storageMetadata.setType(StorageType.BLOB);
       }
 
-      this.storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
+      storageMetadata.setLastModified(new Date(childMetadata.getLocalTimeStamp()));
 
-      return this.storageMetadata;
+      return storageMetadata;
+   }
+
+   public Injector getInjector() {
+      return this.injector;
    }
 
 }

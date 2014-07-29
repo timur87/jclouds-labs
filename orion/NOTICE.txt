@@ -1,0 +1,8 @@
+Apache Orion Blobstore Provider for jClouds
+Copyright [2013-2014] The Apache Software Foundation
+
+This product includes software developed at the University of Stuttgart
+The Apache Software Foundation (http://www.apache.org/).
+
+Contributors:
+   Timurhan Sungur - initial API and Implementation

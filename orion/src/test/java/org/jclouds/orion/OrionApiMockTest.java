@@ -1,14 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2013 University of Stuttgart.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
- * and http://www.apache.org/licenses/LICENSE-2.0
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * Contributors:
- *    Timur Sungur - initial API and implementation
- *******************************************************************************/
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.jclouds.orion;
 
@@ -83,14 +88,14 @@ public class OrionApiMockTest {
 
    private static MockResponse getFormAuthenticationResponse() {
       return new MockResponse()
-            .setStatus("HTTP/1.1 200 OK")
-            .setHeader(HttpHeaders.SET_COOKIE, "JSESSIONID=16d6pe0u4sqxy10s76y6xnvgng;Path=/")
-            .setHeader(HttpHeaders.EXPIRES, "Thu, 01 Jan 1970 00:00:00 GMT")
-            .setHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=ISO-8859-1")
-            .setHeader(HttpHeaders.TRANSFER_ENCODING, "chunked")
-            .setHeader(HttpHeaders.SERVER, "Jetty(8.1.10.v20130312)")
-            .setBody(
-                  "{\"Name\":\"timur\",\"uid\":\"A\",\"Location\":\"/users/A\",\"login\":\"timur\",\"lastlogintimestamp\":1385499643546}");
+      .setStatus("HTTP/1.1 200 OK")
+      .setHeader(HttpHeaders.SET_COOKIE, "JSESSIONID=16d6pe0u4sqxy10s76y6xnvgng;Path=/")
+      .setHeader(HttpHeaders.EXPIRES, "Thu, 01 Jan 1970 00:00:00 GMT")
+      .setHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=ISO-8859-1")
+      .setHeader(HttpHeaders.TRANSFER_ENCODING, "chunked")
+      .setHeader(HttpHeaders.SERVER, "Jetty(8.1.10.v20130312)")
+      .setBody(
+            "{\"Name\":\"timur\",\"uid\":\"A\",\"Location\":\"/users/A\",\"login\":\"timur\",\"lastlogintimestamp\":1385499643546}");
    }
 
    private static MockResponse getMockOKResponse() {
@@ -215,7 +220,7 @@ public class OrionApiMockTest {
    public void deleteContainerMetadata() throws InterruptedException, IOException {
       MockWebServer mockServer = this.getMockServer();
       mockServer.enqueue(getMockOKResponse());
-      this.orionApi.deleteContainerMetadata(USER_NAME, CONTAINER);
+      this.orionApi.deleteContainerViaWorkspaceApi(USER_NAME, CONTAINER);
       RecordedRequest req = mockServer.takeRequest();
       Assert.assertEquals(req.getRequestLine(), DELETE + MOCKSERVER_PATH + OrionConstantValues.ORION_WORKSPACE_PATH
             + USER_NAME + "/" + OrionConstantValues.ORION_FILE_PATH + CONTAINER + HTTP_VERSION);
@@ -398,7 +403,7 @@ public class OrionApiMockTest {
             + OrionConstantValues.ORION_METADATA_PATH + OrionUtils.getMetadataName(BLOB_NAME) + HTTP_VERSION);
 
       Assert.assertEquals(mockServer.takeRequest().getRequestLine(), GET + MOCKSERVER_PATH
-            + OrionConstantValues.ORION_FILE_PATH + USER_NAME + "/" + CONTAINER + "/" + PARENT_PATH + BLOB_NAME
+            + OrionConstantValues.ORION_FILE_PATH + USER_NAME+ OrionConstantValues.ORION_USER_CONTENT_ENDING + "/" + CONTAINER + "/" + PARENT_PATH + BLOB_NAME
             + HTTP_VERSION);
       mockServer.shutdown();
    }

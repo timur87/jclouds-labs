@@ -1,3 +1,4 @@
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -39,7 +40,6 @@ public class DuplicateCreationFallback implements Fallback<Boolean> {
     */
    @Override
    public ListenableFuture<Boolean> create(Throwable arg0) throws Exception {
-      // TODO Auto-generated method stub
       return null;
    }
 

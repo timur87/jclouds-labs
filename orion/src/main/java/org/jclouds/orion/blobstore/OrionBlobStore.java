@@ -1,15 +1,19 @@
-/*******************************************************************************
- * Copyright (c) 2013 University of Stuttgart.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
- * and http://www.apache.org/licenses/LICENSE-2.0
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * Contributors:
- *    Timur Sungur - initial API and implementation
- *******************************************************************************/
-
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.jclouds.orion.blobstore;
 
 import java.io.ByteArrayInputStream;
@@ -33,10 +37,8 @@ import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.blobstore.options.PutOptions;
 import org.jclouds.blobstore.util.BlobUtils;
 import org.jclouds.collect.Memoized;
-import org.jclouds.domain.Credentials;
 import org.jclouds.domain.Location;
 import org.jclouds.io.MutableContentMetadata;
-import org.jclouds.location.Provider;
 import org.jclouds.orion.OrionApi;
 import org.jclouds.orion.OrionUtils;
 import org.jclouds.orion.blobstore.functions.converters.BlobPropertiesToBlobMetadata;
@@ -59,20 +61,20 @@ import com.google.inject.Inject;
 public class OrionBlobStore extends BaseBlobStore {
 
    private final OrionApi api;
-   private final String userWorkspace;
    private final BlobToOrionBlob blob2OrionBlob;
    private final BlobPropertiesToBlobMetadata blobProps2BlobMetadata;
    private final BlobUtils blobUtils;
+   private final OrionUtils utils;
 
    @Inject
-   protected OrionBlobStore(BlobStoreContext context, @Provider Supplier<Credentials> creds, BlobUtils blobUtils,
+   protected OrionBlobStore(BlobStoreContext context, OrionUtils utils, BlobUtils blobUtils,
          OrionApi api, Supplier<Location> defaultLocation, @Memoized Supplier<Set<? extends Location>> locations,
          BlobToOrionBlob blob2OrionBlob, BlobPropertiesToBlobMetadata blobProps2BlobMetadata,
          OrionBlob.Factory orionBlobProvider) {
       super(context, blobUtils, defaultLocation, locations);
       this.blobUtils = blobUtils;
       this.api = Preconditions.checkNotNull(api, "api is null");
-      this.userWorkspace = Preconditions.checkNotNull(creds.get(), "creds is null").identity;
+      this.utils =  Preconditions.checkNotNull(utils, "utils is null");
       this.blob2OrionBlob = Preconditions.checkNotNull(blob2OrionBlob, "blob2OrionBlob is null");
       this.blobProps2BlobMetadata = Preconditions
             .checkNotNull(blobProps2BlobMetadata, "blobProps2BlobMetadata is null");
@@ -103,8 +105,7 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    public void deleteContainer(String container) {
-      // api.deleteContainer(getUserLocation(), container);
-      this.api.deleteContainerMetadata(this.getUserWorkspace(), container);
+      this.api.deleteContainerViaWorkspaceApi(this.getUserWorkspace(), container);
    }
 
    @Override
@@ -119,7 +120,8 @@ public class OrionBlobStore extends BaseBlobStore {
 
    @Override
    protected boolean deleteAndVerifyContainerGone(String container) {
-      return this.api.deleteContainerMetadata(this.getUserWorkspace(), container);
+      this.api.deleteContainerViaWorkspaceApi(this.getUserWorkspace(), container);
+      return !containerExists(container);
    }
 
    @Override
@@ -129,7 +131,7 @@ public class OrionBlobStore extends BaseBlobStore {
    }
 
    private String getUserWorkspace() {
-      return this.userWorkspace;
+      return getUtils().getUserWorkspace();
    }
 
    @Override
@@ -153,7 +155,6 @@ public class OrionBlobStore extends BaseBlobStore {
          orionBlob.setPayload(tempOutputStream.toByteArray());
          orionBlob.getProperties().setContentMetadata(tempMD);
       } catch (IOException e1) {
-         // TODO Auto-generated catch block
          e1.printStackTrace();
       }
       ArrayList<String> pathList = new ArrayList<String>(Arrays.asList(orionBlob.getProperties().getParentPath()
@@ -212,7 +213,7 @@ public class OrionBlobStore extends BaseBlobStore {
          return res1 && res2;
       }
       return this.api.createMetadataFolder(this.getUserWorkspace(), container, blob.getProperties().getParentPath()) &&
-      // Create metadata file
+            // Create metadata file
             this.api.createMetadata(this.getUserWorkspace(), container, blob.getProperties().getParentPath(), blob);
    }
 
@@ -235,6 +236,10 @@ public class OrionBlobStore extends BaseBlobStore {
          parentPath = parentPath + path + OrionConstantValues.PATH_DELIMITER;
       }
 
+   }
+
+   public OrionUtils getUtils() {
+      return this.utils;
    }
 
 }

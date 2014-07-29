@@ -24,8 +24,8 @@ import org.jclouds.orion.domain.OrionError;
 public class OrionResponseException extends HttpResponseException {
    OrionError orionError;
    /**
-	 * 
-	 */
+    * 
+    */
    private static final long serialVersionUID = -1832578464717472164L;
 
    /**

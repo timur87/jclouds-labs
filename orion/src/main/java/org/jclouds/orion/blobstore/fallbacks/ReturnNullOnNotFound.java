@@ -39,7 +39,6 @@ public class ReturnNullOnNotFound implements Fallback<Object> {
     */
    @Override
    public ListenableFuture<Object> create(Throwable arg0) throws Exception {
-      // TODO Auto-generated method stub
       return null;
    }
 

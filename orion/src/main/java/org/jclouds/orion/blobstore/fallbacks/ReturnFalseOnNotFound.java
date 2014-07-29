@@ -39,7 +39,6 @@ public class ReturnFalseOnNotFound implements Fallback<Boolean> {
     */
    @Override
    public ListenableFuture<Boolean> create(Throwable arg0) throws Exception {
-      // TODO Auto-generated method stub
       return null;
    }
 
