@@ -28,7 +28,6 @@ import com.google.common.base.Preconditions;
 /**
  * Convert jClouds {@link Blob} to {@link OrionBlob}
  * 
- * @author Adrian Cole, Timur
  */
 @Singleton
 public class BlobToOrionBlob implements Function<Blob, OrionBlob> {

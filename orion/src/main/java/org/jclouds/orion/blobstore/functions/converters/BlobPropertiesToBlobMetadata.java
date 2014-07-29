@@ -29,7 +29,6 @@ import com.google.common.base.Function;
 /**
  * Convert {@link BlobProperties} to {@link MutableBlobMetadata}
  * 
- * @author Adrian Cole, Timur
  */
 
 @Singleton

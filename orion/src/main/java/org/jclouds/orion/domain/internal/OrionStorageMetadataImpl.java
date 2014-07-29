@@ -29,7 +29,7 @@ import org.jclouds.orion.domain.OrionStorageMetadata;
 /**
  * A realization of the interface {@link OrionStorageMetadatae}
  * 
- * @author Adrian Cole, Timur
+ * *
  * 
  */
 public class OrionStorageMetadataImpl implements OrionStorageMetadata {

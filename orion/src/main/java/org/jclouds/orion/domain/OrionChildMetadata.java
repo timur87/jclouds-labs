@@ -28,89 +28,89 @@ public interface OrionChildMetadata {
 	/**
 	 * @return the childrenLocation
 	 */
-	public abstract String getChildrenLocation();
+	String getChildrenLocation();
 
 	/**
 	 * @param childrenLocation
 	 *           the childrenLocation to set
 	 */
-	public abstract void setChildrenLocation(String childrenLocation);
+	void setChildrenLocation(String childrenLocation);
 
 	/**
 	 * @return the directory
 	 */
-	public abstract boolean isDirectory();
+	boolean isDirectory();
 
 	/**
 	 * @param directory
 	 *           the directory to set
 	 */
-	public abstract void setDirectory(boolean directory);
+	void setDirectory(boolean directory);
 
 	/**
 	 * @return the id
 	 */
-	public abstract String getId();
+	String getId();
 
 	/**
 	 * @param id
 	 *           the id to set
 	 */
-	public abstract void setId(String id);
+	void setId(String id);
 
 	/**
 	 * @return the importLocation
 	 */
-	public abstract String getImportLocation();
+	String getImportLocation();
 
 	/**
 	 * @param importLocation
 	 *           the importLocation to set
 	 */
-	public abstract void setImportLocation(String importLocation);
+	void setImportLocation(String importLocation);
 
 	/**
 	 * @return the location
 	 */
-	public abstract String getLocation();
+	String getLocation();
 
 	/**
 	 * @param location
 	 *           the location to set
 	 */
-	public abstract void setLocation(String location);
+	void setLocation(String location);
 
 	/**
 	 * @return the name
 	 */
-	public abstract String getName();
+	String getName();
 
 	/**
 	 * @param name
 	 *           the name to set
 	 */
-	public abstract void setName(String name);
+	void setName(String name);
 
 	/**
 	 * @return the length
 	 */
-	public abstract Long getLength();
+	Long getLength();
 
 	/**
 	 * @param length
 	 *           the length to set
 	 */
-	public abstract void setLength(Long length);
+	void setLength(Long length);
 
 	/**
 	 * @return the localTimeStamp
 	 */
-	public abstract Long getLocalTimeStamp();
+	Long getLocalTimeStamp();
 
 	/**
 	 * @param localTimeStamp
 	 *           the localTimeStamp to set
 	 */
-	public abstract void setLocalTimeStamp(Long localTimeStamp);
+	void setLocalTimeStamp(Long localTimeStamp);
 
 }

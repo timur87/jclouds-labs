@@ -27,7 +27,7 @@ import com.google.inject.ImplementedBy;
 
 /**
  * 
- * @author Adrian Cole
+ * *
  */
 @ImplementedBy(BlobPropertiesImpl.class)
 public interface BlobProperties extends Comparable<BlobProperties> {

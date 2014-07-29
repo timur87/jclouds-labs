@@ -35,17 +35,17 @@ public class OrionHttpFields {
 	// Ignore form authentication header
 	// api methods wtih this header key will not be subject to authentication
 	// check
-	public final static String IGNORE_AUTHENTICATION = "ignoreAuthentication";
+	public static final String IGNORE_AUTHENTICATION = "ignoreAuthentication";
 
 	// Orion Specific Fields
 
-	public final static String ORION_NAME = "Name";
-	public final static String ORION_DIRECTORY = "Directory";
-	public final static String ORION_ATTRIBUTES = "Attributes";
-	public final static String ORION_CONTENT_TYPE = "ContentType";
+	public static final String ORION_NAME = "Name";
+	public static final String ORION_DIRECTORY = "Directory";
+	public static final String ORION_ATTRIBUTES = "Attributes";
+	public static final String ORION_CONTENT_TYPE = "ContentType";
 
 	public static final String QUERY_DEPTH = "depth";
-	public final static String QUERY_PARTS = "parts";
+	public static final String QUERY_PARTS = "parts";
 
 	public static final String ORION_ECLIPSE_WEB_FIELD = "EclipseWeb-Version";
 

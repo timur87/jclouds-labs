@@ -32,7 +32,7 @@ import com.google.inject.Inject;
 
 /**
  * 
- * @author Adrian Cole
+ * *
  */
 @Singleton
 public class PutBlobsStrategyImpl implements PutBlobsStrategy {

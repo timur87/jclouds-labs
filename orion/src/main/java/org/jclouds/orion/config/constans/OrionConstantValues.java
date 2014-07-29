@@ -27,8 +27,8 @@ import java.util.Properties;
 public class OrionConstantValues {
 
    private static final String PROPS_FILE_NAME = "orion.properties";
-   public final static String END_POINT;
-   public final static boolean DEBUG_MODE;
+   public static final String END_POINT;
+   public static final boolean DEBUG_MODE;
 
    static {
       Properties props = new Properties();
@@ -49,27 +49,27 @@ public class OrionConstantValues {
 
    }
    // Orion Blob Store Properties
-   public final static String ORION_ID = "orionblob";
-   public final static String ORION_VERSION = "1.0";
+   public static final String ORION_ID = "orionblob";
+   public static final String ORION_VERSION = "1.0";
    // usernames are appended with this text and each workspace is reached using this address
-   public final static String ORION_USER_CONTENT_ENDING = "-OrionContent";
+   public static final String ORION_USER_CONTENT_ENDING = "-OrionContent";
    // Orion Paths
-   public final static String ORION_IMPORT_PATH = "xfer/import/";
-   public final static String ORION_EXPORT_PATH = "xfer/export/";
-   public final static String ORION_AUTH_PATH = "login/form/";
-   public final static String ORION_WORKSPACE_PATH = "workspace/";
-   public final static String ORION_FILE_PATH = "file/";
+   public static final String ORION_IMPORT_PATH = "xfer/import/";
+   public static final String ORION_EXPORT_PATH = "xfer/export/";
+   public static final String ORION_AUTH_PATH = "login/form/";
+   public static final String ORION_WORKSPACE_PATH = "workspace/";
+   public static final String ORION_FILE_PATH = "file/";
 
    // Orion metadata data request type
-   public final static String ORION_FILE_METADATA = "meta";
-   public final static String ORION_FILE_BODY = "body";
+   public static final String ORION_FILE_METADATA = "meta";
+   public static final String ORION_FILE_BODY = "body";
 
    // JSON Constants
-   public final static String WORKSPACE_CHILDREN = "children";
+   public static final String WORKSPACE_CHILDREN = "children";
    // general identifier field name
-   public final static String RESOURCE_IDENTIFIER = "name";
+   public static final String RESOURCE_IDENTIFIER = "name";
 
-   public final static String PATH_DELIMITER = "/";
+   public static final String PATH_DELIMITER = "/";
 
    // METADATA FIELDS
    public static final String METADATA_CONTENTDATA = "contentMetadata";

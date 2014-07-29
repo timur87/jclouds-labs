@@ -26,78 +26,78 @@ public interface OrionError {
 	/**
 	 * @return the httpCode
 	 */
-	public abstract String getHttpCode();
+	String getHttpCode();
 
 	/**
 	 * @param httpCode
 	 *           the httpCode to set
 	 */
-	public abstract void setHttpCode(String httpCode);
+	void setHttpCode(String httpCode);
 
 	/**
 	 * @return the code
 	 */
-	public abstract String getCode();
+	String getCode();
 
 	/**
 	 * @param code
 	 *           the code to set
 	 */
-	public abstract void setCode(String code);
+	void setCode(String code);
 
 	/**
 	 * @return the severity
 	 */
-	public abstract String getSeverity();
+	String getSeverity();
 
 	/**
 	 * @param severity
 	 *           the severity to set
 	 */
-	public abstract void setSeverity(String severity);
+	void setSeverity(String severity);
 
 	/**
 	 * @return the message
 	 */
-	public abstract String getMessage();
+	String getMessage();
 
 	/**
 	 * @param message
 	 *           the message to set
 	 */
-	public abstract void setMessage(String message);
+	void setMessage(String message);
 
 	/**
 	 * @return the detailedMessage
 	 */
-	public abstract String getDetailedMessage();
+	String getDetailedMessage();
 
 	/**
 	 * @param detailedMessage
 	 *           the detailedMessage to set
 	 */
-	public abstract void setDetailedMessage(String detailedMessage);
+	void setDetailedMessage(String detailedMessage);
 
 	/**
 	 * @return the cause
 	 */
-	public abstract String getCause();
+	String getCause();
 
 	/**
 	 * @param cause
 	 *           the cause to set
 	 */
-	public abstract void setCause(String cause);
+	void setCause(String cause);
 
 	/**
 	 * @return the seeAlso
 	 */
-	public abstract String getSeeAlso();
+	String getSeeAlso();
 
 	/**
 	 * @param seeAlso
 	 *           the seeAlso to set
 	 */
-	public abstract void setSeeAlso(String seeAlso);
+	void setSeeAlso(String seeAlso);
 
 }

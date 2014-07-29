@@ -38,7 +38,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getType()
 	 */
 	@Override
-	public abstract StorageType getType();
+	StorageType getType();
 
 	/*
 	 * (non-Javadoc)
@@ -46,7 +46,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getProviderId()
 	 */
 	@Override
-	public abstract String getProviderId();
+	String getProviderId();
 
 	/*
 	 * (non-Javadoc)
@@ -54,7 +54,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getName()
 	 */
 	@Override
-	public abstract String getName();
+	String getName();
 
 	/*
 	 * (non-Javadoc)
@@ -62,7 +62,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUri()
 	 */
 	@Override
-	public abstract URI getUri();
+	URI getUri();
 
 	/*
 	 * (non-Javadoc)
@@ -70,7 +70,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUserMetadata()
 	 */
 	@Override
-	public abstract Map<String, String> getUserMetadata();
+	Map<String, String> getUserMetadata();
 
 	/*
 	 * (non-Javadoc)
@@ -78,7 +78,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getETag()
 	 */
 	@Override
-	public abstract String getETag();
+	String getETag();
 
 	/*
 	 * (non-Javadoc)
@@ -86,7 +86,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getCreationDate()
 	 */
 	@Override
-	public abstract Date getCreationDate();
+	Date getCreationDate();
 
 	/*
 	 * (non-Javadoc)
@@ -94,7 +94,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.blobstore.domain.StorageMetadata#getLastModified()
 	 */
 	@Override
-	public abstract Date getLastModified();
+	Date getLastModified();
 
 	/*
 	 * (non-Javadoc)
@@ -102,7 +102,7 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see org.jclouds.domain.ResourceMetadata#getLocation()
 	 */
 	@Override
-	public abstract Location getLocation();
+	Location getLocation();
 
 	/*
 	 * (non-Javadoc)
@@ -110,59 +110,59 @@ public interface OrionStorageMetadata extends StorageMetadata {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public abstract int compareTo(ResourceMetadata<StorageType> o);
+	int compareTo(ResourceMetadata<StorageType> o);
 
 	/**
 	 * @param type
 	 *           the type to set
 	 */
-	public abstract void setType(StorageType type);
+	void setType(StorageType type);
 
 	/**
 	 * @return the eTag
 	 */
-	public abstract String geteTag();
+	String geteTag();
 
 	/**
 	 * @param eTag
 	 *           the eTag to set
 	 */
-	public abstract void setETag(String eTag);
+	void setETag(String eTag);
 
 	/**
 	 * @param name
 	 *           the name to set
 	 */
-	public abstract void setName(String name);
+	void setName(String name);
 
 	/**
 	 * @param uri
 	 *           the uri to set
 	 */
-	public abstract void setUri(URI uri);
+	void setUri(URI uri);
 
 	/**
 	 * @param userMetadata
 	 *           the userMetadata to set
 	 */
-	public abstract void setUserMetadata(Map<String, String> userMetadata);
+	void setUserMetadata(Map<String, String> userMetadata);
 
 	/**
 	 * @param creationDate
 	 *           the creationDate to set
 	 */
-	public abstract void setCreationDate(Date creationDate);
+	void setCreationDate(Date creationDate);
 
 	/**
 	 * @param lastModified
 	 *           the lastModified to set
 	 */
-	public abstract void setLastModified(Date lastModified);
+	void setLastModified(Date lastModified);
 
 	/**
 	 * @param location
 	 *           the location to set
 	 */
-	public abstract void setLocation(Location location);
+	void setLocation(Location location);
 
 }

@@ -26,7 +26,7 @@ import com.google.inject.ImplementedBy;
 
 /**
  * 
- * @author Adrian Cole
+ * *
  */
 @ImplementedBy(ContainerPropertiesImpl.class)
 public interface ContainerProperties extends Comparable<ContainerProperties> {

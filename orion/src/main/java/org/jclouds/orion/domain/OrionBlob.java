@@ -24,7 +24,7 @@ import com.google.common.collect.Multimap;
 /**
  * Blob representation in orion domain
  * 
- * @author Adrian Cole, Timur
+ * *
  */
 public interface OrionBlob extends PayloadEnclosing, Comparable<OrionBlob> {
 
