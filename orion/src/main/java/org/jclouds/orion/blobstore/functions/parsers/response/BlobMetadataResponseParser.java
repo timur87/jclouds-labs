@@ -25,8 +25,11 @@ package org.jclouds.orion.blobstore.functions.parsers.response;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.Resource;
+
 import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.http.HttpResponse;
+import org.jclouds.logging.Logger;
 import org.jclouds.orion.OrionApi;
 import org.jclouds.orion.OrionUtils;
 import org.jclouds.orion.blobstore.functions.converters.OrionBlobToBlob;
@@ -43,7 +46,7 @@ import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> {
-
+   @Resource Logger logger = Logger.CONSOLE;
    private final OrionApi api;
    private final Factory orionBlobProvider;
    private final OrionBlobToBlob orionBlob2Blob;
@@ -82,8 +85,7 @@ public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> 
          return this.orionBlob2Blob.apply(orionBlob);
 
       } catch (IOException e) {
-         System.out.println(response.getMessage());
-         e.printStackTrace();
+         this.logger.error(response.getMessage());
       }
 
       return null;

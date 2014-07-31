@@ -16,7 +16,10 @@
  */
 package org.jclouds.orion.blobstore.fallbacks;
 
+import javax.annotation.Resource;
+
 import org.jclouds.Fallback;
+import org.jclouds.logging.Logger;
 import org.jclouds.orion.OrionResponseException;
 import org.jclouds.orion.config.constans.OrionConstantValues;
 
@@ -39,7 +42,7 @@ import com.google.common.util.concurrent.ListenableFuture;
  *
  */
 public class SameFileWithDiffTypeFallback implements Fallback<Boolean> {
-
+   @Resource Logger logger = Logger.CONSOLE;
    /*
     * (non-Javadoc)
     * 
@@ -63,11 +66,11 @@ public class SameFileWithDiffTypeFallback implements Fallback<Boolean> {
       if (t instanceof OrionResponseException) {
          OrionResponseException exception = (OrionResponseException) t;
          if (exception.getError().getHttpCode().equals("500")) {
-            System.err.println(exception.getMessage());
-            System.err.println(exception.getCommand().getCurrentRequest().getRequestLine());
+            this.logger.error(exception.getMessage(),exception);
+            this.logger.error(exception.getCommand().getCurrentRequest().getRequestLine());
             if (OrionConstantValues.DEBUG_MODE) {
-               System.out.println(exception.getMessage());
-               System.out.println(exception.getCommand().getCurrentRequest().getRequestLine());
+               this.logger.error(exception.getMessage(),exception);
+               this.logger.error(exception.getCommand().getCurrentRequest().getRequestLine());
             }
          }
       }

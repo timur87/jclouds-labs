@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.jclouds.Constants;
 import org.jclouds.apis.ApiMetadata;
 import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
 import org.jclouds.orion.blobstore.config.OrionBlobStoreModule;
 import org.jclouds.orion.config.OrionHttpApiModule;
 import org.jclouds.orion.config.constans.OrionConstantValues;
@@ -43,7 +44,8 @@ public class OrionApiMetadata extends BaseHttpApiMetadata<OrionApi> {
    public static class Builder extends BaseHttpApiMetadata.Builder<OrionApi, Builder> {
 
       protected Builder() {
-         // super(OrionApi.class);
+
+
          this.id(OrionConstantValues.ORION_ID)
          .name("Orion API")
          .defaultIdentity("Username")
@@ -56,7 +58,7 @@ public class OrionApiMetadata extends BaseHttpApiMetadata<OrionApi> {
          .defaultProperties(OrionApiMetadata.defaultProperties())
          .view(Reflection2.typeToken(BlobStoreContext.class))
          .defaultModules(
-               ImmutableSet.<Class<? extends Module>> of(OrionHttpApiModule.class, OrionBlobStoreModule.class));
+               ImmutableSet.<Class<? extends Module>> of(OrionHttpApiModule.class, OrionBlobStoreModule.class, SLF4JLoggingModule.class));
 
       }
 

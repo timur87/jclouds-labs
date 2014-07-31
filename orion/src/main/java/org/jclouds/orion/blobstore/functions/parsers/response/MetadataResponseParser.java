@@ -19,7 +19,10 @@ package org.jclouds.orion.blobstore.functions.parsers.response;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.annotation.Resource;
+
 import org.jclouds.http.HttpResponse;
+import org.jclouds.logging.Logger;
 import org.jclouds.orion.domain.JSONUtils;
 import org.jclouds.orion.domain.MutableBlobProperties;
 
@@ -34,7 +37,7 @@ import com.google.inject.Inject;
  *
  */
 public class MetadataResponseParser implements Function<HttpResponse, MutableBlobProperties> {
-
+   @Resource Logger logger = Logger.CONSOLE;
    private final JSONUtils jsonConverter;
 
    @Inject
@@ -56,8 +59,7 @@ public class MetadataResponseParser implements Function<HttpResponse, MutableBlo
          };
          properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(), MutableBlobProperties.class);
       } catch (IOException e) {
-         System.out.println(response.getMessage());
-         e.printStackTrace();
+         this.logger.error(response.getMessage(),response);
       }
 
       return properties;

@@ -65,11 +65,12 @@ public class OrionBlobStore extends BaseBlobStore {
    private final BlobUtils blobUtils;
    private final OrionUtils utils;
 
+
    @Inject
    protected OrionBlobStore(BlobStoreContext context, OrionUtils utils, BlobUtils blobUtils,
          OrionApi api, Supplier<Location> defaultLocation, @Memoized Supplier<Set<? extends Location>> locations,
          BlobToOrionBlob blob2OrionBlob, BlobPropertiesToBlobMetadata blobProps2BlobMetadata,
-         OrionBlob.Factory orionBlobProvider) {
+         OrionBlob.Factory orionBlobProvider ) {
       super(context, blobUtils, defaultLocation, locations);
       this.blobUtils = blobUtils;
       this.api = Preconditions.checkNotNull(api, "api is null");
