@@ -19,7 +19,6 @@ package org.jclouds.orion.blobstore;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Calendar;
 import java.util.Properties;
 
@@ -40,7 +39,6 @@ import org.testng.annotations.Test;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
-import com.google.common.io.InputSupplier;
 
 /**
  * Live tests, one first needs to specify endpoint.properties before running
@@ -145,8 +143,7 @@ public class OrionBlobStoreLiveTests {
       Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       String pathName = this.getClass().getClassLoader().getResource(this.bibBlobName).getPath();
       File testFile = new File(pathName);
-      InputSupplier<FileInputStream> iStream = Files.newInputStreamSupplier(testFile);
-      blob.setPayload(iStream.getInput());
+      blob.setPayload(Files.asByteSource(testFile));
       this.blobStore.putBlob(this.container, blob);
 
       Blob returnedBlob = this.blobStore.getBlob(this.container, this.blobName);

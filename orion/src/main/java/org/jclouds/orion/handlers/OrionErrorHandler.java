@@ -17,6 +17,7 @@
 package org.jclouds.orion.handlers;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.inject.Singleton;
 
@@ -37,8 +38,7 @@ import org.jclouds.rest.AuthorizationException;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.CharStreams;
+import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 /**
@@ -63,7 +63,7 @@ public class OrionErrorHandler implements HttpErrorHandler {
    }
 
    @Override
-   public void handleError(HttpCommand command, HttpResponse response) {
+   public void handleError(HttpCommand command, final HttpResponse response) {
       // it is important to always read fully and close streams
       byte[] data = HttpUtils.closeClientButKeepContentStream(response);
       String message = data != null ? new String(data) : null;
@@ -74,7 +74,13 @@ public class OrionErrorHandler implements HttpErrorHandler {
             response.getStatusLine());
 
       try {
-         String theString = CharStreams.toString(CharStreams.newReaderSupplier(ByteStreams.newInputStreamSupplier(ByteStreams.toByteArray(response.getPayload().openStream())), Charsets.UTF_8));
+    	 ByteSource byteSource = new ByteSource() {
+			@Override
+			public InputStream openStream() throws IOException {
+				return response.getPayload().openStream();
+			}
+		};
+         String theString = byteSource.asCharSource(Charsets.UTF_8).read();
          OrionError error = this.jsonConverter.getStringAsObject(theString, OrionError.class);
          OrionResponseException orionException = new OrionResponseException(command, response, error);
          command.setException(orionException);
