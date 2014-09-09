@@ -16,6 +16,7 @@
  */
 package org.jclouds.compute.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -81,14 +82,20 @@ public class ExecResponse implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof ExecResponse)) {
+         return false;
+      }
+      ExecResponse that = (ExecResponse) obj;
+      return Objects.equal(this.output, that.output) &&
+            Objects.equal(this.error, that.error) &&
+            Objects.equal(this.exitStatus, that.exitStatus);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("out", output).add("error", error).add("exitStatus", exitStatus).toString();
+      return MoreObjects.toStringHelper(this).add("out", output).add("error", error).add("exitStatus", exitStatus).toString();
    }
 }

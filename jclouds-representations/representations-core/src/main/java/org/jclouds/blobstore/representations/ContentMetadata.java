@@ -16,9 +16,11 @@
  */
 package org.jclouds.blobstore.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import static org.jclouds.representations.Representations.dateFormat;
@@ -137,15 +139,25 @@ public class ContentMetadata implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof ContentMetadata)) {
+         return false;
+      }
+      ContentMetadata that = (ContentMetadata) obj;
+      return Objects.equal(this.length, that.length) &&
+            Objects.equal(this.disposition, that.disposition) &&
+            Objects.equal(this.encoding, that.encoding) &&
+            Objects.equal(this.type, that.type) &&
+            Arrays.equals(this.md5, that.md5) &&
+            Objects.equal(this.language, that.language) &&
+            Objects.equal(this.expires, that.expires);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("length", language).add("disposition", disposition).add("encoding", encoding)
+      return MoreObjects.toStringHelper(this).add("length", language).add("disposition", disposition).add("encoding", encoding)
               .add("type", type).add("md5", md5).add("language", language)
               .add("expires", expires).toString();
    }

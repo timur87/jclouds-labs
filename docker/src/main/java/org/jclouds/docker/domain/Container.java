@@ -16,6 +16,7 @@
  */
 package org.jclouds.docker.domain;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,6 +24,7 @@ import com.google.gson.annotations.SerializedName;
 import org.jclouds.javax.annotation.Nullable;
 
 import java.beans.ConstructorProperties;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -185,7 +187,7 @@ public class Container {
               Objects.equal(this.name, that.name) &&
               Objects.equal(this.created, that.created) &&
               Objects.equal(this.path, that.path) &&
-              Objects.equal(this.args, that.args) &&
+              Arrays.equals(this.args, that.args) &&
               Objects.equal(this.containerConfig, that.containerConfig) &&
               Objects.equal(this.state, that.state) &&
               Objects.equal(this.image, that.image) &&
@@ -210,7 +212,7 @@ public class Container {
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this)
+      return MoreObjects.toStringHelper(this)
               .add("id", id)
               .add("name", name)
               .add("created", created)

@@ -16,6 +16,7 @@
  */
 package org.jclouds.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
@@ -109,15 +110,23 @@ public class Location implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof Location)) {
+         return false;
+      }
+      Location that = (Location) obj;
+      return Objects.equal(this.id, that.id) &&
+            Objects.equal(this.scope, that.scope) &&
+            Objects.equal(this.description, that.description) &&
+            Objects.equal(this.parentId, that.parentId) &&
+            Objects.equal(this.iso3166Codes, that.iso3166Codes);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("id", id).add("scope", scope).add("description", description)
+      return MoreObjects.toStringHelper(this).add("id", id).add("scope", scope).add("description", description)
               .add("perentId", parentId).add("iso3166Codes", iso3166Codes).toString();
    }
 }

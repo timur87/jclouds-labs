@@ -16,6 +16,7 @@
  */
 package org.jclouds.blobstore.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 
@@ -199,15 +200,28 @@ public class BlobMetadata implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof BlobMetadata)) {
+         return false;
+      }
+      BlobMetadata that = (BlobMetadata) obj;
+      return Objects.equal(this.type, that.type) &&
+            Objects.equal(this.providerId, that.providerId) &&
+            Objects.equal(this.name, that.name) &&
+            Objects.equal(this.uri, that.uri) &&
+            Objects.equal(this.userMetadata, that.userMetadata) &&
+            Objects.equal(this.eTag, that.eTag) &&
+            Objects.equal(this.creationDate, that.creationDate) &&
+            Objects.equal(this.lastModifiedDate, that.lastModifiedDate) &&
+            Objects.equal(this.publicUri, that.publicUri) &&
+            Objects.equal(this.contentMetadata, that.contentMetadata);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("type", type).add("providerId", providerId).add("name", name)
+      return MoreObjects.toStringHelper(this).add("type", type).add("providerId", providerId).add("name", name)
               .add("userMetadata", userMetadata).add("eTag", eTag).add("creationDate", creationDate)
               .add("lastModifiedDate", lastModifiedDate).add("publicUri", publicUri).add("contentMetadata", contentMetadata)
               .toString();

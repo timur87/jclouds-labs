@@ -16,6 +16,7 @@
  */
 package org.jclouds.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -82,14 +83,20 @@ public class Context implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof Context)) {
+         return false;
+      }
+      Context that = (Context) obj;
+      return Objects.equal(this.name, that.name) &&
+            Objects.equal(this.providerId, that.providerId) &&
+            Objects.equal(this.identity, that.identity);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("name", name).add("providerId", providerId).add("identity", identity).toString();
+      return MoreObjects.toStringHelper(this).add("name", name).add("providerId", providerId).add("identity", identity).toString();
    }
 }

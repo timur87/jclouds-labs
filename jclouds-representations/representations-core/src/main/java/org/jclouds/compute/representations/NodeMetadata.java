@@ -16,6 +16,7 @@
  */
 package org.jclouds.compute.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -205,15 +206,30 @@ public class NodeMetadata implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof NodeMetadata)) {
+         return false;
+      }
+      NodeMetadata that = (NodeMetadata) obj;
+      return Objects.equal(this.id, that.id) &&
+            Objects.equal(this.name, that.name) &&
+            Objects.equal(this.description, that.description) &&
+            Objects.equal(this.status, that.status) &&
+            Objects.equal(this.hostname, that.hostname) &&
+            Objects.equal(this.locationId, that.locationId) &&
+            Objects.equal(this.imageId, that.imageId) &&
+            Objects.equal(this.loginPort, that.loginPort) &&
+            Objects.equal(this.group, that.group) &&
+            Objects.equal(this.tags, that.tags) &&
+            Objects.equal(this.metadata, that.metadata) &&
+            Objects.equal(this.defaultCredentials, that.defaultCredentials);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("id", id).add("name", name).add("description", description).add("status", status)
+      return MoreObjects.toStringHelper(this).add("id", id).add("name", name).add("description", description).add("status", status)
               .add("locationId", locationId).add("imageId", imageId).add("hostname", hostname)
               .add("group", group).add("loginPort", loginPort).add("tags", tags).add("metadata", metadata)
               .add("defaultCredentials", defaultCredentials).toString();

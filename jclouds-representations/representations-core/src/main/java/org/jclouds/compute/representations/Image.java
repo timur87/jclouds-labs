@@ -16,7 +16,7 @@
  */
 package org.jclouds.compute.representations;
 
-
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 
@@ -145,15 +145,26 @@ public class Image implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof Image)) {
+         return false;
+      }
+      Image that = (Image) obj;
+      return Objects.equal(this.id, that.id) &&
+            Objects.equal(this.name, that.name) &&
+            Objects.equal(this.version, that.version) &&
+            Objects.equal(this.description, that.description) &&
+            Objects.equal(this.status, that.status) &&
+            Objects.equal(this.operatingSystem, that.operatingSystem) &&
+            Objects.equal(this.defaultCredentials, that.defaultCredentials) &&
+            Objects.equal(this.tags, that.tags);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("id", id).add("name", name).add("status", status)
+      return MoreObjects.toStringHelper(this).add("id", id).add("name", name).add("status", status)
               .add("description", description)
               .add("tags", tags).add("os", operatingSystem).add("version", version)
               .add("defaultCredentials", defaultCredentials).toString();

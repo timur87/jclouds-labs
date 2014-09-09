@@ -16,6 +16,7 @@
  */
 package org.jclouds.compute.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -111,15 +112,23 @@ public class LoginCredentials implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof LoginCredentials)) {
+         return false;
+      }
+      LoginCredentials that = (LoginCredentials) obj;
+      return Objects.equal(this.username, that.username) &&
+            Objects.equal(this.password, that.password) &&
+            Objects.equal(this.privateKey, that.privateKey) &&
+            Objects.equal(this.credentialUrl, that.credentialUrl) &&
+            Objects.equal(this.authenticateSudo, that.authenticateSudo);
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this)
+      return MoreObjects.toStringHelper(this)
               .add("username", username)
               .add("hasPassword", password != null || credentialUrl != null)
               .add("hasPrivateKey", privateKey != null)

@@ -16,7 +16,6 @@
  */
 package org.jclouds.representations;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -26,9 +25,7 @@ public final class Representations {
       //Utility Class
    }
 
-   public static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss zzz");
-
    public static String dateFormat(Date date) {
-      return date != null ? DATE_FORMAT.format(date) : "";
+      return date != null ? new SimpleDateFormat("dd/MM/yyyy HH:mm:ss zzz").format(date) : "";
    }
 }

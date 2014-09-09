@@ -16,6 +16,7 @@
  */
 package org.jclouds.compute.representations;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -70,14 +71,19 @@ public class Processor implements Serializable {
    }
 
    @Override
-   public boolean equals(Object that) {
-      if (that == null)
+   public boolean equals(Object obj) {
+      if (obj == null)
          return false;
-      return Objects.equal(this.toString(), that.toString());
+      if (!(obj instanceof Processor)) {
+         return false;
+      }
+      Processor that = (Processor) obj;
+      return this.cores == that.cores &&
+            this.speed == that.speed;
    }
 
    @Override
    public String toString() {
-      return Objects.toStringHelper(this).add("cores", cores).add("spped", speed).toString();
+      return MoreObjects.toStringHelper(this).add("cores", cores).add("spped", speed).toString();
    }
 }
