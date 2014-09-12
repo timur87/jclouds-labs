@@ -9,11 +9,12 @@ basic setup
 
 Please read <http://jclouds.incubator.apache.org/documentation/userguide/blobstore-guide/> for more information
 
-<pre>
+```
     BlobStoreContext context = ContextBuilder.newBuilder("orionblob")
                  .credentials(username, password)
                  .buildView(BlobStoreContext.class);
-</pre>
+```
+The username and password are the login data of the Orion server.  
 
 Default end-point is <https://orionhub.org/> this can be overridden by setting the end-point during the build of blobstore.
 The general blob naming convention is like relative paths which start without a slash.
