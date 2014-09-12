@@ -49,12 +49,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-public class OrionApiMockTest extends BaseRestApiExpectTest<OrionApi> {
+public class OrionApiExpectTests extends BaseRestApiExpectTest<OrionApi> {
 
-   public OrionApiMockTest() {
+   public OrionApiExpectTests() {
       provider = "orionblob";
-      credential = OrionApiMockTest.PASSWORD;
-      identity = OrionApiMockTest.USER_NAME;
+      credential = OrionApiExpectTests.PASSWORD;
+      identity = OrionApiExpectTests.USER_NAME;
    }
 
    public static MockWebServer mockOpenStackServer() throws IOException {
@@ -144,7 +144,7 @@ public class OrionApiMockTest extends BaseRestApiExpectTest<OrionApi> {
                   .addHeader(OrionHttpFields.ORION_VERSION_FIELD, OrionConstantValues.ORION_VERSION)
                   .addHeader(HttpHeaders.COOKIE, "JSESSIONID=16d6pe0u4sqxy10s76y6xnvgng;Path=/").build(),
             responseBuilder().build());
-      Assert.assertTrue(orionApi.containerExists(OrionApiMockTest.USER_NAME, CONTAINER));
+      Assert.assertTrue(orionApi.containerExists(OrionApiExpectTests.USER_NAME, CONTAINER));
 
    }
 
