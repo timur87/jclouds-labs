@@ -30,8 +30,8 @@ import org.jclouds.orion.domain.MutableBlobProperties;
 import org.jclouds.orion.domain.OrionChildMetadata;
 import org.jclouds.orion.domain.OrionError;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
-import org.testng.collections.Lists;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
