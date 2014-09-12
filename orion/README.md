@@ -4,6 +4,11 @@ orion-jclouds
 
 jclouds blobstore implementation for orion based back-ends. This implementation is based on maven archetype of jclouds: http://jclouds.incubator.apache.org/documentation/devguides/creating-providers-with-maven/. 
 
+An Orion server provides a set of APIs [1][2] for storing files retrieving them and updating them. This adapter exploits these APIs and converts Orion to a jClouds complaint Blobstore. 
+
+[1] http://wiki.eclipse.org/Orion/Server_API/File_API
+[2] http://wiki.eclipse.org/Orion/Server_API/Transfer_API
+
 basic setup
 =====
 
