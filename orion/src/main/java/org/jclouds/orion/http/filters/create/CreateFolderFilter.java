@@ -20,6 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import javax.ws.rs.core.MediaType;
+
 import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
@@ -34,7 +36,7 @@ import com.google.inject.Inject;
 
 /**
  * Make Directory attribute of file attributes true in the request
- * 
+ *
  *
  */
 public class CreateFolderFilter implements HttpRequestFilter {
@@ -53,7 +55,7 @@ public class CreateFolderFilter implements HttpRequestFilter {
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see
     * org.jclouds.http.HttpRequestFilter#filter(org.jclouds.http.HttpRequest )
     */
@@ -61,25 +63,19 @@ public class CreateFolderFilter implements HttpRequestFilter {
    public HttpRequest filter(HttpRequest request) throws HttpException {
       OrionSpecificFileMetadata metadata;
       try {
-         metadata = this.json2OrionSpecificObj.apply(CharStreams
-               .toString(new InputStreamReader(request.getPayload()
-                     .openStream(), Charsets.UTF_8)));
+         metadata = this.json2OrionSpecificObj.apply(CharStreams.toString(new InputStreamReader(request.getPayload()
+               .openStream(), Charsets.UTF_8)));
          metadata.setDirectory(true);
-         String updatedContent = this.orionSpecificObject2JSON.apply(metadata);
-         request = request
-               .toBuilder()
-               .payload(
-                     new ByteArrayInputStream(
-                           updatedContent.getBytes())).build();
-         //update content length
-         request.getPayload().getContentMetadata().setContentLength((long) updatedContent.length());;
+         final String updatedContent = this.orionSpecificObject2JSON.apply(metadata);
+         request = request.toBuilder().payload(new ByteArrayInputStream(updatedContent.getBytes())).build();
+         // update content length
+         request.getPayload().getContentMetadata().setContentType(MediaType.APPLICATION_JSON);
+         request.getPayload().getContentMetadata().setContentLength((long) updatedContent.length());
 
-      } catch (IOException e) {
-         System.err.println(getClass().getCanonicalName()
-               + ": Payload could not be converted to string");
+      } catch (final IOException e) {
+         System.err.println(getClass().getCanonicalName() + ": Payload could not be converted to string");
          e.printStackTrace();
       }
-
 
       return request;
 

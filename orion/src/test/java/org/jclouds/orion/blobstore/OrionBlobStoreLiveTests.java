@@ -43,7 +43,7 @@ import com.google.common.io.Files;
 /**
  * Live tests, one first needs to specify endpoint.properties before running
  * tests
- * 
+ *
  *
  */
 @Test(groups = "unit", testName = "OrionApiMetadataTest")
@@ -51,9 +51,9 @@ public class OrionBlobStoreLiveTests {
    // properties file name
    String propsFileName = "endpoint.properties";
    // property constants
-   final static String HOST_ADDRESS = "hostaddress";
-   final static String USERNAME = "username";
-   final static String PASSWORD = "password";
+   static final String HOST_ADDRESS = "hostaddress";
+   static final String USERNAME = "username";
+   static final String PASSWORD = "password";
 
    String blobName = "servicetemplates/http%3A%2F%2Fwww.example.org%2Fwinery%2FTEST%2Fjclouds1/test1/";
    private BlobStore blobStore;
@@ -63,10 +63,10 @@ public class OrionBlobStoreLiveTests {
 
    @BeforeSuite
    protected void setUp() throws Exception {
-      Properties props = new Properties();
+      final Properties props = new Properties();
 
       props.load(this.getClass().getClassLoader().getResourceAsStream(this.propsFileName));
-      BlobStoreContext context = ContextBuilder.newBuilder("orionblob").endpoint(props.getProperty(HOST_ADDRESS))
+      final BlobStoreContext context = ContextBuilder.newBuilder("orionblob").endpoint(props.getProperty(HOST_ADDRESS))
             .credentials(props.getProperty(USERNAME), props.getProperty(PASSWORD)).build(BlobStoreContext.class);
       // create a container in the default location
       this.blobStore = context.getBlobStore();
@@ -98,7 +98,7 @@ public class OrionBlobStoreLiveTests {
       Assert.assertTrue(!this.blobStore.containerExists(String.valueOf(Calendar.getInstance().getTimeInMillis())),
             "Container SHOULD NOT exist");
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       blob.setPayload(this.payload);
       this.blobStore.putBlob(this.container, blob);
    }
@@ -110,7 +110,8 @@ public class OrionBlobStoreLiveTests {
       Assert.assertTrue(!this.blobStore.containerExists(String.valueOf(Calendar.getInstance().getTimeInMillis())),
             "Container SHOULD NOT exist");
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).payload(new ByteArrayInputStream("".getBytes())).type(StorageType.FOLDER).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).payload(new ByteArrayInputStream("".getBytes()))
+            .type(StorageType.FOLDER).build();
       this.blobStore.putBlob(this.container, blob);
       Assert.assertEquals(true, this.blobStore.blobExists(this.container, this.blobName));
       this.blobStore.removeBlob(this.container, this.blobName);
@@ -121,18 +122,19 @@ public class OrionBlobStoreLiveTests {
    protected void blobExists() throws Exception {
 
       Assert.assertEquals(this.blobStore.blobExists(this.container, this.blobName), false);
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       blob.setPayload(this.payload);
       this.blobStore.putBlob(this.container, blob);
       Assert.assertEquals(this.blobStore.blobExists(this.container, this.blobName), true);
    }
 
    /**
-    * This test requires an extra external file called BigBlob after adding
-    * it this can be activated Purpose is to test a blob with a larger size
-    * 
+    * This test requires an extra external file called BigBlob after adding it
+    * this can be activated Purpose is to test a blob with a larger size
+    *
     */
-   @Test(enabled=false) // TODO requires addition of a file called BigBlob
+   @Test(enabled = false)
+   // TODO requires addition of a file called BigBlob
    protected void putBigBlob() throws Exception {
 
       this.blobStore.createContainerInLocation(null, this.container);
@@ -140,15 +142,15 @@ public class OrionBlobStoreLiveTests {
       Assert.assertTrue(!this.blobStore.containerExists(String.valueOf(Calendar.getInstance().getTimeInMillis())),
             "Container SHOULD NOT exist");
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
-      String pathName = this.getClass().getClassLoader().getResource(this.bibBlobName).getPath();
-      File testFile = new File(pathName);
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final String pathName = this.getClass().getClassLoader().getResource(this.bibBlobName).getPath();
+      final File testFile = new File(pathName);
       blob.setPayload(Files.asByteSource(testFile));
       this.blobStore.putBlob(this.container, blob);
 
-      Blob returnedBlob = this.blobStore.getBlob(this.container, this.blobName);
-      byte[] initialArray = Files.toByteArray(testFile);
-      byte[] uploadedArray = ByteStreams.toByteArray(returnedBlob.getPayload().openStream());
+      final Blob returnedBlob = this.blobStore.getBlob(this.container, this.blobName);
+      final byte[] initialArray = Files.toByteArray(testFile);
+      final byte[] uploadedArray = ByteStreams.toByteArray(returnedBlob.getPayload().openStream());
 
       if (initialArray.length != uploadedArray.length) {
          Assert.assertFalse(true, "Sizes must be the same");
@@ -163,11 +165,11 @@ public class OrionBlobStoreLiveTests {
    @Test
    protected void getBlobMetadata() throws Exception {
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).type(StorageType.BLOB).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).type(StorageType.BLOB).build();
       blob.setPayload(this.payload);
       blob.getMetadata().getUserMetadata().put("test", "test");
       this.blobStore.putBlob(this.container, blob);
-      BlobMetadata metadata = this.blobStore.blobMetadata(this.container, this.blobName);
+      final BlobMetadata metadata = this.blobStore.blobMetadata(this.container, this.blobName);
       Assert.assertEquals(metadata.getUserMetadata().containsKey("test"), true, "user metadata is not there");
 
    }
@@ -175,12 +177,12 @@ public class OrionBlobStoreLiveTests {
    @Test
    protected void getBlob() throws Exception {
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       blob.setPayload(this.payload);
       blob.getMetadata().getUserMetadata().put("test", "test");
       this.blobStore.putBlob(this.container, blob);
-      Blob returnBlob = this.blobStore.getBlob(this.container, this.blobName);
-      ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
+      final Blob returnBlob = this.blobStore.getBlob(this.container, this.blobName);
+      final ByteArrayOutputStream tempStream = new ByteArrayOutputStream();
       ByteStreams.copy(returnBlob.getPayload().openStream(), tempStream);
       Assert.assertEquals(this.payload, new String(tempStream.toByteArray()));
    }
@@ -188,13 +190,13 @@ public class OrionBlobStoreLiveTests {
    @Test
    protected void listContainers() throws Exception {
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       blob.setPayload(this.payload);
       blob.getMetadata().getUserMetadata().put("test", "test");
       this.blobStore.putBlob(this.container, blob);
 
-      PageSet<? extends StorageMetadata> resultSet = this.blobStore.list();
-      for (StorageMetadata data : resultSet) {
+      final PageSet<? extends StorageMetadata> resultSet = this.blobStore.list();
+      for (final StorageMetadata data : resultSet) {
          System.out.println(data.getName());
       }
 
@@ -203,14 +205,14 @@ public class OrionBlobStoreLiveTests {
    @Test
    protected void listBlobs() throws Exception {
 
-      Blob blob = this.blobStore.blobBuilder(this.blobName).build();
+      final Blob blob = this.blobStore.blobBuilder(this.blobName).build();
       blob.setPayload(this.payload);
       blob.getMetadata().getUserMetadata().put("test", "test");
       this.blobStore.putBlob(this.container, blob);
 
-      PageSet<? extends StorageMetadata> resultSet = this.blobStore.list(this.container,
+      final PageSet<? extends StorageMetadata> resultSet = this.blobStore.list(this.container,
             ListContainerOptions.Builder.recursive());
-      for (StorageMetadata data : resultSet) {
+      for (final StorageMetadata data : resultSet) {
          System.out.println(data.getName());
       }
 

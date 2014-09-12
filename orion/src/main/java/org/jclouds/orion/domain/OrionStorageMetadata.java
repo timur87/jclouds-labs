@@ -27,142 +27,142 @@ import org.jclouds.domain.ResourceMetadata;
 
 /**
  * Orion version of {@code StorageMetadata}
- * 
+ *
  *
  */
 public interface OrionStorageMetadata extends StorageMetadata {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getType()
-	 */
-	@Override
-	StorageType getType();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getType()
+    */
+   @Override
+   StorageType getType();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getProviderId()
-	 */
-	@Override
-	String getProviderId();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getProviderId()
+    */
+   @Override
+   String getProviderId();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getName()
-	 */
-	@Override
-	String getName();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getName()
+    */
+   @Override
+   String getName();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUri()
-	 */
-	@Override
-	URI getUri();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getUri()
+    */
+   @Override
+   URI getUri();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getUserMetadata()
-	 */
-	@Override
-	Map<String, String> getUserMetadata();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getUserMetadata()
+    */
+   @Override
+   Map<String, String> getUserMetadata();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getETag()
-	 */
-	@Override
-	String getETag();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getETag()
+    */
+   @Override
+   String getETag();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getCreationDate()
-	 */
-	@Override
-	Date getCreationDate();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getCreationDate()
+    */
+   @Override
+   Date getCreationDate();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.blobstore.domain.StorageMetadata#getLastModified()
-	 */
-	@Override
-	Date getLastModified();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.blobstore.domain.StorageMetadata#getLastModified()
+    */
+   @Override
+   Date getLastModified();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jclouds.domain.ResourceMetadata#getLocation()
-	 */
-	@Override
-	Location getLocation();
+   /*
+    * (non-Javadoc)
+    * 
+    * @see org.jclouds.domain.ResourceMetadata#getLocation()
+    */
+   @Override
+   Location getLocation();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	@Override
-	int compareTo(ResourceMetadata<StorageType> o);
+   /*
+    * (non-Javadoc)
+    * 
+    * @see java.lang.Comparable#compareTo(java.lang.Object)
+    */
+   @Override
+   int compareTo(ResourceMetadata<StorageType> o);
 
-	/**
-	 * @param type
-	 *           the type to set
-	 */
-	void setType(StorageType type);
+   /**
+    * @param type
+    *           the type to set
+    */
+   void setType(StorageType type);
 
-	/**
-	 * @return the eTag
-	 */
-	String geteTag();
+   /**
+    * @return the eTag
+    */
+   String geteTag();
 
-	/**
-	 * @param eTag
-	 *           the eTag to set
-	 */
-	void setETag(String eTag);
+   /**
+    * @param eTag
+    *           the eTag to set
+    */
+   void setETag(String eTag);
 
-	/**
-	 * @param name
-	 *           the name to set
-	 */
-	void setName(String name);
+   /**
+    * @param name
+    *           the name to set
+    */
+   void setName(String name);
 
-	/**
-	 * @param uri
-	 *           the uri to set
-	 */
-	void setUri(URI uri);
+   /**
+    * @param uri
+    *           the uri to set
+    */
+   void setUri(URI uri);
 
-	/**
-	 * @param userMetadata
-	 *           the userMetadata to set
-	 */
-	void setUserMetadata(Map<String, String> userMetadata);
+   /**
+    * @param userMetadata
+    *           the userMetadata to set
+    */
+   void setUserMetadata(Map<String, String> userMetadata);
 
-	/**
-	 * @param creationDate
-	 *           the creationDate to set
-	 */
-	void setCreationDate(Date creationDate);
+   /**
+    * @param creationDate
+    *           the creationDate to set
+    */
+   void setCreationDate(Date creationDate);
 
-	/**
-	 * @param lastModified
-	 *           the lastModified to set
-	 */
-	void setLastModified(Date lastModified);
+   /**
+    * @param lastModified
+    *           the lastModified to set
+    */
+   void setLastModified(Date lastModified);
 
-	/**
-	 * @param location
-	 *           the location to set
-	 */
-	void setLocation(Location location);
+   /**
+    * @param location
+    *           the location to set
+    */
+   void setLocation(Location location);
 
 }

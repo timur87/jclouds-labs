@@ -33,11 +33,12 @@ import com.google.inject.Inject;
 
 /**
  * Parse metadata response of a blob
- * 
+ *
  *
  */
 public class MetadataResponseParser implements Function<HttpResponse, MutableBlobProperties> {
-   @Resource Logger logger = Logger.CONSOLE;
+   @Resource
+   Logger logger = Logger.CONSOLE;
    private final JSONUtils jsonConverter;
 
    @Inject
@@ -50,16 +51,17 @@ public class MetadataResponseParser implements Function<HttpResponse, MutableBlo
 
       MutableBlobProperties properties = null;
       try {
-         ByteSource source = new ByteSource() {
+         final ByteSource source = new ByteSource() {
 
             @Override
             public InputStream openStream() throws IOException {
                return response.getPayload().openStream();
             }
          };
-         properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(), MutableBlobProperties.class);
-      } catch (IOException e) {
-         this.logger.error(response.getMessage(),response);
+         properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(),
+               MutableBlobProperties.class);
+      } catch (final IOException e) {
+         this.logger.error(response.getMessage(), response);
       }
 
       return properties;

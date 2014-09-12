@@ -19,98 +19,98 @@ package org.jclouds.orion.domain;
 /**
  * List operation on Orion returns an object with an array of children objects.
  * A child node in this array represented by this object.
- * 
+ *
  *
  */
 
 public interface OrionChildMetadata {
 
-	/**
-	 * @return the childrenLocation
-	 */
-	String getChildrenLocation();
+   /**
+    * @return the childrenLocation
+    */
+   String getChildrenLocation();
 
-	/**
-	 * @param childrenLocation
-	 *           the childrenLocation to set
-	 */
-	void setChildrenLocation(String childrenLocation);
+   /**
+    * @param childrenLocation
+    *           the childrenLocation to set
+    */
+   void setChildrenLocation(String childrenLocation);
 
-	/**
-	 * @return the directory
-	 */
-	boolean isDirectory();
+   /**
+    * @return the directory
+    */
+   boolean isDirectory();
 
-	/**
-	 * @param directory
-	 *           the directory to set
-	 */
-	void setDirectory(boolean directory);
+   /**
+    * @param directory
+    *           the directory to set
+    */
+   void setDirectory(boolean directory);
 
-	/**
-	 * @return the id
-	 */
-	String getId();
+   /**
+    * @return the id
+    */
+   String getId();
 
-	/**
-	 * @param id
-	 *           the id to set
-	 */
-	void setId(String id);
+   /**
+    * @param id
+    *           the id to set
+    */
+   void setId(String id);
 
-	/**
-	 * @return the importLocation
-	 */
-	String getImportLocation();
+   /**
+    * @return the importLocation
+    */
+   String getImportLocation();
 
-	/**
-	 * @param importLocation
-	 *           the importLocation to set
-	 */
-	void setImportLocation(String importLocation);
+   /**
+    * @param importLocation
+    *           the importLocation to set
+    */
+   void setImportLocation(String importLocation);
 
-	/**
-	 * @return the location
-	 */
-	String getLocation();
+   /**
+    * @return the location
+    */
+   String getLocation();
 
-	/**
-	 * @param location
-	 *           the location to set
-	 */
-	void setLocation(String location);
+   /**
+    * @param location
+    *           the location to set
+    */
+   void setLocation(String location);
 
-	/**
-	 * @return the name
-	 */
-	String getName();
+   /**
+    * @return the name
+    */
+   String getName();
 
-	/**
-	 * @param name
-	 *           the name to set
-	 */
-	void setName(String name);
+   /**
+    * @param name
+    *           the name to set
+    */
+   void setName(String name);
 
-	/**
-	 * @return the length
-	 */
-	Long getLength();
+   /**
+    * @return the length
+    */
+   Long getLength();
 
-	/**
-	 * @param length
-	 *           the length to set
-	 */
-	void setLength(Long length);
+   /**
+    * @param length
+    *           the length to set
+    */
+   void setLength(Long length);
 
-	/**
-	 * @return the localTimeStamp
-	 */
-	Long getLocalTimeStamp();
+   /**
+    * @return the localTimeStamp
+    */
+   Long getLocalTimeStamp();
 
-	/**
-	 * @param localTimeStamp
-	 *           the localTimeStamp to set
-	 */
-	void setLocalTimeStamp(Long localTimeStamp);
+   /**
+    * @param localTimeStamp
+    *           the localTimeStamp to set
+    */
+   void setLocalTimeStamp(Long localTimeStamp);
 
 }

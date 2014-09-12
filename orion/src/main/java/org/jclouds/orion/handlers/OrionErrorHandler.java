@@ -43,9 +43,9 @@ import com.google.inject.Inject;
 
 /**
  * This will parse and set an appropriate exception on the command object.
- * 
  *
- * 
+ *
+ *
  */
 @Singleton
 public class OrionErrorHandler implements HttpErrorHandler {
@@ -65,24 +65,24 @@ public class OrionErrorHandler implements HttpErrorHandler {
    @Override
    public void handleError(HttpCommand command, final HttpResponse response) {
       // it is important to always read fully and close streams
-      byte[] data = HttpUtils.closeClientButKeepContentStream(response);
+      final byte[] data = HttpUtils.closeClientButKeepContentStream(response);
       String message = data != null ? new String(data) : null;
 
       Exception exception = message != null ? new HttpResponseException(command, response, message)
-      : new HttpResponseException(command, response);
+            : new HttpResponseException(command, response);
       message = message != null ? message : String.format("%s -> %s", command.getCurrentRequest().getRequestLine(),
             response.getStatusLine());
 
       try {
-    	 ByteSource byteSource = new ByteSource() {
-			@Override
-			public InputStream openStream() throws IOException {
-				return response.getPayload().openStream();
-			}
-		};
-         String theString = byteSource.asCharSource(Charsets.UTF_8).read();
-         OrionError error = this.jsonConverter.getStringAsObject(theString, OrionError.class);
-         OrionResponseException orionException = new OrionResponseException(command, response, error);
+         final ByteSource byteSource = new ByteSource() {
+            @Override
+            public InputStream openStream() throws IOException {
+               return response.getPayload().openStream();
+            }
+         };
+         final String theString = byteSource.asCharSource(Charsets.UTF_8).read();
+         final OrionError error = this.jsonConverter.getStringAsObject(theString, OrionError.class);
+         final OrionResponseException orionException = new OrionResponseException(command, response, error);
          command.setException(orionException);
 
          switch (response.getStatusCode()) {
@@ -110,7 +110,7 @@ public class OrionErrorHandler implements HttpErrorHandler {
                break;
          }
          return;
-      }catch (IOException e) {
+      } catch (final IOException e) {
          e.printStackTrace();
          this.doStandardHandling(command, response, exception);
 

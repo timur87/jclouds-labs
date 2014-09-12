@@ -46,7 +46,8 @@ import com.google.common.io.ByteSource;
 import com.google.inject.Inject;
 
 public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> {
-   @Resource Logger logger = Logger.CONSOLE;
+   @Resource
+   Logger logger = Logger.CONSOLE;
    private final OrionApi api;
    private final Factory orionBlobProvider;
    private final OrionBlobToBlob orionBlob2Blob;
@@ -68,23 +69,24 @@ public class BlobMetadataResponseParser implements Function<HttpResponse, Blob> 
    public Blob apply(final HttpResponse response) {
       MutableBlobProperties properties = null;
       try {
-         ByteSource source = new ByteSource() {
+         final ByteSource source = new ByteSource() {
 
             @Override
             public InputStream openStream() throws IOException {
                return response.getPayload().openStream();
             }
          };
-         properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(), MutableBlobProperties.class);
-         OrionBlob orionBlob = this.orionBlobProvider.create(properties);
+         properties = this.jsonConverter.getStringAsObject(source.asCharSource(Charsets.UTF_8).read(),
+               MutableBlobProperties.class);
+         final OrionBlob orionBlob = this.orionBlobProvider.create(properties);
          if (properties.getType() == BlobType.FILE_BLOB) {
-            HttpResponse payloadRes = this.api.getBlobContents(this.getUserWorkspace(), properties.getContainer(),
-                  properties.getParentPath(), properties.getName());
+            final HttpResponse payloadRes = this.api.getBlobContents(this.getUserWorkspace(),
+                  properties.getContainer(), properties.getParentPath(), properties.getName());
             orionBlob.setPayload(payloadRes.getPayload());
          }
          return this.orionBlob2Blob.apply(orionBlob);
 
-      } catch (IOException e) {
+      } catch (final IOException e) {
          this.logger.error(response.getMessage());
       }
 

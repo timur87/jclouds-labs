@@ -18,86 +18,86 @@ package org.jclouds.orion.domain;
 
 /**
  * Orion error Java representation
- * 
+ *
  *
  */
 public interface OrionError {
 
-	/**
-	 * @return the httpCode
-	 */
-	String getHttpCode();
+   /**
+    * @return the httpCode
+    */
+   String getHttpCode();
 
-	/**
-	 * @param httpCode
-	 *           the httpCode to set
-	 */
-	void setHttpCode(String httpCode);
+   /**
+    * @param httpCode
+    *           the httpCode to set
+    */
+   void setHttpCode(String httpCode);
 
-	/**
-	 * @return the code
-	 */
-	String getCode();
+   /**
+    * @return the code
+    */
+   String getCode();
 
-	/**
-	 * @param code
-	 *           the code to set
-	 */
-	void setCode(String code);
+   /**
+    * @param code
+    *           the code to set
+    */
+   void setCode(String code);
 
-	/**
-	 * @return the severity
-	 */
-	String getSeverity();
+   /**
+    * @return the severity
+    */
+   String getSeverity();
 
-	/**
-	 * @param severity
-	 *           the severity to set
-	 */
-	void setSeverity(String severity);
+   /**
+    * @param severity
+    *           the severity to set
+    */
+   void setSeverity(String severity);
 
-	/**
-	 * @return the message
-	 */
-	String getMessage();
+   /**
+    * @return the message
+    */
+   String getMessage();
 
-	/**
-	 * @param message
-	 *           the message to set
-	 */
-	void setMessage(String message);
+   /**
+    * @param message
+    *           the message to set
+    */
+   void setMessage(String message);
 
-	/**
-	 * @return the detailedMessage
-	 */
-	String getDetailedMessage();
+   /**
+    * @return the detailedMessage
+    */
+   String getDetailedMessage();
 
-	/**
-	 * @param detailedMessage
-	 *           the detailedMessage to set
-	 */
-	void setDetailedMessage(String detailedMessage);
+   /**
+    * @param detailedMessage
+    *           the detailedMessage to set
+    */
+   void setDetailedMessage(String detailedMessage);
 
-	/**
-	 * @return the cause
-	 */
-	String getCause();
+   /**
+    * @return the cause
+    */
+   String getCause();
 
-	/**
-	 * @param cause
-	 *           the cause to set
-	 */
-	void setCause(String cause);
+   /**
+    * @param cause
+    *           the cause to set
+    */
+   void setCause(String cause);
 
-	/**
-	 * @return the seeAlso
-	 */
-	String getSeeAlso();
+   /**
+    * @return the seeAlso
+    */
+   String getSeeAlso();
 
-	/**
-	 * @param seeAlso
-	 *           the seeAlso to set
-	 */
-	void setSeeAlso(String seeAlso);
+   /**
+    * @param seeAlso
+    *           the seeAlso to set
+    */
+   void setSeeAlso(String seeAlso);
 
 }

@@ -33,7 +33,7 @@ import com.google.inject.Inject;
 
 /**
  * Utilities for Orion blob store
- * 
+ *
  *
  */
 public class OrionUtils {
@@ -49,14 +49,14 @@ public class OrionUtils {
     * Removes the last element which is the name of the blob for instance
     * /path1/path2/blobname/ -> path1/path2/ The first slash is removed since
     * the paths are relative
-    * 
+    *
     * @param blobName
     * @return
     */
-   static public String getParentPath(String blobName) {
+   public static String getParentPath(String blobName) {
       Preconditions.checkNotNull(blobName, "blobname is null");
       String fetchedParent = "";
-      String[] blobPaths = blobName.split(OrionConstantValues.PATH_DELIMITER);
+      final String[] blobPaths = blobName.split(OrionConstantValues.PATH_DELIMITER);
       for (int index = 0; index < (blobPaths.length - 1); index++) {
          if (!blobPaths[index].isEmpty()) {
             fetchedParent = fetchedParent + blobPaths[index] + OrionConstantValues.PATH_DELIMITER;
@@ -66,24 +66,24 @@ public class OrionUtils {
    }
 
    /**
-    * Convert blobName to an hashed unique ID. This this unique id used to store metadata information.
-    * SHA-256 hashing is used to generate unique id.
-    * 
+    * Convert blobName to an hashed unique ID. This this unique id used to store
+    * metadata information. SHA-256 hashing is used to generate unique id.
+    *
     * @param blobName
     * @return
     */
-   static public String getMetadataName(String blobName) {
+   public static String getMetadataName(String blobName) {
       MessageDigest messageDigest;
       try {
          messageDigest = MessageDigest.getInstance("SHA-256");
          messageDigest.update(blobName.getBytes(OrionConstantValues.ENCODING));
-         byte[] digest = messageDigest.digest();
-         BigInteger bigInteger = new BigInteger(1, digest);
+         final byte[] digest = messageDigest.digest();
+         final BigInteger bigInteger = new BigInteger(1, digest);
          return bigInteger.toString(16);
-      } catch (NoSuchAlgorithmException e) {
+      } catch (final NoSuchAlgorithmException e) {
          e.printStackTrace();
          return String.valueOf(blobName.hashCode());
-      } catch (UnsupportedEncodingException e) {
+      } catch (final UnsupportedEncodingException e) {
          e.printStackTrace();
          return String.valueOf(blobName.hashCode());
       }
@@ -92,38 +92,38 @@ public class OrionUtils {
 
    /**
     * Gets the name of passed name by extracting the parent paths
-    * 
+    *
     * @param originalName
     * @return
     */
    public static String getName(String originalName) {
-      String parentPath = OrionUtils.getParentPath(originalName);
+      final String parentPath = OrionUtils.getParentPath(originalName);
       return originalName.replaceFirst(parentPath, "").replaceAll(OrionConstantValues.PATH_DELIMITER, "");
    }
 
    /**
     * Gets the name of passed name by extracting the parent paths and encode it
     * once since it will be used as path
-    * 
+    *
     * @param originalName
     * @return
     */
    public static String getNamePath(String originalName) {
-      String parentPath = OrionUtils.getParentPath(originalName);
+      final String parentPath = OrionUtils.getParentPath(originalName);
       return encodeName(originalName.replaceFirst(parentPath, "").replaceAll(OrionConstantValues.PATH_DELIMITER, ""));
    }
 
    /**
-    * 
-    * 
+    *
+    *
     * @param parentPath
     * @return
     */
-   static public String getParentRequestLocation(String parentPath) {
+   public static String getParentRequestLocation(String parentPath) {
       Preconditions.checkNotNull(parentPath, "blobname is null");
       String requestParent = "";
 
-      for (String path : parentPath.split(OrionConstantValues.PATH_DELIMITER)) {
+      for (final String path : parentPath.split(OrionConstantValues.PATH_DELIMITER)) {
          if (!path.isEmpty()) {
             requestParent = requestParent + OrionUtils.getRequestLocation(path) + OrionConstantValues.PATH_DELIMITER;
          }
@@ -133,7 +133,7 @@ public class OrionUtils {
 
    /**
     * Locations are encoded one more time
-    * 
+    *
     * @param createdName
     *           Gets orion based name ,i.e., all parent paths have been removed
     * @return
@@ -143,18 +143,18 @@ public class OrionUtils {
    }
 
    /**
-    * 
+    *
     * Check if the given path is a container path. If it is a container path
     * there should exist {file}/{userWorkspace}/{containerName} so the length of
     * the path should be 3
-    * 
+    *
     * @param path
     * @return
     */
    public static boolean isContainerFromPath(String path) {
-      String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
+      final String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
       int nonEmptyLength = 0;
-      for (String pathPart : paths) {
+      for (final String pathPart : paths) {
          if (!pathPart.equals("")) {
             nonEmptyLength++;
          }
@@ -170,7 +170,7 @@ public class OrionUtils {
     * Create a name for the user from the path by removing/file then
     * userWorkspace and finally the container name This is achieved by removing
     * first 3 strings.
-    * 
+    *
     * @param path
     * @return
     */
@@ -178,10 +178,10 @@ public class OrionUtils {
       // decode once because names are decoded one time to create the location
       // names
       path = OrionUtils.decodeName(path);
-      String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
+      final String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
       int index = 0;
       String originalName = "";
-      for (String pathPart : paths) {
+      for (final String pathPart : paths) {
 
          if (index > 3) {
             originalName = originalName + pathPart + OrionConstantValues.PATH_DELIMITER;
@@ -197,7 +197,7 @@ public class OrionUtils {
    /**
     * Create container name which removes the first 2 elements and then returns
     * the file name
-    * 
+    *
     * @param path
     * @return
     */
@@ -205,10 +205,10 @@ public class OrionUtils {
       // decode once because names are decoded one time to create the location
       // names
       path = OrionUtils.decodeName(path);
-      String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
+      final String[] paths = path.split(OrionConstantValues.PATH_DELIMITER);
       int index = 0;
       String originalName = "";
-      for (String pathPart : paths) {
+      for (final String pathPart : paths) {
 
          if (index > 2) {
             originalName = originalName + pathPart + OrionConstantValues.PATH_DELIMITER;
@@ -223,7 +223,7 @@ public class OrionUtils {
    }
 
    /**
-    * 
+    *
     * @param createdName
     * @return
     */
@@ -231,14 +231,14 @@ public class OrionUtils {
 
       try {
          return URLDecoder.decode(createdName, "UTF-8");
-      } catch (UnsupportedEncodingException e) {
+      } catch (final UnsupportedEncodingException e) {
          e.printStackTrace();
       }
       return createdName;
    }
 
    /**
-    * 
+    *
     * @param createdName
     * @return
     */
@@ -246,7 +246,7 @@ public class OrionUtils {
 
       try {
          return URLEncoder.encode(URLEncoder.encode(createdName, "UTF-8"), "UTF-8");
-      } catch (UnsupportedEncodingException e) {
+      } catch (final UnsupportedEncodingException e) {
          e.printStackTrace();
       }
       return createdName;
@@ -276,9 +276,8 @@ public class OrionUtils {
       return this.credsSupplier.get().identity;
    }
 
-   public String getUserWorkspace(){
+   public String getUserWorkspace() {
       return getIdentity() + OrionConstantValues.ORION_USER_CONTENT_ENDING;
    }
-
 
 }

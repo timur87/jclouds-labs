@@ -16,33 +16,29 @@
  */
 package org.jclouds.orion.config;
 
+import org.jclouds.orion.domain.Attributes;
 import org.jclouds.orion.domain.OrionChildMetadata;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 import org.jclouds.orion.domain.OrionStorageMetadata;
+import org.jclouds.orion.domain.internal.AttributesImpl;
 import org.jclouds.orion.domain.internal.OrionChildMetadataImpl;
 import org.jclouds.orion.domain.internal.OrionSpecificFileMetadataImpl;
 import org.jclouds.orion.domain.internal.OrionStorageMetadataImpl;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
 
 /**
  * Configure orion specific settings in this module
- * 
+ *
  *
  */
 public class OrionCustomModule extends AbstractModule {
 
-   @Override
-   protected void configure() {
-      bind(OrionChildMetadata.class).to(OrionChildMetadataImpl.class);
-      bind(OrionStorageMetadata.class).to(OrionStorageMetadataImpl.class);
-   }
-
-
-
-   @Provides
-   OrionSpecificFileMetadata getOrionSpecificFileMetadata() {
-      return new OrionSpecificFileMetadataImpl();
-   }
+	@Override
+	protected void configure() {
+		bind(OrionChildMetadata.class).to(OrionChildMetadataImpl.class);
+		bind(OrionStorageMetadata.class).to(OrionStorageMetadataImpl.class);
+		bind(OrionSpecificFileMetadata.class).to(OrionSpecificFileMetadataImpl.class);
+		bind(Attributes.class).to(AttributesImpl.class);
+	}
 }

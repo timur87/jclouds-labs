@@ -25,21 +25,21 @@ import com.google.inject.Inject;
 
 /**
  * A function to serialize to {@link OrionSpecificFileMetadata} to JSON format
- * 
+ *
  *
  */
 public class OrionSpecificObjectToJSON implements Function<OrionSpecificFileMetadata, String> {
 
-   private final JSONUtils jsonConverter;
+	private final JSONUtils jsonConverter;
 
-   @Inject
-   public OrionSpecificObjectToJSON(JSONUtils mapper) {
-      this.jsonConverter = Preconditions.checkNotNull(mapper, "mapper is null");
-   }
+	@Inject
+	public OrionSpecificObjectToJSON(JSONUtils mapper) {
+		this.jsonConverter = Preconditions.checkNotNull(mapper, "mapper is null");
+	}
 
-   @Override
-   public String apply(OrionSpecificFileMetadata jsonObj) {
-      return this.jsonConverter.getObjectAsString(jsonObj);
+	@Override
+	public String apply(OrionSpecificFileMetadata jsonObj) {
+		return this.jsonConverter.getObjectAsString(jsonObj, OrionSpecificFileMetadata.class);
 
-   }
+	}
 }

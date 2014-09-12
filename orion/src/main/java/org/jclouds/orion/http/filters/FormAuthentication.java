@@ -40,7 +40,7 @@ import com.google.common.net.HttpHeaders;
 /**
  * This class is used to make a form-based authentication. It contains a cache.
  * The authentication keys for users are kept in a cache table
- * 
+ *
  *
  */
 public class FormAuthentication implements HttpRequestFilter {
@@ -55,8 +55,8 @@ public class FormAuthentication implements HttpRequestFilter {
                   .formLogin(FormAuthentication.this.getCreds().identity, FormAuthentication.this.getCreds().credential)
                   .getHeaders().get(HttpHeaders.SET_COOKIE);
          } else {
-            HttpResponse res = FormAuthentication.this.getApi().formLogin(FormAuthentication.this.getCreds().identity,
-                  FormAuthentication.this.getCreds().credential);
+            final HttpResponse res = FormAuthentication.this.getApi().formLogin(
+                  FormAuthentication.this.getCreds().identity, FormAuthentication.this.getCreds().credential);
             return res.getHeaders().get(HttpHeaders.SET_COOKIE);
          }
       }
@@ -73,7 +73,7 @@ public class FormAuthentication implements HttpRequestFilter {
 
    // This class holds a cache for keys
    // username:sesionsId pairs are used
-   final static private Cache<String, Collection<String>> keyCache = CacheBuilder.newBuilder().maximumSize(1000)
+   private static final Cache<String, Collection<String>> keyCache = CacheBuilder.newBuilder().maximumSize(1000)
          .build();
 
    public static boolean hasKey(String identity) {
@@ -99,10 +99,10 @@ public class FormAuthentication implements HttpRequestFilter {
          cachedKey = FormAuthentication.getKeycache().get(this.getCreds().identity, new SessionKeyRequester());
          request = request.toBuilder()
                .replaceHeader(HttpHeaders.COOKIE, cachedKey.toArray(new String[cachedKey.size()])).build();
-      } catch (ExecutionException e) {
+      } catch (final ExecutionException e) {
          e.printStackTrace();
          throw new HttpException(e.getMessage());
-      } catch (Exception e) {
+      } catch (final Exception e) {
          e.printStackTrace();
       }
 

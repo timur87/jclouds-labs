@@ -18,7 +18,7 @@ package org.jclouds.orion.domain;
 
 /**
  * Orion file properties representation
- * 
+ *
  * */
 public interface OrionSpecificFileMetadata {
 

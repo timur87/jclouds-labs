@@ -20,203 +20,205 @@ import org.jclouds.orion.domain.Attributes;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.inject.Inject;
 
 /**
  * A realization of {@link OrionSpecificFileMetadata}
- * 
+ *
  *
  */
 public class OrionSpecificFileMetadataImpl implements OrionSpecificFileMetadata {
 
-   @SerializedName("Name")
-   private String name;
-   @SerializedName("Directory")
-   private Boolean directory = false;
-   @SerializedName("ETag")
-   private String eTag;
-   @SerializedName("LocalTimeStamp")
-   private long localTimeStamp;
-   @SerializedName("Location")
-   private String location;
-   @SerializedName("ChildrenLocation")
-   private String childrenLocation;
-   @SerializedName("Attributes")
-   private Attributes attributes = new AttributesImpl();
-   @SerializedName("CharSet")
-   private String charSet;
-   @SerializedName("ContentType")
-   private String contentType;
-   @SerializedName("ContentLength")
-   private long contentLegth;
+	@SerializedName("Name")
+	private String name;
+	@SerializedName("Directory")
+	private Boolean directory = false;
+	@SerializedName("ETag")
+	private String eTag;
+	@SerializedName("LocalTimeStamp")
+	private long localTimeStamp;
+	@SerializedName("Location")
+	private String location;
+	@SerializedName("ChildrenLocation")
+	private String childrenLocation;
+	@SerializedName("Attributes")
+	@Inject
+	private Attributes attributes;
+	@SerializedName("CharSet")
+	private String charSet;
+	@SerializedName("ContentType")
+	private String contentType;
+	@SerializedName("ContentLength")
+	private long contentLegth;
 
-   /**
-    * @return the name
-    */
-   @Override
-   public String getName() {
-      return this.name;
-   }
+	/**
+	 * @return the name
+	 */
+	@Override
+	public String getName() {
+		return this.name;
+	}
 
-   /**
-    * @param name
-    *           the name to set
-    */
-   @Override
-   public void setName(String name) {
-      this.name = name;
-   }
+	/**
+	 * @param name
+	 *           the name to set
+	 */
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
 
-   /**
-    * @return the directory
-    */
-   @Override
-   public Boolean getDirectory() {
-      return this.directory;
-   }
+	/**
+	 * @return the directory
+	 */
+	@Override
+	public Boolean getDirectory() {
+		return this.directory;
+	}
 
-   /**
-    * @param directory
-    *           the directory to set
-    */
-   @Override
-   public void setDirectory(Boolean directory) {
-      this.directory = directory;
-   }
+	/**
+	 * @param directory
+	 *           the directory to set
+	 */
+	@Override
+	public void setDirectory(Boolean directory) {
+		this.directory = directory;
+	}
 
-   /**
-    * @return the eTag
-    */
-   @Override
-   public String geteTag() {
-      return this.eTag;
-   }
+	/**
+	 * @return the eTag
+	 */
+	@Override
+	public String geteTag() {
+		return this.eTag;
+	}
 
-   /**
-    * @param eTag
-    *           the eTag to set
-    */
-   @Override
-   public void seteTag(String eTag) {
-      this.eTag = eTag;
-   }
+	/**
+	 * @param eTag
+	 *           the eTag to set
+	 */
+	@Override
+	public void seteTag(String eTag) {
+		this.eTag = eTag;
+	}
 
-   /**
-    * @return the localTimeStamp
-    */
-   @Override
-   public Long getLocalTimeStamp() {
-      return this.localTimeStamp;
-   }
+	/**
+	 * @return the localTimeStamp
+	 */
+	@Override
+	public Long getLocalTimeStamp() {
+		return this.localTimeStamp;
+	}
 
-   /**
-    * @param localTimeStamp
-    *           the localTimeStamp to set
-    */
-   @Override
-   public void setLocalTimeStamp(Long localTimeStamp) {
-      this.localTimeStamp = localTimeStamp;
-   }
+	/**
+	 * @param localTimeStamp
+	 *           the localTimeStamp to set
+	 */
+	@Override
+	public void setLocalTimeStamp(Long localTimeStamp) {
+		this.localTimeStamp = localTimeStamp;
+	}
 
-   /**
-    * @return the location
-    */
-   @Override
-   public String getLocation() {
-      return this.location;
-   }
+	/**
+	 * @return the location
+	 */
+	@Override
+	public String getLocation() {
+		return this.location;
+	}
 
-   /**
-    * @param location
-    *           the location to set
-    */
-   @Override
-   public void setLocation(String location) {
-      this.location = location;
-   }
+	/**
+	 * @param location
+	 *           the location to set
+	 */
+	@Override
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-   /**
-    * @return the childrenLocation
-    */
-   @Override
-   public String getChildrenLocation() {
-      return this.childrenLocation;
-   }
+	/**
+	 * @return the childrenLocation
+	 */
+	@Override
+	public String getChildrenLocation() {
+		return this.childrenLocation;
+	}
 
-   /**
-    * @param childrenLocation
-    *           the childrenLocation to set
-    */
-   @Override
-   public void setChildrenLocation(String childrenLocation) {
-      this.childrenLocation = childrenLocation;
-   }
+	/**
+	 * @param childrenLocation
+	 *           the childrenLocation to set
+	 */
+	@Override
+	public void setChildrenLocation(String childrenLocation) {
+		this.childrenLocation = childrenLocation;
+	}
 
-   /**
-    * @return the attributes
-    */
-   @Override
-   public Attributes getAttributes() {
-      return this.attributes;
-   }
+	/**
+	 * @return the attributes
+	 */
+	@Override
+	public Attributes getAttributes() {
+		return this.attributes;
+	}
 
-   /**
-    * @param attributes
-    *           the attributes to set
-    */
-   @Override
-   public void setAttributes(Attributes attributes) {
-      this.attributes = attributes;
-   }
+	/**
+	 * @param attributes
+	 *           the attributes to set
+	 */
+	@Override
+	public void setAttributes(Attributes attributes) {
+		this.attributes = attributes;
+	}
 
-   /**
-    * @return the charSet
-    */
-   @Override
-   public String getCharSet() {
-      return this.charSet;
-   }
+	/**
+	 * @return the charSet
+	 */
+	@Override
+	public String getCharSet() {
+		return this.charSet;
+	}
 
-   /**
-    * @param charSet
-    *           the charSet to set
-    */
-   @Override
-   public void setCharSet(String charSet) {
-      this.charSet = charSet;
-   }
+	/**
+	 * @param charSet
+	 *           the charSet to set
+	 */
+	@Override
+	public void setCharSet(String charSet) {
+		this.charSet = charSet;
+	}
 
-   /**
-    * @return the contentType
-    */
-   @Override
-   public String getContentType() {
-      return this.contentType;
-   }
+	/**
+	 * @return the contentType
+	 */
+	@Override
+	public String getContentType() {
+		return this.contentType;
+	}
 
-   /**
-    * @param contentType
-    *           the contentType to set
-    */
-   @Override
-   public void setContentType(String contentType) {
-      this.contentType = contentType;
-   }
+	/**
+	 * @param contentType
+	 *           the contentType to set
+	 */
+	@Override
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
+	}
 
-   /**
-    * @return the contentLegth
-    */
-   @Override
-   public Long getContentLegth() {
-      return this.contentLegth;
-   }
+	/**
+	 * @return the contentLegth
+	 */
+	@Override
+	public Long getContentLegth() {
+		return this.contentLegth;
+	}
 
-   /**
-    * @param contentLegth
-    *           the contentLegth to set
-    */
-   @Override
-   public void setContentLegth(Long contentLegth) {
-      this.contentLegth = contentLegth;
-   }
+	/**
+	 * @param contentLegth
+	 *           the contentLegth to set
+	 */
+	@Override
+	public void setContentLegth(Long contentLegth) {
+		this.contentLegth = contentLegth;
+	}
 
 }

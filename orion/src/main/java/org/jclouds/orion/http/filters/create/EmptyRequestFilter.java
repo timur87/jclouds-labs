@@ -24,6 +24,7 @@ import org.jclouds.http.HttpException;
 import org.jclouds.http.HttpRequest;
 import org.jclouds.http.HttpRequestFilter;
 import org.jclouds.orion.blobstore.functions.converters.OrionSpecificObjectToJSON;
+import org.jclouds.orion.domain.Attributes;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
 
 import com.google.common.base.Preconditions;
@@ -31,7 +32,7 @@ import com.google.inject.Inject;
 
 /**
  * This class should be present before providing remaining filters
- * 
+ *
  *
  */
 public class EmptyRequestFilter implements HttpRequestFilter {
@@ -40,8 +41,10 @@ public class EmptyRequestFilter implements HttpRequestFilter {
    private final OrionSpecificObjectToJSON orionSpecificObject2JSON;
 
    @Inject
-   public EmptyRequestFilter(OrionSpecificFileMetadata metadata, OrionSpecificObjectToJSON orionSpecificObject2JSON) {
+   public EmptyRequestFilter(OrionSpecificFileMetadata metadata, OrionSpecificObjectToJSON orionSpecificObject2JSON,
+         Attributes attributes) {
       this.metadata = Preconditions.checkNotNull(metadata, "metadata is null");
+      metadata.setAttributes(Preconditions.checkNotNull(attributes, "attibutes is null"));
       this.orionSpecificObject2JSON = Preconditions.checkNotNull(orionSpecificObject2JSON,
             "orionSpecificObject2JSON is null");
    }
@@ -55,7 +58,8 @@ public class EmptyRequestFilter implements HttpRequestFilter {
    @Override
    public HttpRequest filter(HttpRequest req) throws HttpException {
 
-      req = req.toBuilder().payload(new ByteArrayInputStream(this.orionSpecificObject2JSON.apply(this.metadata).getBytes())).build();
+      req = req.toBuilder()
+            .payload(new ByteArrayInputStream(this.orionSpecificObject2JSON.apply(this.metadata).getBytes())).build();
       req.getPayload().getContentMetadata().setContentType(MediaType.APPLICATION_JSON);
       return req;
    }

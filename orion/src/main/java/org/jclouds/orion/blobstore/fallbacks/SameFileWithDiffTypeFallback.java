@@ -29,20 +29,22 @@ import com.google.common.util.concurrent.ListenableFuture;
 /**
  * Orion does not allow creation of a file and folder with the same names in the
  * same directory.
- * 
+ *
  * {@link Fallback} in case of creation of such a situation.
- * 
+ *
  * Behavior fail stop (force replace behavior can be found under the given link)
- * 
+ *
  * @see <a href="http://google.com">https ://github
 
  *      .com/timur87/orion-jclouds/blob/master/src/main/java/org/jclouds/orion
  *      /blobstore/fallbacks/SameFileWithDiffTypeFallback.java</a> )
- * 
+ *
  *
  */
 public class SameFileWithDiffTypeFallback implements Fallback<Boolean> {
-   @Resource Logger logger = Logger.CONSOLE;
+   @Resource
+   Logger logger = Logger.CONSOLE;
+
    /*
     * (non-Javadoc)
     * 
@@ -64,12 +66,12 @@ public class SameFileWithDiffTypeFallback implements Fallback<Boolean> {
    public Boolean createOrPropagate(Throwable t) throws Exception {
 
       if (t instanceof OrionResponseException) {
-         OrionResponseException exception = (OrionResponseException) t;
+         final OrionResponseException exception = (OrionResponseException) t;
          if (exception.getError().getHttpCode().equals("500")) {
-            this.logger.error(exception.getMessage(),exception);
+            this.logger.error(exception.getMessage(), exception);
             this.logger.error(exception.getCommand().getCurrentRequest().getRequestLine());
             if (OrionConstantValues.DEBUG_MODE) {
-               this.logger.error(exception.getMessage(),exception);
+               this.logger.error(exception.getMessage(), exception);
                this.logger.error(exception.getCommand().getCurrentRequest().getRequestLine());
             }
          }

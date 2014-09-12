@@ -1,4 +1,3 @@
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -25,14 +24,14 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 /**
  * If the requested container already exists returns false
- * 
+ *
  *
  */
 public class DuplicateCreationFallback implements Fallback<Boolean> {
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see
     * com.google.common.util.concurrent.FutureFallback#create(java.lang.Throwable
     * )
@@ -44,14 +43,14 @@ public class DuplicateCreationFallback implements Fallback<Boolean> {
 
    /*
     * (non-Javadoc)
-    * 
+    *
     * @see org.jclouds.Fallback#createOrPropagate(java.lang.Throwable)
     */
    @Override
    public Boolean createOrPropagate(Throwable t) throws Exception {
 
       if (t instanceof OrionResponseException) {
-         OrionResponseException exception = (OrionResponseException) t;
+         final OrionResponseException exception = (OrionResponseException) t;
          if (exception.getError().getHttpCode().equals("400")
                && exception.getError().getMessage().startsWith("Duplicate")) {
             return false;

@@ -1,0 +1,140 @@
+{
+  "Attributes": {
+    "Executable": true,
+    "ReadOnly": false,
+    "SymLink": false
+  },
+  "Children": [
+    {
+      "Attributes": {
+        "Executable": true,
+        "ReadOnly": false,
+        "SymLink": false
+      },
+      "Children": [
+        {
+          "Attributes": {
+            "Executable": true,
+            "ReadOnly": false,
+            "SymLink": false
+          },
+          "Children": [{
+            "Attributes": {
+              "Executable": false,
+              "ReadOnly": false,
+              "SymLink": false
+            },
+            "Directory": false,
+            "Length": 240,
+            "LocalTimeStamp": 1410516790000,
+            "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/.metadata/a036e8ada62399acf05238b825baccd305d298bacb58e94ea351c09cd6cac167",
+            "Name": "a036e8ada62399acf05238b825baccd305d298bacb58e94ea351c09cd6cac167"
+          }],
+          "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/servicetemplates/.metadata/?depth=1",
+          "Directory": true,
+          "Length": 4096,
+          "LocalTimeStamp": 1410516790000,
+          "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/.metadata/",
+          "Name": ".metadata"
+        },
+        {
+          "Attributes": {
+            "Executable": true,
+            "ReadOnly": false,
+            "SymLink": false
+          },
+          "Children": [
+            {
+              "Attributes": {
+                "Executable": false,
+                "ReadOnly": false,
+                "SymLink": false
+              },
+              "Directory": false,
+              "Length": 19,
+              "LocalTimeStamp": 1410516790000,
+              "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/test1",
+              "Name": "test1"
+            },
+            {
+              "Attributes": {
+                "Executable": true,
+                "ReadOnly": false,
+                "SymLink": false
+              },
+              "Children": [{
+                "Attributes": {
+                  "Executable": false,
+                  "ReadOnly": false,
+                  "SymLink": false
+                },
+                "Directory": false,
+                "Length": 279,
+                "LocalTimeStamp": 1410516791000,
+                "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/.metadata/1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014",
+                "Name": "1b4f0e9851971998e732078544c96b36c3d01cedf7caa332359d6f1d83567014"
+              }],
+              "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/.metadata/?depth=1",
+              "Directory": true,
+              "Length": 4096,
+              "LocalTimeStamp": 1410516791000,
+              "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/.metadata/",
+              "Name": ".metadata"
+            }
+          ],
+          "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/?depth=1",
+          "Directory": true,
+          "Length": 4096,
+          "LocalTimeStamp": 1410516790000,
+          "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/http%25253A%25252F%25252Fwww.example.org%25252Fwinery%25252FTEST%25252Fjclouds1/",
+          "Name": "http%253A%252F%252Fwww.example.org%252Fwinery%252FTEST%252Fjclouds1"
+        }
+      ],
+      "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/servicetemplates/?depth=1",
+      "Directory": true,
+      "ExportLocation": "/xfer/export/jcloudstest-OrionContent/Container/servicetemplates.zip",
+      "ImportLocation": "/xfer/import/jcloudstest-OrionContent/Container/servicetemplates",
+      "Length": 4096,
+      "LocalTimeStamp": 1410516789000,
+      "Location": "/file/jcloudstest-OrionContent/Container/servicetemplates/",
+      "Name": "servicetemplates"
+    },
+    {
+      "Attributes": {
+        "Executable": true,
+        "ReadOnly": false,
+        "SymLink": false
+      },
+      "Children": [{
+        "Attributes": {
+          "Executable": false,
+          "ReadOnly": false,
+          "SymLink": false
+        },
+        "Directory": false,
+        "Length": 184,
+        "LocalTimeStamp": 1410516787000,
+        "Location": "/file/jcloudstest-OrionContent/Container/.metadata/f703d79dd10c03545df7a6bb1a48ca1751df368a2cfb242a35226acbba09fa42",
+        "Name": "f703d79dd10c03545df7a6bb1a48ca1751df368a2cfb242a35226acbba09fa42"
+      }],
+      "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/.metadata/?depth=1",
+      "Directory": true,
+      "ExportLocation": "/xfer/export/jcloudstest-OrionContent/Container/.metadata.zip",
+      "ImportLocation": "/xfer/import/jcloudstest-OrionContent/Container/.metadata",
+      "Length": 4096,
+      "LocalTimeStamp": 1410516787000,
+      "Location": "/file/jcloudstest-OrionContent/Container/.metadata/",
+      "Name": ".metadata"
+    }
+  ],
+  "ChildrenLocation": "/file/jcloudstest-OrionContent/Container/?depth=1",
+  "Directory": true,
+  "ExportLocation": "/xfer/export/jcloudstest-OrionContent/Container.zip",
+  "ImportLocation": "/xfer/import/jcloudstest-OrionContent/Container",
+  "Length": 4096,
+  "LocalTimeStamp": 1410516786000,
+  "Location": "/file/jcloudstest-OrionContent/Container/",
+  "Name": "Container",
+  "Parents": [],
+  "SearchLocation": "/filesearch?q="
+}

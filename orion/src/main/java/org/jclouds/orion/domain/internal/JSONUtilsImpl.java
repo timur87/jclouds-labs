@@ -17,7 +17,6 @@
 package org.jclouds.orion.domain.internal;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +30,7 @@ import org.jclouds.orion.domain.MutableBlobProperties;
 import org.jclouds.orion.domain.OrionChildMetadata;
 import org.jclouds.orion.domain.OrionError;
 import org.jclouds.orion.domain.OrionSpecificFileMetadata;
+import org.testng.collections.Lists;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,33 +60,33 @@ public class JSONUtilsImpl implements JSONUtils {
             .registerTypeAdapter(OrionSpecificFileMetadata.class, new OrionSpecificFileMetadataDeserializer())
             .registerTypeAdapter(Attributes.class, new AttributesDeserializer())
             .registerTypeAdapter(OrionChildMetadata.class, new OrionChildMetadataDeserializer())
-            .registerTypeAdapter(Date.class, new DateLongSerializer()).create();
+            .registerTypeAdapter(Date.class, new DateLongSerializer()).enableComplexMapKeySerialization().create();
    }
 
    @Override
-   public <T> String getObjectAsString(T obj) {
-      return this.converterGson.toJson(obj, obj.getClass());
+   public <T> String getObjectAsString(T obj, Class<T> c) {
+      return this.converterGson.toJson(obj, c);
    }
 
    @Override
-   public <T> T getStringAsObject(String str, Class<T> t) {
-      return this.converterGson.fromJson(str, t);
+   public <T> T getStringAsObject(String str, Class<T> c) {
+      return this.converterGson.fromJson(str, c);
    }
 
    @Override
    public List<OrionChildMetadata> fetchContainerObjects(String string) {
       // get json string as object
-      JsonParser parser = new JsonParser();
-      JsonElement parentNode = parser.parse(string);
+      final JsonParser parser = new JsonParser();
+      final JsonElement parentNode = parser.parse(string);
 
-      List<OrionChildMetadata> arrayList = new ArrayList<OrionChildMetadata>();
+      final List<OrionChildMetadata> arrayList = Lists.newArrayList();
       // check if it has the children and the type of children are array then
       // fetch each child and add it to the list
       if (parentNode.getAsJsonObject().has(OrionConstantValues.LIST_CHILDREN)
             && parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN).isJsonArray()) {
-         for (JsonElement childElement : parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN)
+         for (final JsonElement childElement : parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN)
                .getAsJsonArray()) {
-            OrionChildMetadata childData = this.converterGson.fromJson(childElement, OrionChildMetadata.class);
+            final OrionChildMetadata childData = this.converterGson.fromJson(childElement, OrionChildMetadata.class);
             // do not include metadata in the list
             if (childData.getName().equals(OrionConstantValues.ORION_METADATA_FILE_NAME)) {
                continue;
@@ -100,16 +100,16 @@ public class JSONUtilsImpl implements JSONUtils {
    @Override
    public List<OrionChildMetadata> fetchFileObjects(String string) {
       // get json string as object
-      JsonParser parser = new JsonParser();
-      JsonElement parentNode = parser.parse(string);
-      List<OrionChildMetadata> arrayList = new ArrayList<OrionChildMetadata>();
+      final JsonParser parser = new JsonParser();
+      final JsonElement parentNode = parser.parse(string);
+      final List<OrionChildMetadata> arrayList = Lists.newArrayList();
       this.fetchFileObjectsRecursively(parentNode, arrayList);
       return arrayList;
    }
 
    /**
     * Fetch file objects and return them as a list of {@link OrionChildMetadata}
-    * 
+    *
     * @param parentNode
     *           parent node of the tree
     * @param arrayList
@@ -120,9 +120,9 @@ public class JSONUtilsImpl implements JSONUtils {
       // fetch each child and add it to the list
       if (parentNode.getAsJsonObject().has(OrionConstantValues.LIST_CHILDREN)
             && parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN).isJsonArray()) {
-         for (JsonElement childElement : parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN)
+         for (final JsonElement childElement : parentNode.getAsJsonObject().get(OrionConstantValues.LIST_CHILDREN)
                .getAsJsonArray()) {
-            OrionChildMetadata childData = this.converterGson.fromJson(childElement, OrionChildMetadata.class);
+            final OrionChildMetadata childData = this.converterGson.fromJson(childElement, OrionChildMetadata.class);
             // do not include metadata in the list
             if (childData.getName().equals(OrionConstantValues.ORION_METADATA_FILE_NAME)) {
                continue;
@@ -148,7 +148,7 @@ public class JSONUtilsImpl implements JSONUtils {
    }
 
    class MutableBlobPropertiesDeserializer implements JsonDeserializer<MutableBlobProperties>,
-   InstanceCreator<MutableBlobProperties> {
+   InstanceCreator<MutableBlobProperties>, JsonSerializer<MutableBlobProperties> {
       @Override
       public MutableBlobProperties deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2)
             throws JsonParseException {
@@ -158,6 +158,11 @@ public class JSONUtilsImpl implements JSONUtils {
       @Override
       public MutableBlobProperties createInstance(Type arg0) {
          return new MutableBlobPropertiesImpl();
+      }
+
+      @Override
+      public JsonElement serialize(MutableBlobProperties arg0, Type arg1, JsonSerializationContext arg2) {
+         return arg2.serialize(arg0, MutableBlobPropertiesImpl.class);
       }
 
    }
@@ -184,7 +189,7 @@ public class JSONUtilsImpl implements JSONUtils {
    }
 
    class OrionSpecificFileMetadataDeserializer implements JsonDeserializer<OrionSpecificFileMetadata>,
-   InstanceCreator<OrionSpecificFileMetadata> {
+   JsonSerializer<OrionSpecificFileMetadata>, InstanceCreator<OrionSpecificFileMetadata> {
       @Override
       public OrionSpecificFileMetadata deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2)
             throws JsonParseException {
@@ -192,13 +197,21 @@ public class JSONUtilsImpl implements JSONUtils {
       }
 
       @Override
+      public JsonElement serialize(OrionSpecificFileMetadata arg0, Type arg1, JsonSerializationContext arg2) {
+         return JSONUtilsImpl.this.converterGson.toJsonTree(arg0, OrionSpecificFileMetadataImpl.class);
+      }
+
+      @Override
       public OrionSpecificFileMetadata createInstance(Type arg0) {
-         return new OrionSpecificFileMetadataImpl();
+         final OrionSpecificFileMetadata orionSpecificFileMetadata = new OrionSpecificFileMetadataImpl();
+         orionSpecificFileMetadata.setAttributes(new AttributesImpl());
+         return orionSpecificFileMetadata;
       }
 
    }
 
-   class AttributesDeserializer implements JsonDeserializer<Attributes>, InstanceCreator<Attributes> {
+   class AttributesDeserializer implements JsonDeserializer<Attributes>, InstanceCreator<Attributes>,
+   JsonSerializer<Attributes> {
       @Override
       public Attributes deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2)
             throws JsonParseException {
@@ -208,6 +221,12 @@ public class JSONUtilsImpl implements JSONUtils {
       @Override
       public Attributes createInstance(Type arg0) {
          return new AttributesImpl();
+      }
+
+      @Override
+      public JsonElement serialize(Attributes arg0, Type arg1, JsonSerializationContext arg2) {
+
+         return arg2.serialize(arg0, AttributesImpl.class);
       }
 
    }
@@ -240,7 +259,7 @@ public class JSONUtilsImpl implements JSONUtils {
 
       @Override
       public Date deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
-         Calendar temp = Calendar.getInstance();
+         final Calendar temp = Calendar.getInstance();
          temp.setTimeInMillis(Long.parseLong(arg0.getAsString()));
          return temp.getTime();
       }

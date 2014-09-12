@@ -76,21 +76,25 @@ import org.jclouds.rest.annotations.RequestFilters;
 import org.jclouds.rest.annotations.ResponseParser;
 
 /**
- * Provides asynchronous access to Orion via their REST API. Orion is an open source platform For cloud based development, which provides FILE APIs. This project leverages the available File manipulation APIs and creates a BlobStore out of them.
+ * Provides asynchronous access to Orion via their REST API. Orion is an open
+ * source platform For cloud based development, which provides FILE APIs. This
+ * project leverages the available File manipulation APIs and creates a
+ * BlobStore out of them.
+ *
  * @see <a href="http://www.eclipse.org/orion/"/>
- * <p/>
- * 
+ *      <p/>
+ *
  * @see OrionClient
  * @see <a href="http://wiki.eclipse.org/Orion/Documentation" />
  */
 
 public interface OrionApi extends Closeable {
 
-   public static final String API_VERSION = "0.0.1";
+   String API_VERSION = "0.0.2";
 
    /**
     * Check if container exists
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @return
@@ -106,7 +110,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Creates the container as a project in orion
-    * 
+    *
     * @param userWorkspace
     * @param projectName
     * @return
@@ -122,7 +126,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * List existing containers for the user
-    * 
+    *
     * @param userWorkspace
     * @return
     */
@@ -136,7 +140,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * List contents of a specifc container
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @return
@@ -152,7 +156,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Delete project from workspace API
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @return
@@ -168,7 +172,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Delete project from file API
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @return
@@ -182,7 +186,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Form authentication request
-    * 
+    *
     * @param userName
     * @param pass
     * @return
@@ -196,7 +200,7 @@ public interface OrionApi extends Closeable {
    // Normally only metadata needs to be fetched however
    /**
     * Check if a blob exists
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -215,9 +219,9 @@ public interface OrionApi extends Closeable {
 
    /**
     * Remove a blob. No "/" in the name and .metadata as name are possible.
-    * 
+    *
     * @see EncodeParamParser is used.
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @param parentPath
@@ -238,10 +242,10 @@ public interface OrionApi extends Closeable {
    /**
     * This method creates an empty file/folder depending on the request
     * parameters.
-    * 
+    *
     * If a file/folder with the same name exists, it is removed and replaced
     * with the requested type.
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @param parentPath
@@ -262,7 +266,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Create folder to the corresponding path
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -284,7 +288,7 @@ public interface OrionApi extends Closeable {
    /**
     * Get the blob on the path. This starts with a metadata request and then
     * file content is requested if the metadata could be fetched successfully.
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -307,7 +311,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * This method is used to get the blob contents
-    * 
+    *
     * @param userWorkspace
     * @param containerName
     * @param parentPath
@@ -325,7 +329,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Create a metadata folder to the corresponding path
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -345,7 +349,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Create an empty metadata file.
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -367,7 +371,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Check if the metadata folder exists
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -385,7 +389,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Put metadata file contents.
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -407,7 +411,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * Return metadata object.
-    * 
+    *
     * @param userName
     * @param containerName
     * @param parentPath
@@ -429,7 +433,7 @@ public interface OrionApi extends Closeable {
 
    /**
     * This method sends a DELETE message to the given path
-    * 
+    *
     * @param endpoint
     */
    @DELETE
@@ -439,11 +443,11 @@ public interface OrionApi extends Closeable {
    boolean deleteGivenPath(@PathParam("path") String endpoint);
 
    /**
-    * 
+    *
     * List blobs with respect to corresponding options. Detail is not supported.
     * Recursive means till 10th level in the file hierarchy and if it's false
     * only the first level is returned.
-    * 
+    *
     * @param userWorkspace
     * @param container
     * @param options
